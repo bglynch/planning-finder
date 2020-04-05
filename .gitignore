@@ -1,1 +1,10 @@
 .idea/
+db.sqlite3
+__pycache__/
+
+# dotenv
+.env
+
+# Django stuff:
+*.log
+local_settings.py
