@@ -66,20 +66,20 @@ class TestAccountsViews(TestCase):
     def test_get_register_page(self):
         # Create and login a user
 
-        page = self.client.get("/register")
+        page = self.client.get("/register/")
 
         self.assertEqual(page.status_code, 200)
         self.assertTemplateUsed(page, "users/register.html")
 
     def test_register_new_user(self):
-        response = self.client.post("/register", {
+        response = self.client.post("/register/", {
             'username': 'benji',
             'email': 'benji@ex.com',
             'password1': 'h3!!oPass',
             'password2': 'h3!!oPass'
         })
 
-        self.assertRedirects(response, '/login', status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.assertRedirects(response, '/login/', status_code=302, target_status_code=200, fetch_redirect_response=True)
 
     # ------------------------------------------def profile(request):
     def test_get_profile_page(self):
@@ -87,7 +87,7 @@ class TestAccountsViews(TestCase):
         User.objects.create_user(username="benji", email="benji@ex.com", password="h3!!oPass")
         self.client.login(username='benji', password='h3!!oPass')
 
-        page = self.client.get("/profile")
+        page = self.client.get("/profile/")
         html = page.content.decode('utf8')
 
         self.assertEqual(page.status_code, 200)

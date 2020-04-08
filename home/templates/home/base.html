@@ -66,28 +66,30 @@
         crossorigin="anonymous"></script>
 
 <script>
-let marker_lng = 0
-let marker_lat = 0
-
 {% if user.is_authenticated and user.profile %}
-marker_lng = {{user.profile.location.x}}
-marker_lat = {{user.profile.location.y}}
+let marker_lng = {{user.profile.location.x}}
+let marker_lat = {{user.profile.location.y}}
 {% else %}
-marker_lng = -6.25
-marker_lat = 53.31
+let marker_lng = -6.25
+let marker_lat = 53.31
 {% endif %}
 
 var map = L.map('map').setView([marker_lat, marker_lng], 15);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        minZoom: 8,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(map);
 
 L.marker([marker_lat, marker_lng]).addTo(map)
     .bindPopup('I am in Dublin.<br> Looking for plannings.')
     .openPopup();
-
-
 
 </script>
 </body>
