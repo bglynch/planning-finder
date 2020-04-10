@@ -88,7 +88,6 @@
     
     // get the data
     let planningData = JSON.parse('{{ data| escapejs }}')
-    console.log(planningData)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
         maxZoom: 20,
         minZoom: 8,
@@ -117,14 +116,15 @@
                         fillOpacity: 0.1,
                         fillColor: colour,
                         color: colour,
-                        opacity: 0.3
+                        opacity: 0.3,
+                        radius: 10
                     };
                 },
 
                 // create list items
                 pointToLayer: function (geoJSONPoint, latlng) {
                     divhtml = `
-                        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}">
+                        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}" class="list-item">
                             Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
                             ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
                             Status: ${geoJSONPoint.properties['ApplicationStatus']} <br>
@@ -148,6 +148,15 @@
             }
             ).addTo(map);
 
+            // chaneg marker size on zoom
+            map.on('zoomend', function() {
+                if(map.getZoom()>17){
+                    planningGeoJSON.eachLayer(function(layer){ layer.setRadius(5)})
+                }
+                else if(map.getZoom() == 17){
+                planningGeoJSON.eachLayer(function(layer){ layer.setRadius(10)})
+                }
+            });
 
             map.fitBounds(planningGeoJSON.getBounds(), {
                 padding: [20, 20]
