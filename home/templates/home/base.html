@@ -77,6 +77,14 @@
 
     // create the map object
     let map = L.map('map').setView([marker_lat, marker_lng], 15);
+
+    // create icons
+    function creasomething(variable){
+
+        return 'hi'
+    }
+
+
     
     // get the data
     let planningData = JSON.parse('{{ data| escapejs }}')
@@ -96,24 +104,25 @@
         .bindPopup('I am in Dublin.<br> Looking for plannings.')
         .openPopup();
 
+    const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+    const TODAY = Math.floor(Date.now())
+    const EIGHT_WEEKS_AGO = TODAY - (8*ONE_WEEK)
     planningGeoJSON = L.geoJSON(planningData, {
                 style: function (feature) {
+                    let colour = 'orange';
+
+                    if (feature.properties['ReceivedDate'] > EIGHT_WEEKS_AGO) colour = 'black'
+
                     return {
                         fillOpacity: 0.1,
-                        fillColor: '#000',
-                        color: '#000',
+                        fillColor: colour,
+                        color: colour,
                         opacity: 0.3
                     };
                 },
 
-                // 
+                // create list items
                 pointToLayer: function (geoJSONPoint, latlng) {
-                    console.log(geoJSONPoint)
-                    let html = '';
-                    // let arrayOfProps = ['title', 'mag', 'place','time']
-                    // arrayOfProps.forEach(function(prop){
-                    //     html += '<strong>'+prop+'</strong>'+': '+geoJSONPoint.properties[prop]+'<br/>'
-                    // })
                     divhtml = `
                         <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}">
                             Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
@@ -126,18 +135,19 @@
                     $('#list-view').append(divhtml);
 
                     return L.circle(latlng)
-                    // .bindPopup("html")
                 },
 
                 onEachFeature: function (feature, layer) {
                     layer.on('click', function () {
                         let id = $('#'+feature.properties['ApplicationNumber'].replace('\/', ''))
-                        id.css("background-color", "yellow");
+                        id.css("background-color", "lightgrey");
                         // https://stackoverflow.com/a/55572009/8032179
                         document.getElementById(feature.properties['ApplicationNumber'].replace('\/', '')).scrollIntoView({ behavior: 'smooth'});
                     });
                 }
-            }).addTo(map);
+            }
+            ).addTo(map);
+
 
             map.fitBounds(planningGeoJSON.getBounds(), {
                 padding: [20, 20]

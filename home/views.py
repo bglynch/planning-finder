@@ -22,12 +22,11 @@ def get_home(request):
     home_point = f'{str(longitude)}, {str(latitude)}'
 
     payload = {
-        'key1': 'value1', 'key2': 'value2',
         'f': 'geojson',
         'where': '1 = 1',
         'outSr': '4326',
         'geometryType': 'esriGeometryPoint',
-        'outFields': 'OBJECTID, PlanningAuthority, ApplicationNumber, DevelopmentDescription, DevelopmentAddress, DevelopmentPostcode, ITMEasting, ITMNorthing, ApplicationStatus, ApplicationType, ApplicantForename, ApplicantSurname, ApplicantAddress, Decision, LandUseCode, AreaofSite, NumResidentialUnits, OneOffHouse, FloorArea, ReceivedDate, WithdrawnDate, DecisionDate, DecisionDueDate, GrantDate, ExpiryDate, AppealRefNumber, AppealStatus, AppealDecision, AppealDecisionDate, AppealSubmittedDate, FIRequestDate, FIRecDate, LinkAppDetails, OneOffKPI, ETL_DATE',
+        'outFields': '*',
         'inSr': '4326',
         'geometry': home_point,
         'distance': 1000,
