@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'users',
     'crispy_forms',
     'django.contrib.gis',
+    'leaflet',
 ]
 
 MIDDLEWARE = [

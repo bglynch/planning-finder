@@ -10,6 +10,7 @@ django = "==2.2"
 django-crispy-forms = "*"
 coverage = "*"
 requests = "*"
+django-leaflet = "*"
 
 [requires]
 python_version = "3.7"
