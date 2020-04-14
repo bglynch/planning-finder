@@ -1,31 +1,27 @@
+{% extends "home/base.html" %}
 {% load leaflet_tags %}
 {% load crispy_forms_tags %}
-<html>
-<head>
-    {% leaflet_js plugins="forms" %}
+
+{% block style %}
     {% leaflet_css plugins="forms" %}
-</head>
-<body>
-<h1>Edit {{ object }}</h1>
+{% endblock style %}
 
 
-<div class="container">
-    <div class="row">
-        <div class="content-section">
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Join Today</legend>
-                    {{ user_form }}
-                    {{ profile_form }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Set Location</button>
-                </div>
-            </form>
+{% block content %}
+<div class="content-section">
+    <form class="register-profile" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Choose Home Marker</legend>
+            {{ profile_form }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Set Location</button>
         </div>
-    </div>
+    </form>
 </div>
+{% endblock content %}
 
-</body>
-</html>
+{% block javascript %}
+{% leaflet_js plugins="forms" %}
+{% endblock javascript %}

@@ -2,3 +2,11 @@
     height: calc(100vh - 56px);
     margin-top: 56px;
 }
+
+.leaflet-container-default {
+    height: 70vh
+}
+
+.register-profile button{
+    float: right
+}
