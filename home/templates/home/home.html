@@ -8,6 +8,7 @@
                 <button id="granted" type="button" class="btn btn-outline-secondary">Granted</button>
                 <button id="refused" type="button" class="btn btn-outline-secondary">Refused/Invalid</button>
                 <button id="withdrawn" type="button" class="btn btn-outline-secondary">Withdrawn</button>
+                <button id="information" type="button" class="btn btn-outline-secondary">Additional Information</button>
             </div>
         </div>
     </div>
@@ -60,9 +61,10 @@
     planningGeoJSON = L.geoJSON(planningData, {
         style: function (feature) {
             let colour = 'white';
-            let refuse_planning = /refuse/;
+            let refuse_planning = /(refuse|invalid)/;
             let withdrawn_planning = /withdrawn/;
             let granted_planning = /(grant|split)/;
+            let information = /additional/;
 
             if(feature.properties['Decision'] == null) {
                 feature.properties['PlanningStatus'] = 'pending';
@@ -79,6 +81,10 @@
                 if (granted_planning.test(feature.properties['Decision'].toLowerCase())) {
                     feature.properties['PlanningStatus'] = 'granted';
                     colour = 'green';
+                }
+                if (information.test(feature.properties['Decision'].toLowerCase())) {
+                    feature.properties['PlanningStatus'] = 'information';
+                    colour = 'purple';
                 }
 
             }
@@ -97,11 +103,13 @@
 
         // create list items
         pointToLayer: function (geoJSONPoint, latlng) {
+
             divhtml = `
                         <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}" class="list-item" >
                             Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
                             ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
                             Status: ${geoJSONPoint.properties['ApplicationStatus']} <br>
+                            Decision: ${geoJSONPoint.properties['Decision']} <br>
                             <a target="_blank" href="http://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=${geoJSONPoint.properties['ApplicationNumber']}">Link</a>
                             <hr>
                         </div>`
@@ -141,9 +149,14 @@
 
         $('#pending').click(function() {
             planningGeoJSON.eachLayer(function(layer){
+                let planningStatus = layer.feature.properties['PlanningStatus'];
+                let planningNumber = layer.feature.properties.ApplicationNumber;
+                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
                 if(layer.feature.properties['PlanningStatus'] == "pending" && $('#pending')[0].classList.contains('active')){
+                    id.show();
                     map.addLayer(layer)  
                 }else if(layer.feature.properties['PlanningStatus'] == "pending"){
+                    id.hide();
                     map.removeLayer(layer)  
                 }
             })
@@ -152,9 +165,14 @@
 
         $('#granted').click(function() {
             planningGeoJSON.eachLayer(function(layer){
+                let planningStatus = layer.feature.properties['PlanningStatus'];
+                let planningNumber = layer.feature.properties.ApplicationNumber;
+                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
                 if(layer.feature.properties['PlanningStatus'] == "granted" && $('#granted')[0].classList.contains('active')){
+                    id.show();
                     map.addLayer(layer)  
                 }else if(layer.feature.properties['PlanningStatus'] == "granted"){
+                    id.hide();
                     map.removeLayer(layer)  
                 }
             })
@@ -163,9 +181,14 @@
 
         $('#refused').click(function() {
             planningGeoJSON.eachLayer(function(layer){
+                let planningStatus = layer.feature.properties['PlanningStatus'];
+                let planningNumber = layer.feature.properties.ApplicationNumber;
+                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
                 if(layer.feature.properties['PlanningStatus'] == "refused" && $('#refused')[0].classList.contains('active')){
+                    id.show();
                     map.addLayer(layer)  
                 }else if(layer.feature.properties['PlanningStatus'] == "refused"){
+                    id.hide();
                     map.removeLayer(layer)  
                 }
             })
@@ -174,9 +197,32 @@
 
         $('#withdrawn').click(function() {
             planningGeoJSON.eachLayer(function(layer){
-                if(layer.feature.properties['PlanningStatus'] == "withdrawn" && $('#withdrawn')[0].classList.contains('active')){
+
+                let planningStatus = layer.feature.properties['PlanningStatus'];
+                let planningNumber = layer.feature.properties.ApplicationNumber;
+                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
+                if(planningStatus == "withdrawn" && $('#withdrawn')[0].classList.contains('active')){
+                    id.show();
                     map.addLayer(layer)  
                 }else if(layer.feature.properties['PlanningStatus'] == "withdrawn"){
+                    id.hide();
+                    map.removeLayer(layer)  
+                }
+            })
+            $(this).toggleClass("active");
+        });
+
+        $('#information').click(function() {
+            planningGeoJSON.eachLayer(function(layer){
+
+                let planningStatus = layer.feature.properties['PlanningStatus'];
+                let planningNumber = layer.feature.properties.ApplicationNumber;
+                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
+                if(planningStatus == "information" && $('#information')[0].classList.contains('active')){
+                    id.show();
+                    map.addLayer(layer)  
+                }else if(layer.feature.properties['PlanningStatus'] == "information"){
+                    id.hide();
                     map.removeLayer(layer)  
                 }
             })
