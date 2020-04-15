@@ -6,7 +6,8 @@
             <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm w-100">
                 <button id="pending" type="button" class="btn btn-outline-secondary">Pending</button>
                 <button id="granted" type="button" class="btn btn-outline-secondary">Granted</button>
-                <button id="refused" type="button" class="btn btn-outline-secondary">Refused/Invalid</button>
+                <button id="refused" type="button" class="btn btn-outline-secondary">Refused</button>
+                <button id="invalid" type="button" class="btn btn-outline-secondary">Invalid</button>
                 <button id="withdrawn" type="button" class="btn btn-outline-secondary">Withdrawn</button>
                 <button id="information" type="button" class="btn btn-outline-secondary">Additional Information</button>
             </div>
@@ -61,7 +62,8 @@
     planningGeoJSON = L.geoJSON(planningData, {
         style: function (feature) {
             let colour = 'white';
-            let refuse_planning = /(refuse|invalid)/;
+            let refuse_planning = /refuse/;
+            let invalid_planning = /invalid/;
             let withdrawn_planning = /withdrawn/;
             let granted_planning = /(grant|split)/;
             let information = /additional/;
@@ -73,6 +75,10 @@
                 if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) {
                     feature.properties['PlanningStatus'] = 'refused';    
                     colour = 'red';
+                }
+                if (invalid_planning.test(feature.properties['Decision'].toLowerCase())) {
+                    feature.properties['PlanningStatus'] = 'invalid';    
+                    colour = 'brown';
                 }
                 if (withdrawn_planning.test(feature.properties['Decision'].toLowerCase())) {
                     feature.properties['PlanningStatus'] = 'withdrawn'; 
@@ -188,6 +194,22 @@
                     id.show();
                     map.addLayer(layer)  
                 }else if(layer.feature.properties['PlanningStatus'] == "refused"){
+                    id.hide();
+                    map.removeLayer(layer)  
+                }
+            })
+            $(this).toggleClass("active");
+        });
+
+        $('#invalid').click(function() {
+            planningGeoJSON.eachLayer(function(layer){
+                let planningStatus = layer.feature.properties['PlanningStatus'];
+                let planningNumber = layer.feature.properties.ApplicationNumber;
+                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
+                if(layer.feature.properties['PlanningStatus'] == "invalid" && $('#invalid')[0].classList.contains('active')){
+                    id.show();
+                    map.addLayer(layer)  
+                }else if(layer.feature.properties['PlanningStatus'] == "invalid"){
                     id.hide();
                     map.removeLayer(layer)  
                 }
