@@ -9,8 +9,8 @@
 {% block javascript %}
 <script>
     {% if user.is_authenticated and user.profile %}
-    let marker_lng = {{user.profile.location.x}}
-    let marker_lat = {{user.profile.location.y}}
+    let marker_lng = {{ user.profile.location.x }}
+    let marker_lat = {{ user.profile.location.y }}
     {% else %}
     let marker_lng = -6.25
     let marker_lat = 53.31
@@ -21,7 +21,7 @@
     let map = L.map('map').setView([marker_lat, marker_lng], 15);
 
     // create icons
-    function creasomething(variable){
+    function creasomething(variable) {
 
         return 'hi'
     }
@@ -47,25 +47,38 @@
 
     const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
     const TODAY = Math.floor(Date.now())
-    const EIGHT_WEEKS_AGO = TODAY - (8*ONE_WEEK)
+    const EIGHT_WEEKS_AGO = TODAY - (8 * ONE_WEEK)
     planningGeoJSON = L.geoJSON(planningData, {
-                style: function (feature) {
-                    let colour = 'orange';
+        style: function (feature) {
+            let colour = 'white';
+            let refuse_planning = /refuse/;
+            let withdrawn_planning = /withdrawn/;
+            let granted_planning = /(grant|split)/;
 
-                    if (feature.properties['ReceivedDate'] > EIGHT_WEEKS_AGO) colour = 'black'
+            if(feature.properties['Decision'] == null) {
+                colour = 'orange';
+            }else{
+                if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'red';
+                if (withdrawn_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'blue';
+                if (granted_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'green';
 
-                    return {
-                        fillOpacity: 0.1,
-                        fillColor: colour,
-                        color: colour,
-                        opacity: 0.3,
-                        radius: 10
-                    };
-                },
+            }
+            // decide colour of marker
+            //if (feature.properties['ReceivedDate'] > EIGHT_WEEKS_AGO) colour = 'black';
 
-                // create list items
-                pointToLayer: function (geoJSONPoint, latlng) {
-                    divhtml = `
+
+            return {
+                fillOpacity: 0.1,
+                fillColor: colour,
+                color: colour,
+                opacity: 0.3,
+                radius: 10
+            };
+        },
+
+        // create list items
+        pointToLayer: function (geoJSONPoint, latlng) {
+            divhtml = `
                         <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}" class="list-item">
                             Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
                             ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
@@ -74,35 +87,35 @@
                             <hr>
                         </div>`
 
-                    $('#list-view').append(divhtml);
+            $('#list-view').append(divhtml);
 
-                    return L.circle(latlng)
-                },
+            return L.circle(latlng)
+        },
 
-                onEachFeature: function (feature, layer) {
-                    layer.on('click', function () {
-                        let id = $('#'+feature.properties['ApplicationNumber'].replace('\/', ''))
-                        id.css("background-color", "lightgrey");
-                        // https://stackoverflow.com/a/55572009/8032179
-                        document.getElementById(feature.properties['ApplicationNumber'].replace('\/', '')).scrollIntoView({ behavior: 'smooth'});
-                    });
-                }
-            }
-            ).addTo(map);
-
-            // chaneg marker size on zoom
-            map.on('zoomend', function() {
-                if(map.getZoom()>17){
-                    planningGeoJSON.eachLayer(function(layer){ layer.setRadius(5)})
-                }
-                else if(map.getZoom() == 17){
-                planningGeoJSON.eachLayer(function(layer){ layer.setRadius(10)})
-                }
+        onEachFeature: function (feature, layer) {
+            layer.on('click', function () {
+                let id = $('#' + feature.properties['ApplicationNumber'].replace('\/', ''))
+                id.css("background-color", "lightgrey");
+                // https://stackoverflow.com/a/55572009/8032179
+                document.getElementById(feature.properties['ApplicationNumber'].replace('\/', '')).scrollIntoView({ behavior: 'smooth' });
             });
+        }
+    }
+    ).addTo(map);
 
-            map.fitBounds(planningGeoJSON.getBounds(), {
-                padding: [20, 20]
-            });
+    // change marker size on zoom
+    map.on('zoomend', function () {
+        if (map.getZoom() > 17) {
+            planningGeoJSON.eachLayer(function (layer) { layer.setRadius(5) })
+        }
+        else if (map.getZoom() == 17) {
+            planningGeoJSON.eachLayer(function (layer) { layer.setRadius(10) })
+        }
+    });
+
+    map.fitBounds(planningGeoJSON.getBounds(), {
+        padding: [20, 20]
+    });
 
 
 
