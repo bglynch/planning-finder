@@ -4,11 +4,7 @@
     <div id="list-view" class="col-4 h-100 overflow-auto">
         <div class="position-absolute w-100 ml-n3 collapse" id="collapseExample" style="">
             <div class="bg-light border-top card-body position-absolute shadow-sm w-100">
-                <div class="btn-group-toggle" data-toggle="buttons">
-  <label class="btn btn-secondary active">
-    <input type="checkbox" checked autocomplete="off"> Sample Button
-  </label>
-</div>
+                <button id="pending" type="button" class="btn btn-outline-secondary">Pending</button>
             </div>
         </div>
     </div>
@@ -66,9 +62,10 @@
             let granted_planning = /(grant|split)/;
 
             if(feature.properties['Decision'] == null) {
+                feature.properties['PlanningStatus'] = 'pending';
                 colour = 'orange';
             }else{
-                if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'red';
+                if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) {colour = 'red';}
                 if (withdrawn_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'blue';
                 if (granted_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'green';
 
@@ -89,7 +86,7 @@
         // create list items
         pointToLayer: function (geoJSONPoint, latlng) {
             divhtml = `
-                        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}" class="list-item">
+                        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}" class="list-item" >
                             Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
                             ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
                             Status: ${geoJSONPoint.properties['ApplicationStatus']} <br>
@@ -128,8 +125,20 @@
     });
 
 
+    $(document).ready(function() {
+        $('#pending').click(function() {
+            planningGeoJSON.eachLayer(function(layer){
+                if(layer.feature.properties['PlanningStatus'] == "pending" && $('#pending')[0].classList.contains('active')){
+                    map.addLayer(layer)  
+                }else if(layer.feature.properties['PlanningStatus'] == "pending"){
+                    map.removeLayer(layer)  
+                }
+            })
+            $(this).toggleClass("active");
 
 
+        });
+      });
 
 </script>
 {% endblock javascript %}
