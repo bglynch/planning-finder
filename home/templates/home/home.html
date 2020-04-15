@@ -2,9 +2,12 @@
 {% block content %}
 <div class="row h-100">
     <div id="list-view" class="col-4 h-100 overflow-auto">
-        <div class="position-absolute w-100 ml-n3 collapse" id="collapseExample" style="">
-            <div class="bg-light border-top card-body position-absolute shadow-sm w-100">
+        <div class="position-absolute w-100 ml-n3 collapse" id="collapseExample">
+            <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm w-100">
                 <button id="pending" type="button" class="btn btn-outline-secondary">Pending</button>
+                <button id="granted" type="button" class="btn btn-outline-secondary">Granted</button>
+                <button id="refused" type="button" class="btn btn-outline-secondary">Refused/Invalid</button>
+                <button id="withdrawn" type="button" class="btn btn-outline-secondary">Withdrawn</button>
             </div>
         </div>
     </div>
@@ -65,9 +68,18 @@
                 feature.properties['PlanningStatus'] = 'pending';
                 colour = 'orange';
             }else{
-                if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) {colour = 'red';}
-                if (withdrawn_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'blue';
-                if (granted_planning.test(feature.properties['Decision'].toLowerCase())) colour = 'green';
+                if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) {
+                    feature.properties['PlanningStatus'] = 'refused';    
+                    colour = 'red';
+                }
+                if (withdrawn_planning.test(feature.properties['Decision'].toLowerCase())) {
+                    feature.properties['PlanningStatus'] = 'withdrawn'; 
+                    colour = 'blue'
+                };
+                if (granted_planning.test(feature.properties['Decision'].toLowerCase())) {
+                    feature.properties['PlanningStatus'] = 'granted';
+                    colour = 'green';
+                }
 
             }
             // decide colour of marker
@@ -126,6 +138,7 @@
 
 
     $(document).ready(function() {
+
         $('#pending').click(function() {
             planningGeoJSON.eachLayer(function(layer){
                 if(layer.feature.properties['PlanningStatus'] == "pending" && $('#pending')[0].classList.contains('active')){
@@ -135,9 +148,42 @@
                 }
             })
             $(this).toggleClass("active");
-
-
         });
+
+        $('#granted').click(function() {
+            planningGeoJSON.eachLayer(function(layer){
+                if(layer.feature.properties['PlanningStatus'] == "granted" && $('#granted')[0].classList.contains('active')){
+                    map.addLayer(layer)  
+                }else if(layer.feature.properties['PlanningStatus'] == "granted"){
+                    map.removeLayer(layer)  
+                }
+            })
+            $(this).toggleClass("active");
+        });
+
+        $('#refused').click(function() {
+            planningGeoJSON.eachLayer(function(layer){
+                if(layer.feature.properties['PlanningStatus'] == "refused" && $('#refused')[0].classList.contains('active')){
+                    map.addLayer(layer)  
+                }else if(layer.feature.properties['PlanningStatus'] == "refused"){
+                    map.removeLayer(layer)  
+                }
+            })
+            $(this).toggleClass("active");
+        });
+
+        $('#withdrawn').click(function() {
+            planningGeoJSON.eachLayer(function(layer){
+                if(layer.feature.properties['PlanningStatus'] == "withdrawn" && $('#withdrawn')[0].classList.contains('active')){
+                    map.addLayer(layer)  
+                }else if(layer.feature.properties['PlanningStatus'] == "withdrawn"){
+                    map.removeLayer(layer)  
+                }
+            })
+            $(this).toggleClass("active");
+        });
+
+
       });
 
 </script>
