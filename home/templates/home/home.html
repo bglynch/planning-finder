@@ -153,104 +153,24 @@
 
     $(document).ready(function() {
 
-        $('#pending').click(function() {
-            planningGeoJSON.eachLayer(function(layer){
-                let planningStatus = layer.feature.properties['PlanningStatus'];
-                let planningNumber = layer.feature.properties.ApplicationNumber;
-                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
-                if(layer.feature.properties['PlanningStatus'] == "pending" && $('#pending')[0].classList.contains('active')){
-                    id.show();
-                    map.addLayer(layer)  
-                }else if(layer.feature.properties['PlanningStatus'] == "pending"){
-                    id.hide();
-                    map.removeLayer(layer)  
-                }
-            })
-            $(this).toggleClass("active");
-        });
-
-        $('#granted').click(function() {
-            planningGeoJSON.eachLayer(function(layer){
-                let planningStatus = layer.feature.properties['PlanningStatus'];
-                let planningNumber = layer.feature.properties.ApplicationNumber;
-                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
-                if(layer.feature.properties['PlanningStatus'] == "granted" && $('#granted')[0].classList.contains('active')){
-                    id.show();
-                    map.addLayer(layer)  
-                }else if(layer.feature.properties['PlanningStatus'] == "granted"){
-                    id.hide();
-                    map.removeLayer(layer)  
-                }
-            })
-            $(this).toggleClass("active");
-        });
-
-        $('#refused').click(function() {
-            planningGeoJSON.eachLayer(function(layer){
-                let planningStatus = layer.feature.properties['PlanningStatus'];
-                let planningNumber = layer.feature.properties.ApplicationNumber;
-                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
-                if(layer.feature.properties['PlanningStatus'] == "refused" && $('#refused')[0].classList.contains('active')){
-                    id.show();
-                    map.addLayer(layer)  
-                }else if(layer.feature.properties['PlanningStatus'] == "refused"){
-                    id.hide();
-                    map.removeLayer(layer)  
-                }
-            })
-            $(this).toggleClass("active");
-        });
-
-        $('#invalid').click(function() {
-            planningGeoJSON.eachLayer(function(layer){
-                let planningStatus = layer.feature.properties['PlanningStatus'];
-                let planningNumber = layer.feature.properties.ApplicationNumber;
-                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
-                if(layer.feature.properties['PlanningStatus'] == "invalid" && $('#invalid')[0].classList.contains('active')){
-                    id.show();
-                    map.addLayer(layer)  
-                }else if(layer.feature.properties['PlanningStatus'] == "invalid"){
-                    id.hide();
-                    map.removeLayer(layer)  
-                }
-            })
-            $(this).toggleClass("active");
-        });
-
-        $('#withdrawn').click(function() {
-            planningGeoJSON.eachLayer(function(layer){
-
-                let planningStatus = layer.feature.properties['PlanningStatus'];
-                let planningNumber = layer.feature.properties.ApplicationNumber;
-                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
-                if(planningStatus == "withdrawn" && $('#withdrawn')[0].classList.contains('active')){
-                    id.show();
-                    map.addLayer(layer)  
-                }else if(layer.feature.properties['PlanningStatus'] == "withdrawn"){
-                    id.hide();
-                    map.removeLayer(layer)  
-                }
-            })
-            $(this).toggleClass("active");
-        });
-
-        $('#information').click(function() {
-            planningGeoJSON.eachLayer(function(layer){
-
-                let planningStatus = layer.feature.properties['PlanningStatus'];
-                let planningNumber = layer.feature.properties.ApplicationNumber;
-                let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
-                if(planningStatus == "information" && $('#information')[0].classList.contains('active')){
-                    id.show();
-                    map.addLayer(layer)  
-                }else if(layer.feature.properties['PlanningStatus'] == "information"){
-                    id.hide();
-                    map.removeLayer(layer)  
-                }
-            })
-            $(this).toggleClass("active");
-        });
-
+        let applicationList = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
+        applicationList.forEach(function(e){
+            $('#' + e).click(function() {
+                planningGeoJSON.eachLayer(function(layer){
+                    let planningStatus = layer.feature.properties['PlanningStatus'];
+                    let planningNumber = layer.feature.properties.ApplicationNumber;
+                    let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
+                    if(layer.feature.properties['PlanningStatus'] == e && $('#' + e)[0].classList.contains('active')){
+                        id.show();
+                        map.addLayer(layer)  
+                    }else if(layer.feature.properties['PlanningStatus'] == e){
+                        id.hide();
+                        map.removeLayer(layer)  
+                    }
+                })
+                $(this).toggleClass("active");
+            });
+        })
 
       });
 
