@@ -1,7 +1,17 @@
 {% extends "home/base.html" %}
 {% block content %}
 <div class="row h-100">
-    <div id="list-view" class="col-4 h-100 overflow-auto"></div>
+    <div id="list-view" class="col-4 h-100 overflow-auto">
+        <div class="position-absolute w-100 ml-n3 collapse" id="collapseExample" style="">
+            <div class="bg-light border-top card-body position-absolute shadow-sm w-100">
+                <div class="btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-secondary active">
+    <input type="checkbox" checked autocomplete="off"> Sample Button
+  </label>
+</div>
+            </div>
+        </div>
+    </div>
     <div id="map" class="col-8"></div>
 </div>
 {% endblock content %}
@@ -116,6 +126,8 @@
     map.fitBounds(planningGeoJSON.getBounds(), {
         padding: [20, 20]
     });
+
+
 
 
 
