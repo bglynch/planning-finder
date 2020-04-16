@@ -2,8 +2,8 @@
 {% block content %}
 <div class="row h-100">
     <div id="list-view" class="col-4 h-100 overflow-auto">
-        <div class="position-absolute w-100 ml-n3 collapse" id="collapseExample">
-            <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm w-100">
+        <div class="position-fixed w-100 ml-n3 collapse" id="collapseExample">
+            <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
                 <button id="pending" type="button" class="btn btn-outline-secondary">Pending</button>
                 <button id="granted" type="button" class="btn btn-outline-secondary">Granted</button>
                 <button id="refused" type="button" class="btn btn-outline-secondary">Refused</button>
@@ -173,6 +173,7 @@
         })
 
       });
+
 
 </script>
 {% endblock javascript %}
