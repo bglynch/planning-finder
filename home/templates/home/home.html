@@ -1,4 +1,10 @@
 {% extends "home/base.html" %}
+{% load static from staticfiles %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'libraries/nouislider/nouislider.css' %}">
+{% endblock style %}
+
 {% block content %}
 <div class="row h-100">
     <div id="list-view" class="col-4 h-100 overflow-auto">
@@ -12,12 +18,19 @@
                 <button id="information" type="button" class="btn btn-outline-secondary">Additional Information</button>
             </div>
         </div>
+        <div class="position-fixed w-100 ml-n3 collapse" id="dateSliderMain">
+            <div id="price-slider-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
+                <div id="dateSlider"></div>
+            </div>
+        </div>
     </div>
     <div id="map" class="col-8"></div>
 </div>
 {% endblock content %}
 
 {% block javascript %}
+<script src="{% static 'libraries/nouislider/nouislider.js' %}"></script>
+
 <script>
     {% if user.is_authenticated and user.profile %}
     let marker_lng = {{ user.profile.location.x }}
@@ -30,6 +43,13 @@
 
     // create the map object
     let map = L.map('map').setView([marker_lat, marker_lng], 15);
+
+    // variables
+    const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+    const TODAY = Math.floor(Date.now())
+    const EIGHT_WEEKS_AGO = TODAY - (8 * ONE_WEEK)
+    let minDate = Math.round((new Date()).getTime());
+    let maxDate = Math.round((new Date()).getTime());;
 
     // create icons
     function creasomething(variable) {
@@ -56,9 +76,9 @@
         .bindPopup('I am in Dublin.<br> Looking for plannings.')
         .openPopup();
 
-    const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
-    const TODAY = Math.floor(Date.now())
-    const EIGHT_WEEKS_AGO = TODAY - (8 * ONE_WEEK)
+
+
+
     planningGeoJSON = L.geoJSON(planningData, {
         style: function (feature) {
             let colour = 'white';
@@ -94,9 +114,6 @@
                 }
 
             }
-            // decide colour of marker
-            //if (feature.properties['ReceivedDate'] > EIGHT_WEEKS_AGO) colour = 'black';
-
 
             return {
                 fillOpacity: 0.1,
@@ -121,6 +138,10 @@
                         </div>`
 
             $('#list-view').append(divhtml);
+
+            if(geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate']
+            console.log(minDate)
+
 
             return L.circle(latlng)
         },
@@ -150,7 +171,7 @@
         padding: [20, 20]
     });
 
-
+    // filtering planning application
     $(document).ready(function() {
 
         let applicationList = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
@@ -171,8 +192,21 @@
                 $(this).toggleClass("active");
             });
         })
-
       });
+
+      // date slider
+      let slider = document.getElementById('dateSlider');
+      
+      noUiSlider.create(slider, {
+        start: [minDate, maxDate],
+        step: ONE_WEEK,
+        range: {
+            'min': minDate,
+            'max': maxDate
+        }
+    });
+
+
 
 
 </script>
