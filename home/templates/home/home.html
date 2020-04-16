@@ -222,14 +222,23 @@
             'min': minDate,
             'max': maxDate
         }
-    });
+    }).on('slide', function(e){
+        let minn = document.getElementsByClassName('noUi-handle-lower')[0].getAttribute('aria-valuenow')
+        let maxx = document.getElementsByClassName('noUi-handle-upper')[0].getAttribute('aria-valuenow')
+        planningGeoJSON.eachLayer(function (layer) {
+            let id = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
+            if (layer.feature.properties['ReceivedDate'] > minn &&  layer.feature.properties['ReceivedDate'] < maxx) {
+                id.show();
+                map.addLayer(layer)
+            } else {
+                id.hide();
+                map.removeLayer(layer)
+            }
+          })
 
-
-    // Create a string representation of the date.
-    function formatDate(date) {
-        return months[date.getMonth()] + " " +
-            date.getFullYear();
-    }
+        
+    })
+    ;
 
 
 </script>
