@@ -57,13 +57,9 @@
         dateRange: []
     }
 
-    // create icons
-    function creasomething(variable) {
-        return 'hi'
-    }
-
     // get the data
     let planningData = JSON.parse('{{ data| escapejs }}')
+    let councilData = JSON.parse('{{ council| escapejs }}')
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
         maxZoom: 20,
         minZoom: 8,
@@ -78,8 +74,6 @@
     L.marker([marker_lat, marker_lng]).addTo(map)
         .bindPopup('I am in Dublin.<br> Looking for plannings.')
         .openPopup();
-
-
 
 
     planningGeoJSON = L.geoJSON(planningData, {
@@ -158,6 +152,27 @@
         }
     }
     ).addTo(map);
+
+    councilGeoJSON =  L.geoJSON(councilData, {
+        interactive: false,
+        style: function (feature) {
+            return {
+              fillOpacity: 0,
+              weight: 1,
+              color:'black'
+            };
+          },
+          onEachFeature: function (feature, layer) {
+            layer.on('mouseover', function () {
+              layer.setStyle({ fillOpacity: 0.3 })
+            })
+            layer.on('mouseout', function () {
+              layer.setStyle({ fillOpacity: 0 })
+            })
+          }
+    }).addTo(map)
+
+
 
     // change marker size on zoom
     map.on('zoomend', function () {
@@ -251,9 +266,6 @@
             appId.hide();
             map.removeLayer(layer)
         }
-
-
-
     }
 
 
