@@ -148,7 +148,7 @@
         interactive: false,
         style: function (feature) {
 
-            let councils = /(DUBLIN CITY|FINGAL|SOUTH)/;
+            let councils = /(DUBLIN CITY|FINGAL|SOUTH|DUN LAOGHAIRE)/;
             let fill = (councils.test(feature.properties.ENGLISH)) ? 0 : .5
 
             return {
@@ -156,7 +156,7 @@
                 weight: 1,
                 color: 'black'
             };
-        }:
+        }
     }).addTo(map)
 
     councilGeoJSON.bringToBack()
@@ -260,6 +260,8 @@
             applicationUrl = "http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
         } else if (geoJSONPoint.properties['PlanningAuthority'] == "South Dublin County Council") {
             applicationUrl = "http://www.sdublincoco.ie/Planning/Details?regref=" + geoJSONPoint.properties['ApplicationNumber']
+        } else if (geoJSONPoint.properties['PlanningAuthority'] == "Dun Laoghaire Rathdown County Council") {
+            applicationUrl = "http://planning.dlrcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
         } else {
             applicationUrl = null
         }
