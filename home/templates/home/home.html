@@ -10,12 +10,13 @@
     <div id="list-view" class="col-4 h-100 overflow-auto">
         <div class="position-fixed w-100 ml-n3 collapse" id="collapseExample">
             <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
-                <button id="pending" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Pending</button>
-                <button id="granted" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Granted</button>
-                <button id="refused" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Refused</button>
-                <button id="invalid" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Invalid</button>
-                <button id="withdrawn" type="button"   class="btn btn-outline-secondary mt-3 mr-2">Withdrawn</button>
-                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional Information</button>
+                <button id="pending" type="button" class="btn btn-outline-secondary mt-3 mr-2">Pending</button>
+                <button id="granted" type="button" class="btn btn-outline-secondary mt-3 mr-2">Granted</button>
+                <button id="refused" type="button" class="btn btn-outline-secondary mt-3 mr-2">Refused</button>
+                <button id="invalid" type="button" class="btn btn-outline-secondary mt-3 mr-2">Invalid</button>
+                <button id="withdrawn" type="button" class="btn btn-outline-secondary mt-3 mr-2">Withdrawn</button>
+                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional
+                    Information</button>
             </div>
         </div>
         <div class="position-fixed w-100 ml-n3 collapse" id="dateSliderMain">
@@ -122,31 +123,12 @@
 
         // create list items
         pointToLayer: function (geoJSONPoint, latlng) {
-            if(geoJSONPoint.properties['PlanningAuthority'] == "Dublin City Council"){
-                geoJSONPoint.properties['ApplicationUrl'] = "http://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
-            } else if(geoJSONPoint.properties['PlanningAuthority'] == "Fingal County Council"){
-                geoJSONPoint.properties['ApplicationUrl'] = "http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
-            } else if(geoJSONPoint.properties['PlanningAuthority'] == "South Dublin County Council"){
-                geoJSONPoint.properties['ApplicationUrl'] = "http://www.sdublincoco.ie/Planning/Details?regref=" + geoJSONPoint.properties['ApplicationNumber']
-            } else{
-                geoJSONPoint.properties['ApplicationUrl'] = null
-            }
-
-            console.log(geoJSONPoint.properties['ApplicationNumber'], geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, ""))
-            divhtml = `
-                        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-item" >
-                            Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
-                            ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
-                            Status: ${geoJSONPoint.properties['ApplicationStatus']} <br>
-                            Decision: ${geoJSONPoint.properties['Decision']} <br>
-                            LinkAppDetails: ${geoJSONPoint.properties['LinkAppDetails']} <br>
-                            <a target="_blank" href="${geoJSONPoint.properties['ApplicationUrl']}">Link</a>
-                            <hr>
-                        </div>`
-
-            $('#list-view').append(divhtml);
-
             if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate']
+
+            geoJSONPoint.properties['ApplicationUrl'] = selectCouncil(geoJSONPoint)
+
+            divhtml = createListItem(geoJSONPoint)
+            $('#list-view').append(divhtml);
 
             return L.circle(latlng)
         },
@@ -162,54 +144,34 @@
     }
     ).addTo(map);
 
-    councilGeoJSON =  L.geoJSON(councilData, {
+    councilGeoJSON = L.geoJSON(councilData, {
         interactive: false,
         style: function (feature) {
 
             let councils = /(DUBLIN CITY|FINGAL|SOUTH)/;
-            //let fill = (feature.properties.ENGLISH == ("DUBLIN CITY COUNCIL" || "FINGAL COUNTY COUNCIL")) ? 0:.5
-
-            let fill = (councils.test(feature.properties.ENGLISH)) ? 0:.5
+            let fill = (councils.test(feature.properties.ENGLISH)) ? 0 : .5
 
             return {
-              fillOpacity: fill,
-              weight: 1,
-              color:'black'
+                fillOpacity: fill,
+                weight: 1,
+                color: 'black'
             };
-          },
-          onEachFeature: function (feature, layer) {
-            layer.on('mouseover', function () {
-              layer.setStyle({ fillOpacity: 0.3 })
-            })
-            layer.on('mouseout', function () {
-              layer.setStyle({ fillOpacity: 0 })
-            })
-          }
+        }:
     }).addTo(map)
 
     councilGeoJSON.bringToBack()
 
 
-
-
-
     // change marker size on zoom
     map.on('zoomend', function () {
-        if (map.getZoom() > 17) {
-            planningGeoJSON.eachLayer(function (layer) { layer.setRadius(5) })
-        }
-        else if (map.getZoom() == 17) {
-            planningGeoJSON.eachLayer(function (layer) { layer.setRadius(10) })
-        }
+        if (map.getZoom() > 17) {planningGeoJSON.eachLayer(function (layer) { layer.setRadius(5) })}
+        else if (map.getZoom() == 17) {planningGeoJSON.eachLayer(function (layer) { layer.setRadius(10) })}
     });
 
-    map.fitBounds(planningGeoJSON.getBounds(), {
-        padding: [20, 20]
-    });
+    map.fitBounds(planningGeoJSON.getBounds(), {padding: [20, 20]});
 
     // filtering planning application
     $(document).ready(function () {
-
         const applicationList = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
         applicationList.forEach(function (appType) {
             $('#' + appType).click(function () {
@@ -221,6 +183,7 @@
                 planningGeoJSON.eachLayer(function (layer) {
                     filterPlanningGeoJSON(layer)
                 })
+                // planningGeoJSON.eachLayer(filterPlanningGeoJSON)
 
                 $(this).toggleClass("active");
             });
@@ -285,6 +248,38 @@
             appId.hide();
             map.removeLayer(layer)
         }
+    }
+
+    function selectCouncil(geoJSONPoint) {
+        let applicationUrl = null
+        if (geoJSONPoint.properties['LinkAppDetails'] != null) {
+            applicationUrl = geoJSONPoint.properties['LinkAppDetails']
+        } else if (geoJSONPoint.properties['PlanningAuthority'] == "Dublin City Council") {
+            applicationUrl = "http://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
+        } else if (geoJSONPoint.properties['PlanningAuthority'] == "Fingal County Council") {
+            applicationUrl = "http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
+        } else if (geoJSONPoint.properties['PlanningAuthority'] == "South Dublin County Council") {
+            applicationUrl = "http://www.sdublincoco.ie/Planning/Details?regref=" + geoJSONPoint.properties['ApplicationNumber']
+        } else {
+            applicationUrl = null
+        }
+
+        return applicationUrl;
+    }
+
+    function createListItem(geoJSONPoint){
+        divhtml = `
+        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-item" >
+            Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
+            ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
+            Status: ${geoJSONPoint.properties['ApplicationStatus']} <br>
+            Decision: ${geoJSONPoint.properties['Decision']} <br>
+            LinkAppDetails: ${geoJSONPoint.properties['LinkAppDetails']} <br>
+            <a target="_blank" href="${geoJSONPoint.properties['ApplicationUrl']}">Link</a>
+            <hr>
+        </div>`
+
+        return divhtml
     }
 
 
