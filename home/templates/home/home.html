@@ -10,17 +10,17 @@
     <div id="list-view" class="col-4 h-100 overflow-auto">
         <div class="position-fixed w-100 ml-n3 collapse" id="collapseExample">
             <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
-                <button id="pending" type="button"     class="btn btn-outline-secondary">Pending</button>
-                <button id="granted" type="button"     class="btn btn-outline-secondary">Granted</button>
-                <button id="refused" type="button"     class="btn btn-outline-secondary">Refused</button>
-                <button id="invalid" type="button"     class="btn btn-outline-secondary">Invalid</button>
-                <button id="withdrawn" type="button"   class="btn btn-outline-secondary">Withdrawn</button>
-                <button id="information" type="button" class="btn btn-outline-secondary">Additional Information</button>
+                <button id="pending" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Pending</button>
+                <button id="granted" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Granted</button>
+                <button id="refused" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Refused</button>
+                <button id="invalid" type="button"     class="btn btn-outline-secondary mt-3 mr-2">Invalid</button>
+                <button id="withdrawn" type="button"   class="btn btn-outline-secondary mt-3 mr-2">Withdrawn</button>
+                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional Information</button>
             </div>
         </div>
         <div class="position-fixed w-100 ml-n3 collapse" id="dateSliderMain">
             <div id="price-slider-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
-                <div id="dateSlider" class="mt-5"></div>
+                <div id="dateSlider" class="m-5"></div>
             </div>
         </div>
     </div>
@@ -122,32 +122,41 @@
 
         // create list items
         pointToLayer: function (geoJSONPoint, latlng) {
+            if(geoJSONPoint.properties['PlanningAuthority'] == "Dublin City Council"){
+                geoJSONPoint.properties['ApplicationUrl'] = "http://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
+            } else if(geoJSONPoint.properties['PlanningAuthority'] == "Fingal County Council"){
+                geoJSONPoint.properties['ApplicationUrl'] = "http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
+            } else if(geoJSONPoint.properties['PlanningAuthority'] == "South Dublin County Council"){
+                geoJSONPoint.properties['ApplicationUrl'] = "http://www.sdublincoco.ie/Planning/Details?regref=" + geoJSONPoint.properties['ApplicationNumber']
+            } else{
+                geoJSONPoint.properties['ApplicationUrl'] = null
+            }
 
+            console.log(geoJSONPoint.properties['ApplicationNumber'], geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, ""))
             divhtml = `
-                        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace('\/', '')}" class="list-item" >
+                        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-item" >
                             Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
                             ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
                             Status: ${geoJSONPoint.properties['ApplicationStatus']} <br>
                             Decision: ${geoJSONPoint.properties['Decision']} <br>
-                            <a target="_blank" href="http://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=${geoJSONPoint.properties['ApplicationNumber']}">Link</a>
+                            LinkAppDetails: ${geoJSONPoint.properties['LinkAppDetails']} <br>
+                            <a target="_blank" href="${geoJSONPoint.properties['ApplicationUrl']}">Link</a>
                             <hr>
                         </div>`
 
             $('#list-view').append(divhtml);
 
             if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate']
-            console.log(minDate)
-
 
             return L.circle(latlng)
         },
 
         onEachFeature: function (feature, layer) {
             layer.on('click', function () {
-                let id = $('#' + feature.properties['ApplicationNumber'].replace('\/', ''))
+                let id = $('#' + feature.properties['ApplicationNumber'].replace(/\//g, ""))
                 id.css("background-color", "lightgrey");
                 // https://stackoverflow.com/a/55572009/8032179
-                document.getElementById(feature.properties['ApplicationNumber'].replace('\/', '')).scrollIntoView({ behavior: 'smooth' });
+                document.getElementById(feature.properties['ApplicationNumber'].replace(/\//g, "")).scrollIntoView({ behavior: 'smooth' });
             });
         }
     }
@@ -157,7 +166,11 @@
         interactive: false,
         style: function (feature) {
 
-            let fill = (feature.properties.ENGLISH == "DUBLIN CITY COUNCIL") ? 0:.5
+            let councils = /(DUBLIN CITY|FINGAL|SOUTH)/;
+            //let fill = (feature.properties.ENGLISH == ("DUBLIN CITY COUNCIL" || "FINGAL COUNTY COUNCIL")) ? 0:.5
+
+            let fill = (councils.test(feature.properties.ENGLISH)) ? 0:.5
+
             return {
               fillOpacity: fill,
               weight: 1,
@@ -254,7 +267,7 @@
     });
 
     function filterPlanningGeoJSON(layer) {
-        let appId = $('#' + layer.feature.properties['ApplicationNumber'].replace('\/', ''));
+        let appId = $('#' + layer.feature.properties['ApplicationNumber'].replace(/\//g, ""));
         let appDate = layer.feature.properties['ReceivedDate']
         let appStatus = layer.feature.properties['PlanningStatus']
         let numberOfTrue = 0;
