@@ -31,6 +31,7 @@
 
 {% block javascript %}
 <script src="{% static 'libraries/nouislider/nouislider.js' %}"></script>
+<script src="{% static 'libraries/jquery-scrollintoview/jquery.scrollintoview.min.js' %}"></script>
 
 <script>
     {% if user.is_authenticated and user.profile %}
@@ -136,9 +137,7 @@
         onEachFeature: function (feature, layer) {
             layer.on('click', function () {
                 let id = $('#' + feature.properties['ApplicationNumber'].replace(/\//g, ""))
-                id.css("background-color", "lightgrey");
-                // https://stackoverflow.com/a/55572009/8032179
-                document.getElementById(feature.properties['ApplicationNumber'].replace(/\//g, "")).scrollIntoView({ behavior: 'smooth' });
+                $(id).scrollintoview({ duration: 100, complete: id.css("background-color", "lightgrey") });
             });
         }
     }
