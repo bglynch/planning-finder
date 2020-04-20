@@ -8,18 +8,17 @@
 {% block content %}
 <div class="row h-100">
     <div id="list-view" class="col-4 h-100 overflow-auto list-group list-group-flush">
-        <div class="position-fixed w-100 ml-n3 collapse" id="collapseExample">
+        <div class="position-fixed w-100 ml-n3 collapse bring-to-front" id="collapseExample">
             <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
                 <button id="pending" type="button" class="btn btn-outline-secondary mt-3 mr-2">Pending</button>
                 <button id="granted" type="button" class="btn btn-outline-secondary mt-3 mr-2">Granted</button>
                 <button id="refused" type="button" class="btn btn-outline-secondary mt-3 mr-2">Refused</button>
                 <button id="invalid" type="button" class="btn btn-outline-secondary mt-3 mr-2">Invalid</button>
                 <button id="withdrawn" type="button" class="btn btn-outline-secondary mt-3 mr-2">Withdrawn</button>
-                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional
-                    Information</button>
+                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional Information</button>
             </div>
         </div>
-        <div class="position-fixed w-100 ml-n3 collapse" id="dateSliderMain">
+        <div class="position-fixed w-100 ml-n3 collapse bring-to-front" id="dateSliderMain">
             <div id="price-slider-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
                 <div id="dateSlider" class="m-5"></div>
             </div>
@@ -131,7 +130,8 @@
             divhtml = createListItem(geoJSONPoint)
             $('#list-view').append(divhtml);
 
-            return L.circle(latlng)
+
+            return L.circle(addSlightVarianceToLatLng(latlng))
         },
 
         onEachFeature: function (feature, layer) {
@@ -179,10 +179,7 @@
                 } else {
                     filters.applicationType.push(appType)
                 }
-                planningGeoJSON.eachLayer(function (layer) {
-                    filterPlanningGeoJSON(layer)
-                })
-                // planningGeoJSON.eachLayer(filterPlanningGeoJSON)
+                planningGeoJSON.eachLayer(function (layer) {filterPlanningGeoJSON(layer)});
 
                 $(this).toggleClass("active");
             });
@@ -329,6 +326,15 @@
         return decision
     }
 
+    function addSlightVarianceToLatLng(latlng){
+        const lngVariance = 0.00009;
+        const latVariance = 0.00006;
+        
+        latlng.lat = latlng.lat - latVariance/2 +Math.random()*latVariance;
+        latlng.lng = latlng.lng - lngVariance/2 +Math.random()*lngVariance;
+
+        return latlng
+    }
 
 
 
