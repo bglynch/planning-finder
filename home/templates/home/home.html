@@ -163,11 +163,11 @@
 
     // change marker size on zoom
     map.on('zoomend', function () {
-        if (map.getZoom() > 17) {planningGeoJSON.eachLayer(function (layer) { layer.setRadius(5) })}
-        else if (map.getZoom() == 17) {planningGeoJSON.eachLayer(function (layer) { layer.setRadius(10) })}
+        if (map.getZoom() > 17) { planningGeoJSON.eachLayer(function (layer) { layer.setRadius(5) }) }
+        else if (map.getZoom() == 17) { planningGeoJSON.eachLayer(function (layer) { layer.setRadius(10) }) }
     });
 
-    map.fitBounds(planningGeoJSON.getBounds(), {padding: [20, 20]});
+    map.fitBounds(planningGeoJSON.getBounds(), { padding: [20, 20] });
 
     // filtering planning application
     $(document).ready(function () {
@@ -268,7 +268,7 @@
         return applicationUrl;
     }
 
-    function createListItem1(geoJSONPoint){
+    function createListItem1(geoJSONPoint) {
         divhtml = `
         <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-group-item" >
             <div class="col-12">
@@ -288,7 +288,7 @@
         return divhtml
     }
 
-    function createListItem(geoJSONPoint){
+    function createListItem(geoJSONPoint) {
         divhtml = `
         <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-group-item">
             <div class="col-12 main-font-big">${geoJSONPoint.properties['ApplicationNumber']}</div>
@@ -297,13 +297,27 @@
             <div class="float-right main-font-normal position-absolute" style="top: 20px;font-weight: 500;right: 26px;">${geoJSONPoint.properties['Decision']}</div>
             <div class="col-12 main-font-small mt-1" style="padding-right: 147px;">The development consists of construction of a part single storey part two storey extension to the rear</div>
             <div class="col-12 mt-3">
-                <img src="https://www.gstatic.com/flights/airline_logos/70px/FR.png" alt="" class="float-left mr-2 mt-2" height="20" width="20">
+                <img src="${setCouncilLogo(geoJSONPoint.properties['PlanningAuthority'])}" alt="" class="float-left mr-2 mt-2" height="20" width="20">
                 <div class="float-left main-font-small mt-2">${geoJSONPoint.properties['PlanningAuthority']}</div>
                 <a target="_blank" class="btn btn-primary float-right main-font-normal" href="${geoJSONPoint.properties['ApplicationUrl']}" style="color: #fbf8f3;">View Application</a>
             </div>
         </div>
         `
         return divhtml
+    }
+
+    function setCouncilLogo(council){
+
+        council = council.toLowerCase();
+
+        let mapping = {
+            "dublin city council":                      "https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
+            "dun laoghaire rathdown county council":    "https://www.dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
+            "fingal county council":                    "https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png",
+            "south dublin county council":              "https://www.sdcc.ie/favicon/favicon.ico"
+        };
+
+        return mapping[council];
     }
 
 
