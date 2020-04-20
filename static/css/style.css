@@ -1,3 +1,8 @@
+body{
+    font-family: "Roboto",Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
 .main-container {
     height: calc(100vh - 56px);
     margin-top: 56px;
@@ -9,4 +14,35 @@
 
 .register-profile button{
     float: right
+}
+
+.application-link{
+    bottom: 10px;
+    right: 14px;
+    font-size: small;
+}
+
+.main-font-big{
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: normal;
+    color: #202124;
+    font-weight: 400;
+}
+
+.main-font-normal{
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    font-weight: 400;
+    color: #5f6368;
+}
+
+
+.main-font-small{
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    font-weight: 400;
+    color: #5f6368;
 }

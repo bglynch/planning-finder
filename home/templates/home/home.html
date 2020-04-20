@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="row h-100">
-    <div id="list-view" class="col-4 h-100 overflow-auto">
+    <div id="list-view" class="col-4 h-100 overflow-auto list-group list-group-flush">
         <div class="position-fixed w-100 ml-n3 collapse" id="collapseExample">
             <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm col-4">
                 <button id="pending" type="button" class="btn btn-outline-secondary mt-3 mr-2">Pending</button>
@@ -268,20 +268,45 @@
         return applicationUrl;
     }
 
-    function createListItem(geoJSONPoint){
+    function createListItem1(geoJSONPoint){
         divhtml = `
-        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-item" >
-            Application: ${geoJSONPoint.properties['ApplicationNumber']} <br>
-            ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} <br>
-            Status: ${geoJSONPoint.properties['ApplicationStatus']} <br>
-            Decision: ${geoJSONPoint.properties['Decision']} <br>
-            LinkAppDetails: ${geoJSONPoint.properties['LinkAppDetails']} <br>
-            <a target="_blank" href="${geoJSONPoint.properties['ApplicationUrl']}">Link</a>
-            <hr>
+        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-group-item" >
+            <div class="col-12">
+                <img src="https://www.gstatic.com/flights/airline_logos/70px/FR.png" alt="" class="float-left mr-2" height="50" width="50">
+                <div class="h5" >${geoJSONPoint.properties['ApplicationNumber']}</div>
+                <div class="font-weight-lighter h6 text-secondary" >${geoJSONPoint.properties['PlanningAuthority']}</div>
+            </div>
+            <div class="col-12">ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} </div>
+            <div class="col-12">Status: ${geoJSONPoint.properties['ApplicationStatus']} </div>
+            <div class="col-12">Decision: ${geoJSONPoint.properties['Decision']} </div>
+            <div class="col-12">
+                <img src="https://www.gstatic.com/flights/airline_logos/70px/FR.png" alt="" class="float-left mr-2" height="20" width="20">
+                <div class="font-weight-lighter h6 text-secondary" >${geoJSONPoint.properties['PlanningAuthority']}</div>
+                <a target="_blank" class="float-right btn btn-primary" href="${geoJSONPoint.properties['ApplicationUrl']}">View Application</a>
+            </div>
         </div>`
-
         return divhtml
     }
+
+    function createListItem(geoJSONPoint){
+        divhtml = `
+        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-group-item">
+            <div class="col-12 main-font-big">${geoJSONPoint.properties['ApplicationNumber']}</div>
+            <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 7px;">Application Date:</span> ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")}</div>
+            <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 63px;">Status:</span>${geoJSONPoint.properties['ApplicationStatus']}</div>
+            <div class="float-right main-font-normal position-absolute" style="top: 20px;font-weight: 500;right: 26px;">${geoJSONPoint.properties['Decision']}</div>
+            <div class="col-12 main-font-small mt-1" style="padding-right: 147px;">The development consists of construction of a part single storey part two storey extension to the rear</div>
+            <div class="col-12 mt-3">
+                <img src="https://www.gstatic.com/flights/airline_logos/70px/FR.png" alt="" class="float-left mr-2 mt-2" height="20" width="20">
+                <div class="float-left main-font-small mt-2">${geoJSONPoint.properties['PlanningAuthority']}</div>
+                <a target="_blank" class="btn btn-primary float-right main-font-normal" href="${geoJSONPoint.properties['ApplicationUrl']}" style="color: #fbf8f3;">View Application</a>
+            </div>
+        </div>
+        `
+        return divhtml
+    }
+
+
 
 
 </script>
