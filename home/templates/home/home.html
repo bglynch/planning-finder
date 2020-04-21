@@ -15,7 +15,8 @@
                 <button id="refused" type="button" class="btn btn-outline-secondary mt-3 mr-2">Refused</button>
                 <button id="invalid" type="button" class="btn btn-outline-secondary mt-3 mr-2">Invalid</button>
                 <button id="withdrawn" type="button" class="btn btn-outline-secondary mt-3 mr-2">Withdrawn</button>
-                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional Information</button>
+                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional
+                    Information</button>
             </div>
         </div>
         <div class="position-fixed w-100 ml-n3 collapse bring-to-front" id="dateSliderMain">
@@ -75,10 +76,10 @@
 
     var scale = L.control.scale().addTo(map);
     // Get the label.
-var metres = scale._getRoundNum(map.containerPointToLatLng([0, map.getSize().y / 2 ]).distanceTo( map.containerPointToLatLng([scale.options.maxWidth,map.getSize().y / 2 ])))
-label = metres < 1000 ? metres + ' m' : (metres / 1000) + ' km';
+    var metres = scale._getRoundNum(map.containerPointToLatLng([0, map.getSize().y / 2]).distanceTo(map.containerPointToLatLng([scale.options.maxWidth, map.getSize().y / 2])))
+    label = metres < 1000 ? metres + ' m' : (metres / 1000) + ' km';
 
-console.log(label);
+    console.log(label);
 
     L.marker([marker_lat, marker_lng]).addTo(map)
         .bindPopup('I am in Dublin.<br> Looking for plannings.')
@@ -187,7 +188,7 @@ console.log(label);
                 } else {
                     filters.applicationType.push(appType)
                 }
-                planningGeoJSON.eachLayer(function (layer) {filterPlanningGeoJSON(layer)});
+                planningGeoJSON.eachLayer(function (layer) { filterPlanningGeoJSON(layer) });
 
                 $(this).toggleClass("active");
             });
@@ -232,6 +233,20 @@ console.log(label);
             filterPlanningGeoJSON(layer)
         })
     });
+
+
+    let typeContainer = document.getElementById('collapseExample');
+    let dateContainer = document.getElementById('dateSliderMain');
+    document.addEventListener('click', function (event) {
+        if (typeContainer !== event.target && !typeContainer.contains(event.target)) {
+            typeContainer.classList.remove('show')
+        }
+        if (dateContainer !== event.target && !dateContainer.contains(event.target)) {
+            dateContainer.classList.remove('show')
+        }
+    });
+
+
 
     function filterPlanningGeoJSON(layer) {
         let appId = $('#' + layer.feature.properties['ApplicationNumber'].replace(/\//g, ""));
@@ -296,7 +311,13 @@ console.log(label);
     function createListItem(geoJSONPoint) {
         divhtml = `
         <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-group-item">
-            <div class="col-12 main-font-big">${geoJSONPoint.properties['ApplicationNumber']}</div>
+            <div class="col-12 main-font-big">
+                ${geoJSONPoint.properties['ApplicationNumber']} 
+                <svg class="bi bi-geo-alt ml-1" width="20px" height="20px" viewBox="0 0 20 20" fill="#007bff" onclick="flyToPlace(${geoJSONPoint.geometry.coordinates[1]}, ${geoJSONPoint.geometry.coordinates[0]})">
+                    <path fill-rule="evenodd" d="M8 16s6-5.686 6-10A6 6 0 002 6c0 4.314 6 10 6 10zm0-7a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            
             <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 7px;">Application Date:</span> ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")}</div>
             <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 63px;">Status:</span>${geoJSONPoint.properties['ApplicationStatus']}</div>
             <div class="float-right main-font-normal position-absolute" style="top: 20px;font-weight: 500;right: 26px;">${setDecision(geoJSONPoint.properties['Decision'])}</div>
@@ -312,39 +333,41 @@ console.log(label);
         return divhtml
     }
 
-    function setCouncilLogo(council){
+    function setCouncilLogo(council) {
         let mapping = {
-            "dublin city council":                      "https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
-            "dun laoghaire rathdown county council":    "https://www.dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
-            "fingal county council":                    "https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png",
-            "south dublin county council":              "https://www.sdcc.ie/favicon/favicon.ico"
+            "dublin city council": "https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
+            "dun laoghaire rathdown county council": "https://www.dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
+            "fingal county council": "https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png",
+            "south dublin county council": "https://www.sdcc.ie/favicon/favicon.ico"
         };
         return mapping[council.toLowerCase()];
     }
 
-    function setDecision(decision){
-        if(decision == null){ return "Pending"}
+    function setDecision(decision) {
+        if (decision == null) { return "Pending" }
         decision = decision
-                    .trim()
-                    .toLowerCase()
-                    .split(' ')
-                    .map(function(word) {return word.replace(word[0], word[0].toUpperCase());})
-                    .join(' ');
-        
+            .trim()
+            .toLowerCase()
+            .split(' ')
+            .map(function (word) { return word.replace(word[0], word[0].toUpperCase()); })
+            .join(' ');
+
         return decision
     }
 
-    function addSlightVarianceToLatLng(latlng){
+    function addSlightVarianceToLatLng(latlng) {
         const lngVariance = 0.00009;
         const latVariance = 0.00006;
-        
-        latlng.lat = latlng.lat - latVariance/2 +Math.random()*latVariance;
-        latlng.lng = latlng.lng - lngVariance/2 +Math.random()*lngVariance;
+
+        latlng.lat = latlng.lat - latVariance / 2 + Math.random() * latVariance;
+        latlng.lng = latlng.lng - lngVariance / 2 + Math.random() * lngVariance;
 
         return latlng
     }
 
-
+    function flyToPlace(lat, lon) {
+        map.flyTo([lat, lon], 20, { duration: 1 })
+    }
 
 </script>
 {% endblock javascript %}
