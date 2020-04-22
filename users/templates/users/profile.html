@@ -23,4 +23,9 @@
 
 {% block javascript %}
 {% leaflet_js plugins="forms" %}
+<script>
+    let passwordField = document.getElementById('div_id_password');
+    passwordField.style.display = 'none';
+
+</script>
 {% endblock javascript %}

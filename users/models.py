@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
@@ -30,7 +29,7 @@ class Profile(models.Model):
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance, location=Point(x=-6, y=53))
+        Profile.objects.create(user=instance, location=Point(x=-6.36, y=53.3545))
 
 
 @receiver(post_save, sender=CustomUser)
