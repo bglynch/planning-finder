@@ -13,7 +13,7 @@ def register(request):
         if user_form.is_valid():
             user_form.save()
             new_user = authenticate(
-                username=user_form.cleaned_data['username'],
+                email=user_form.cleaned_data['email'],
                 password=user_form.cleaned_data['password1'],
             )
             login(request, new_user)

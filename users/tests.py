@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.apps import apps
 
 from users.apps import UsersConfig
+from users.models import CustomUser
 from .forms import UserRegisterForm
 
 
@@ -14,7 +14,6 @@ class TestAccountsForms(TestCase):
     # ---------------------------------------------------Happy Path Tests
     def test_register(self):
         form = UserRegisterForm({
-            'username': 'benji',
             'email': 'benji@ex.com',
             'password1': 'h3!!oPass',
             'password2': 'h3!!oPass',
@@ -24,7 +23,6 @@ class TestAccountsForms(TestCase):
     # ---------------------------------------------------Sad Path Tests
     def test_register_poor_password(self):
         form = UserRegisterForm({
-            'username': 'benji',
             'email': 'benji@ex.com',
             'password1': 'password',
             'password2': 'password',
@@ -36,7 +34,6 @@ class TestAccountsForms(TestCase):
 
     def test_register_different_passwords(self):
         form = UserRegisterForm({
-            'username': 'benji',
             'email': 'benji@ex.com',
             'password1': 'h3!!oPass',
             'password2': 'h3!!oPas',
@@ -48,7 +45,6 @@ class TestAccountsForms(TestCase):
 
     def test_register_bad_email(self):
         form = UserRegisterForm({
-            'username': 'benji',
             'email': 'benjiex.com',
             'password1': 'h3!!oPass',
             'password2': 'h3!!oPas',
@@ -73,19 +69,18 @@ class TestAccountsViews(TestCase):
 
     def test_register_new_user(self):
         response = self.client.post("/register/", {
-            'username': 'benji',
             'email': 'benji@ex.com',
             'password1': 'h3!!oPass',
             'password2': 'h3!!oPass'
         })
 
-        self.assertRedirects(response, '/login/', status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.assertRedirects(response, '/register-profile/', status_code=302, target_status_code=200, fetch_redirect_response=True)
 
     # ------------------------------------------def profile(request):
     def test_get_profile_page(self):
         # Create and login a user
-        User.objects.create_user(username="benji", email="benji@ex.com", password="h3!!oPass")
-        self.client.login(username='benji', password='h3!!oPass')
+        CustomUser.objects.create_user(email="benji@ex.com", password="h3!!oPass")
+        self.client.login(email="benji@ex.com", password='h3!!oPass')
 
         page = self.client.get("/profile/")
         html = page.content.decode('utf8')

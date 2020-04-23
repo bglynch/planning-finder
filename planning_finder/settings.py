@@ -35,10 +35,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
+    # Local
     'home',
     'users',
+    # 3rd Party
     'crispy_forms',
-    'django.contrib.gis',
     'leaflet',
 ]
 
@@ -82,7 +84,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-        'NAME': os.path.join(BASE_DIR, 'db2.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db3.sqlite3'),
     }
 }
 
@@ -118,3 +120,5 @@ LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
 SPATIALITE_LIBRARY_PATH='/usr/local/lib/mod_spatialite.dylib'
+
+AUTH_USER_MODEL = 'users.CustomUser'

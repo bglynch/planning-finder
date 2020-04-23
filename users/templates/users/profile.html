@@ -4,7 +4,21 @@
 
 {% block style %}
 {% leaflet_css plugins="forms" %}
+<style>
+    #div_id_password {
+        display: none;
+    }
+
+    .leaflet-draw-section:nth-child(2) {
+        display: none;
+    }
+
+    .leaflet-control-zoom:nth-child(2) {
+        display: none;
+    }
+</style>
 {% endblock style %}
+
 {% block content %}
 <div class="content-section">
     <form method="POST" enctype="multipart/form-data">
