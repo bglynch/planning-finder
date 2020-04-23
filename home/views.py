@@ -41,4 +41,4 @@ def get_home(request):
         'https://services6.arcgis.com/uWTLlTypaM5QTKd2/ArcGIS/rest/services/Administrative_Areas_OSi_National_Statutory_Boundaries_Generalised_20M/FeatureServer/0/query?where=1=1&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&outFields=ENGLISH&returnGeometry=true&featureEncoding=esriDefault&returnExceededLimitFeatures=true&f=geojson')
 
     return render(request, 'home/home.html',
-                  {'data': json.dumps(response.json()), 'council': json.dumps(response2.json())})
+                  {'data': json.dumps(response.json()), 'council': json.dumps(response2.json()), 'is_home': True})

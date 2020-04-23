@@ -32,6 +32,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
+            {% if is_home is True %}
             <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse" data-target="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">
                 Application Type
@@ -40,6 +41,7 @@
                     aria-expanded="false" aria-controls="dateSliderMain">
                 Date
             </button>
+            {% endif %}
         </ul>
 
         <form class="form-inline my-2 my-lg-0">
