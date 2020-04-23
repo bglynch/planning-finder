@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from leaflet.forms.widgets import LeafletWidget
 from leaflet.forms.fields import PointField
