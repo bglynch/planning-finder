@@ -1,5 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -19,6 +20,8 @@
                     Already have an Account? <a href="#" class="ml-2">Sign In</a>
                 </small>
             </div>
+            <h1>My Google Login Project</h1>
+            <a href="{% provider_login_url 'google' %}">Login with Google</a>
         </div>
     </div>
 </div>

@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, include
 from home.views import get_home
 from users import views as user_views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -28,4 +29,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name="logout"),
     path('profile/', user_views.profile, name='profile'),
     path('register-profile/', user_views.register_profile, name='register_profile'),
+    path('auth/', include('allauth.urls')),
+    path('x', TemplateView.as_view(template_name='users/auth.html')),
 ]
