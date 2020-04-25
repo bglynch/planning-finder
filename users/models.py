@@ -24,6 +24,7 @@ class CustomUser(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     location = models.PointField()
+    has_set_location = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender=CustomUser)
