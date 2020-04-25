@@ -18,7 +18,6 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from home.views import get_home
 from users import views as user_views
-from django.views.generic import TemplateView
 
 
 urlpatterns = [

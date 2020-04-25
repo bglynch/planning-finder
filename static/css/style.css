@@ -50,3 +50,12 @@ body{
 .bring-to-front{
     z-index: 1000;
 }
+
+.login-register{
+    color: rgb(158, 158, 158);
+    font-weight: 500;
+    font-size: 14px;
+    margin-right: 30px;
+    cursor: pointer;
+    letter-spacing: 1px;
+   }

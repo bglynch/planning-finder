@@ -50,8 +50,7 @@
             <a class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" href="{% url 'profile' %}">Profile</a>
 
             {% else %}
-            <a class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" href="{% url 'login' %}">Login</a>
-            <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'register' %}">Sign Up</a>
+            <a class="login-register" href="{% url 'login' %}">LOGIN/REGISTER</a>
             {% endif %}
         </form>
     </div>
