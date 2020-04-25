@@ -30,5 +30,4 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('register-profile/', user_views.register_profile, name='register_profile'),
     path('auth/', include('allauth.urls')),
-    path('x', TemplateView.as_view(template_name='users/auth.html')),
 ]
