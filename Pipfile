@@ -11,6 +11,7 @@ django-crispy-forms = "*"
 coverage = "*"
 requests = "*"
 django-leaflet = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.7"

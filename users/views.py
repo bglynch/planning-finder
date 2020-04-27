@@ -29,6 +29,8 @@ def register_profile(request):
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if profile_form.is_valid():
             profile_form.save()
+            request.user.profile.has_set_location = True
+            request.user.save()
             return redirect('home')
     else:
         profile_form = ProfileUpdateForm(instance=request.user.profile)

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 import json
 
@@ -8,16 +8,24 @@ def get_home(request):
     user = request.user
     print("user:", user)
     print("user_id:", user.id)
-    print("username:", user.username)
     print("auth:", user.is_authenticated)
     print("is_active():", user.is_active)
 
-    latitude = 53.31
-    longitude = -6.25
-
     if user.is_authenticated and user.profile.location:
-        latitude = user.profile.location.y
-        longitude = user.profile.location.x
+        # if user is logged in and location is chosen
+        if user.profile.has_set_location:
+            print("user is good")
+            latitude = user.profile.location.y
+            longitude = user.profile.location.x
+        # if user is logged in but location not chosen
+        else:
+            print("user need to add location")
+            return redirect('register_profile')
+    else:
+        print("user is anonymous")
+        # if user is ananymous
+        latitude = 53.31
+        longitude = -6.25
 
     home_point = f'{str(longitude)}, {str(latitude)}'
 
