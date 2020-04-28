@@ -60,10 +60,10 @@
     </div>
 </nav>
 <div class="container-fluid main-container">
-    <div class="col-12 fade-away">
+    <div id="user-messages" class="col-12 justify-content-end p-3 position-absolute row">
         {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} text-center">
+        <div class="alert alert-{{ message.tags }} col-8 text-center">
             {{ message }}
         </div>
         {% endfor %}
@@ -89,6 +89,16 @@
 
 {% block javascript %}
 {% endblock javascript %}
+<script>
+function removeMessages(){
+    $('#user-messages').animate({left: "100%"}, 1000, 'linear');
+}
+
+window.setTimeout(function () {
+    removeMessages();
+}, 3000);
+
+</script>
 
 
 </body>
