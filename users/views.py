@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.utils.html import format_html
+
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 
@@ -37,7 +39,6 @@ def register_profile(request):
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
     messages.success(request, f'Account created for {request.user.email} !')
-    messages.success(request, f'Please choose your location....')
     return render(request, 'users/register_profile.html', {'profile_form': profile_form})
 
 
@@ -49,6 +50,7 @@ def profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            messages.success(request, f'{request.user.email}, your location has been updated')
             return redirect('home')
     else:
         user_form = UserUpdateForm(instance=request.user)

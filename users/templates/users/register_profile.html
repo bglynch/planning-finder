@@ -3,7 +3,56 @@
 {% load crispy_forms_tags %}
 
 {% block style %}
-    {% leaflet_css plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+<style>
+    #div_id_password {
+        display: none;
+    }
+
+    .leaflet-draw-section:nth-child(2) {
+        display: none;
+    }
+
+    .leaflet-control-zoom:nth-child(2) {
+        display: none;
+    }
+
+    .pulse {
+  box-shadow: 0 0 0 rgba(204,169,44, 0.4);
+  animation: pulse 2s infinite;
+}
+.pulse:hover {
+  animation: none;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+
+
+</style>
 {% endblock style %}
 
 
@@ -13,6 +62,13 @@
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Choose Home Marker</legend>
+            To set your location, please do the following...
+            <ul>
+                <li>Zoom to desired location on the map</li>
+                <li>Click the marker icon<div class="align-middle d-inline-block leaflet-bar leaflet-draw-toolbar ml-2 mt-0"><a title="Draw a marker"></a></div></li>
+                <li>Click the Map to place marker</li>
+                <li>Click Set Location</li>
+            </ul>
             {{ profile_form }}
         </fieldset>
         <div class="form-group">
@@ -23,5 +79,5 @@
 {% endblock content %}
 
 {% block javascript %}
-    {% leaflet_js plugins="forms" %}
+{% leaflet_js plugins="forms" %}
 {% endblock javascript %}

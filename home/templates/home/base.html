@@ -15,7 +15,9 @@
 
     {% block style %}
     {% endblock style %}
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@400;500&display=swap" rel="stylesheet">    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Hello, world!</title>
 </head>
 <body>
@@ -33,11 +35,13 @@
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             {% if is_home is True %}
-            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse" data-target="#collapseExample"
+            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse"
+                    data-target="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">
                 Application Type
             </button>
-            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse" data-target="#dateSliderMain"
+            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse"
+                    data-target="#dateSliderMain"
                     aria-expanded="false" aria-controls="dateSliderMain">
                 Date
             </button>
@@ -56,17 +60,15 @@
     </div>
 </nav>
 <div class="container-fluid main-container">
-          <div class="row">
-        <div class="col-8">
-          {% if messages %}
-              {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }}">
-                      {{ message }}
-                  </div>
-              {% endfor %}
-          {% endif %}
+    <div class="col-12 fade-away">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} text-center">
+            {{ message }}
         </div>
-        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
     {% block content %}
     {% endblock content %}
 </div>
@@ -77,7 +79,7 @@
 </script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
