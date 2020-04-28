@@ -1,5 +1,5 @@
-from django.db import transaction
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
@@ -17,6 +17,7 @@ def register(request):
                 password=user_form.cleaned_data['password1'],
             )
             login(request, new_user)
+
             return redirect('register_profile')
     else:
         user_form = UserRegisterForm()
@@ -34,6 +35,9 @@ def register_profile(request):
             return redirect('home')
     else:
         profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    messages.success(request, f'Account created for {request.user.email} !')
+    messages.success(request, f'Please choose your location....')
     return render(request, 'users/register_profile.html', {'profile_form': profile_form})
 
 
