@@ -12,6 +12,7 @@ coverage = "*"
 requests = "*"
 django-leaflet = "*"
 django-allauth = "*"
+python-decouple = "*"
 
 [requires]
 python_version = "3.7"
