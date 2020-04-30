@@ -59,3 +59,7 @@ body{
     cursor: pointer;
     letter-spacing: 1px;
    }
+
+#user-messages{
+z-index:1111;
+}

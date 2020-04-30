@@ -15,7 +15,9 @@
 
     {% block style %}
     {% endblock style %}
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@400;500&display=swap" rel="stylesheet">    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Hello, world!</title>
 </head>
 <body>
@@ -33,11 +35,13 @@
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             {% if is_home is True %}
-            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse" data-target="#collapseExample"
+            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse"
+                    data-target="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">
                 Application Type
             </button>
-            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse" data-target="#dateSliderMain"
+            <button class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" type="button" data-toggle="collapse"
+                    data-target="#dateSliderMain"
                     aria-expanded="false" aria-controls="dateSliderMain">
                 Date
             </button>
@@ -56,6 +60,15 @@
     </div>
 </nav>
 <div class="container-fluid main-container">
+    <div id="user-messages" class="col-12 justify-content-end p-3 position-absolute row">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} col-8 text-center">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
     {% block content %}
     {% endblock content %}
 </div>
@@ -66,24 +79,26 @@
 </script>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script> -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-        <!-- <script -->
-        <!-- src="https://code.jquery.com/jquery-3.5.0.min.js" -->
-        <!-- integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" -->
-        <!-- crossorigin="anonymous"></script> -->
-
 
 {% block javascript %}
 {% endblock javascript %}
+<script>
+function removeMessages(){
+    $('#user-messages').animate({left: "100%"}, 1000, 'linear');
+}
+
+window.setTimeout(function () {
+    removeMessages();
+}, 3000);
+
+</script>
 
 
 </body>

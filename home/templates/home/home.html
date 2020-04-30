@@ -316,7 +316,7 @@
 
     function createListItem(geoJSONPoint) {
         divhtml = `
-        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-group-item">
+        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "").trim()}" class="list-group-item">
             <div class="col-12 main-font-big">
                 ${geoJSONPoint.properties['ApplicationNumber']} 
                 <svg class="bi bi-geo-alt ml-1" width="20px" height="20px" viewBox="0 0 20 20" fill="#007bff" style="cursor: pointer;" onclick="flyToPlace(${geoJSONPoint.geometry.coordinates[1]}, ${geoJSONPoint.geometry.coordinates[0]})">

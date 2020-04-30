@@ -3,16 +3,36 @@
 {% load crispy_forms_tags %}
 
 {% block style %}
-    {% leaflet_css plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+<style>
+    #div_id_password {
+        display: none;
+    }
+
+    .leaflet-draw-section:nth-child(2) {
+        display: none;
+    }
+
+    .leaflet-control-zoom:nth-child(2) {
+        display: none;
+    }
+</style>
 {% endblock style %}
 
 
 {% block content %}
 <div class="content-section">
-    <form class="register-profile" method="POST" enctype="multipart/form-data">
+    <form class="pt-4 px-5 register-profile" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Choose Home Marker</legend>
+            <legend class="mb-4">Choose Home Marker</legend>
+            To set your location, please do the following...
+            <ul>
+                <li>Zoom to desired location on the map</li>
+                <li>Click the marker icon<div class="align-middle d-inline-block leaflet-bar leaflet-draw-toolbar ml-2 mt-0"><a title="Draw a marker"></a></div></li>
+                <li>Click the Map to place marker</li>
+                <li>Click Set Location</li>
+            </ul>
             {{ profile_form }}
         </fieldset>
         <div class="form-group">
@@ -23,5 +43,5 @@
 {% endblock content %}
 
 {% block javascript %}
-    {% leaflet_js plugins="forms" %}
+{% leaflet_js plugins="forms" %}
 {% endblock javascript %}
