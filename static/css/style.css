@@ -61,5 +61,9 @@ body{
    }
 
 #user-messages{
-z-index:1111;
+    z-index:1111;
+}
+
+.form-backgound{
+        background: -webkit-linear-gradient(bottom,#0250c5,#e8f0ff);
 }
