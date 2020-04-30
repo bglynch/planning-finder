@@ -148,6 +148,7 @@
         },
 
         onEachFeature: function (feature, layer) {
+            layer.bindPopup("<b>Application Description</b><br>"+feature.properties["DevelopmentDescription"]);
             layer.on('click', function () {
                 let id = $('#' + feature.properties['ApplicationNumber'].replace(/\//g, ""))
                 $(id).scrollintoview({ duration: 100, complete: id.css("background-color", "lightgrey") });
