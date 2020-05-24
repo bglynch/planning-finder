@@ -1,13 +1,22 @@
 from .base import *
-import dj_database_url
+import re
 from decouple import config
 
 print("Using Production Settings")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+Database = re.split(r"(:\/\/|@|:)", config('DATABASE_URL'))
+
 DATABASES = {
-   'default': dj_database_url.parse(config("DATABASE_URL"))
+   'default': {
+      'ENGINE': 'django.contrib.gis.db.backends.postgis',
+      'NAME': Database[-1].split("/")[-1],
+      'USER': Database[2],
+      'PASSWORD': Database[4],
+      'HOST': Database[6],
+      'PORT': Database[-1].split("/")[0]
+   }
 }
 
 # Static files (CSS, JavaScript, Images)
