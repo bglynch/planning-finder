@@ -1,0 +1,6 @@
+language: python
+python:
+  - "3.7"
+install: "pip install -r requirements.txt"
+script:
+- DJANGO_SETTINGS_MODULE="planning_finder.settings.prod" ./manage.py test
