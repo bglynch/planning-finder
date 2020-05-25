@@ -1,0 +1,1 @@
+web: gunicorn planning_finder.wsgi:application
