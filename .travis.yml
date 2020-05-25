@@ -1,5 +1,4 @@
 language: python
-os: osx
 sudo: required
 python:
   - "3.7"
@@ -7,12 +6,9 @@ python:
 install: "pip install -r requirements.txt"
 
 before_install:
-  - curl -O https://www.kyngchaos.com/files/software/frameworks/Spatialite_Tools-4.3.zip
-  - unzip Spatialite_Tools-4.3.zip
-  - cd Spatialite\ Tools/tools
-  - sudo cp spatialite
+  - sudo apt-get install -y gdal-bin
 
 env:
-  - DJANGO_SETTINGS_MODULE=planning_finder.settings.local EMAIL_HOST_USER=EMAIL_HOST_USER EMAIL_HOST_PASSWORD=EMAIL_HOST_PASSWORD SPATIALITE_LIBRARY_PATH="/Library/Frameworks/SQLite3.framework/SQLite3"
+  - DJANGO_SETTINGS_MODULE=planning_finder.settings.local EMAIL_HOST_USER=EMAIL_HOST_USER EMAIL_HOST_PASSWORD=EMAIL_HOST_PASSWORD SPATIALITE_LIBRARY_PATH=some_path
 
 script: ./manage.py test
