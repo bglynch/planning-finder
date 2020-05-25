@@ -5,11 +5,16 @@ python:
 
 install: "pip install -r requirements.txt"
 
-before_install:
-  - sudo apt-get install binutils libproj-dev gdal-bin
-  - wget https://www.gaia-gis.it/gaia-sins/libspatialite-sources/libspatialite-4.3.0.tar.gz
-  - tar -xzvf libspatialite-4.3.0.tar.gz
-  - pushd libspatialite-4.3.0 && ./configure --prefix=/usr && make && sudo make install && popd
+addons:
+  apt:
+    packages:
+      - sqlite3
+      - gdal-bin
+      - libproj-dev
+      - libgeos-dev
+      - libspatialite-dev
+      - spatialite-bin
+      - libsqlite3-mod-spatialite
 
 env:
   - DJANGO_SETTINGS_MODULE=planning_finder.settings.local EMAIL_HOST_USER=EMAIL_HOST_USER EMAIL_HOST_PASSWORD=EMAIL_HOST_PASSWORD
