@@ -24,4 +24,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-SPATIALITE_LIBRARY_PATH = '/usr/local/lib/mod_spatialite.dylib'
+# SPATIALITE_LIBRARY_PATH = '/usr/local/lib/mod_spatialite.dylib'
