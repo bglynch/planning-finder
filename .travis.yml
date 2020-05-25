@@ -5,4 +5,5 @@ install: "pip install -r requirements.txt"
 env:
   - DJANGO_SETTINGS_MODULE=planning_finder.settings.local EMAIL_HOST_USER=EMAIL_HOST_USER EMAIL_HOST_PASSWORD=EMAIL_HOST_PASSWORD
 script:
+  sudo apt-get install -y gdal-bin
  ./manage.py test
