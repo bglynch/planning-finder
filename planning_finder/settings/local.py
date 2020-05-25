@@ -1,5 +1,3 @@
-import dj_database_url
-
 from .base import *
 
 print("Using Local Settings")
@@ -10,15 +8,11 @@ DEBUG = True
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-#         'NAME': os.path.join(BASE_DIR, 'db4.sqlite3'),
-#     }
-# }
-
 DATABASES = {
-   'default': dj_database_url.parse("spatialite:///db4.sqlite3")
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': os.path.join(BASE_DIR, 'db4.sqlite3'),
+    }
 }
 
 # Static files (CSS, JavaScript, Images)
