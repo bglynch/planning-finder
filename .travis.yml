@@ -9,9 +9,7 @@ before_install:
   - sudo apt-get install binutils libproj-dev gdal-bin
   - wget https://www.gaia-gis.it/gaia-sins/libspatialite-sources/libspatialite-4.3.0.tar.gz
   - tar xaf libspatialite-4.3.0.tar.gz
-  - cd libspatialite-4.3.0
-  - sh.cmd './configure && make'
-  - sudo make install
+  - cd libspatialite-4.3.0 && ./configure --prefix=/usr && make && sudo make install
 
 env:
   - DJANGO_SETTINGS_MODULE=planning_finder.settings.local EMAIL_HOST_USER=EMAIL_HOST_USER EMAIL_HOST_PASSWORD=EMAIL_HOST_PASSWORD
