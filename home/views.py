@@ -21,7 +21,7 @@ def get_home(request):
         # if user is logged in but location not chosen
         else:
             print("user need to add location")
-            return redirect('register_profile')
+            return redirect('choose_location')
     else:
         print("user is anonymous")
         # if user is ananymous

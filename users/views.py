@@ -20,14 +20,14 @@ def register(request):
             )
             login(request, new_user)
 
-            return redirect('register_profile')
+            return redirect('choose_location')
     else:
         user_form = UserRegisterForm()
     return render(request, 'users/register.html', {'user_form': user_form})
 
 
 @login_required
-def register_profile(request):
+def choose_location(request):
     if request.method == 'POST':
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if profile_form.is_valid():
@@ -38,8 +38,9 @@ def register_profile(request):
     else:
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
-    messages.success(request, f'Account created for {request.user.email} !')
-    return render(request, 'users/register_profile.html', {'profile_form': profile_form})
+    if not request.user.profile.has_set_location:
+        messages.success(request, f'Account created for {request.user.email} !')
+    return render(request, 'users/choose-location.html', {'profile_form': profile_form})
 
 
 @login_required

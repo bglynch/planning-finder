@@ -25,16 +25,17 @@
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Profile Info</legend>
-            {{ user_form|crispy }}
+
             {{ profile_form|crispy }}
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update</button>
         </div>
     </form>
+    <a class="btn btn-outline-success mr-sm-2 my-2 my-sm-0" href="{% url 'choose_location' %}">Edit Location</a>
 </div>
 {% endblock content %}
 
 {% block javascript %}
-{% leaflet_js plugins="forms" %}
+    {% leaflet_js plugins="forms" %}
 {% endblock javascript %}
