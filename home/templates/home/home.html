@@ -345,10 +345,10 @@
 
     function setCouncilLogo(council) {
         let mapping = {
-            "dublin city council": "https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
-            "dun laoghaire rathdown county council": "https://www.dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
-            "fingal county council": "https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png",
-            "south dublin county council": "https://www.sdcc.ie/favicon/favicon.ico"
+            "dublin city council": "{% static 'assets/dublincity.ico' %}",
+            "dun laoghaire rathdown county council": "{% static 'assets/dlr.png' %}",
+            "fingal county council": "{% static 'assets/fingal.png' %}",
+            "south dublin county council": "{% static 'assets/southdublin.ico' %}"
         };
         return mapping[council.toLowerCase()];
     }
