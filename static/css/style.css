@@ -67,3 +67,23 @@ body{
 .form-backgound{
         background: -webkit-linear-gradient(bottom,#0250c5,#e8f0ff);
 }
+
+/* slider overrides */
+.noUi-horizontal .noUi-handle {
+    width: 30px;
+    height: 30px;
+    right: -15px;
+    top: -6px;
+    border-radius: 50%;
+}
+
+.noUi-handle-upper .noUi-tooltip {
+    left: 65%;
+}
+.noUi-handle-lower .noUi-tooltip {
+    left: 60%;
+    bottom: -38px;
+}
+.noUi-tooltip {
+    font-size: 13px;
+}
