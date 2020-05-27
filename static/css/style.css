@@ -87,3 +87,23 @@ body{
 .noUi-tooltip {
     font-size: 13px;
 }
+
+/* Application Type Styling */
+#pending.active{
+    background-color: #feb644;
+}
+#granted.active{
+    background-color: #3b9a3c;
+}
+#refused.active{
+    background-color: #ff3a43;
+}
+#invalid.active{
+    background-color: #b85556;
+}
+#withdrawn.active{
+    background-color: #3947ff;
+}
+#information.active{
+    background-color: #9a3a99;
+}
