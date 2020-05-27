@@ -7,13 +7,13 @@ let map = L.map('map').setView([marker_lat, marker_lng], 15);
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 const TODAY = Math.floor(Date.now())
 const EIGHT_WEEKS_AGO = TODAY - (8 * ONE_WEEK)
-const applicationList = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
+const applicationTypes = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
 let minDate = Math.round((new Date()).getTime());
 let maxDate = Math.round((new Date()).getTime());;
 
 // filters
 let filters = {
-    applicationType: ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information'],
+    applicationType: [],
     dateRange: []
 }
 
@@ -92,9 +92,7 @@ planningGeoJSON = L.geoJSON(planningData, {
 
         // bug in API that "ReceivedDate": null  e.g: SD20B/0127
         if (geoJSONPoint.properties['ReceivedDate'] == null) {
-            console.log(geoJSONPoint.properties['ReceivedDate'], geoJSONPoint.properties['ApplicationNumber'])
             geoJSONPoint.properties['ReceivedDate'] = geoJSONPoint.properties['ETL_DATE']
-            console.log(geoJSONPoint.properties['ReceivedDate'])
             //TO_DO add notification to user that date is not accurate
         }
         if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate']
@@ -140,8 +138,7 @@ map.fitBounds(planningGeoJSON.getBounds(), { padding: [20, 20] });
 
 // filtering planning application
 $(document).ready(function () {
-    const applicationList = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
-    applicationList.forEach(function (appType) {
+    applicationTypes.forEach(function (appType) {
         $('#' + appType).click(function () {
             if (filters.applicationType.includes(appType)) {
                 filters.applicationType = filters.applicationType.filter(e => e != appType)
@@ -165,8 +162,6 @@ let months = [
 ];
 
 filters.dateRange = [minDate, maxDate]
-console.log(minDate)
-console.log(maxDate)
 noUiSlider.create(slider, {
     start: [minDate, maxDate],
     step: ONE_WEEK,
@@ -218,7 +213,7 @@ function filterPlanningGeoJSON(layer) {
     if (appDate > filters.dateRange[0] && appDate < filters.dateRange[1]) {
         numberOfTrue += 1;
     }
-    if (filters.applicationType.includes(appStatus)) {
+    if (filters.applicationType.includes(appStatus) || filters.applicationType.length == 0) {
         numberOfTrue += 1;
     }
     if (numberOfTrue == 2) {
@@ -321,6 +316,7 @@ function setDecision(decision) {
 }
 
 function addSlightVarianceToLatLng(latlng) {
+    // this is added to prevent map dots being placed on top of eachother
     const lngVariance = 0.00009;
     const latVariance = 0.00006;
 
