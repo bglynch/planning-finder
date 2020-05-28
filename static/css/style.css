@@ -107,3 +107,14 @@ body{
 #information.active{
     background-color: #9a3a99;
 }
+
+/* Buy Me Button */
+.checkout {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+.checkout svg {
+    fill: white;
+}
