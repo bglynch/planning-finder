@@ -18,6 +18,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from home.views import get_home
 from users import views as user_views
+from checkout import views as checkout_views
 
 
 urlpatterns = [
@@ -41,4 +42,5 @@ urlpatterns = [
     path('password-reset/complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
          name='password_reset_complete'),
+    path('checkout/', checkout_views.checkout, name="checkout")
 ]
