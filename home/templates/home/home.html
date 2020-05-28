@@ -45,4 +45,12 @@
     const councilData = JSON.parse('{{ council| escapejs }}')
 </script>
 <script src="{% static 'js/map.js' %}"></script>
+{{ block.super }}
+<script src="https://js.stripe.com/v2/" type="text/javascript"></script>
+<script type="text/javascript">
+  //<![CDATA[
+  Stripe.publishableKey = '{{ publishable }}';
+  //]]>
+  </script>
+  <script type="text/javascript" src="{% static 'checkout/stripe.js' %}"></script>
 {% endblock javascript %}

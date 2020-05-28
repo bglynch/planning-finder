@@ -18,6 +18,7 @@ gunicorn = "*"
 django-storages = "*"
 boto = "*"
 boto3 = "*"
+stripe = "*"
 
 [requires]
 python_version = "3.7"
