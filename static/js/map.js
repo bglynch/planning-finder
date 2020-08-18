@@ -101,7 +101,9 @@ planningGeoJSON = L.geoJSON(planningData, {
     },
 
     onEachFeature: function (feature, layer) {
+        // create pop up when click on marker
         layer.bindPopup("<b>Application Description</b><br>" + feature.properties["DevelopmentDescription"]);
+        // auto scroll to planning application on the list view
         layer.on('click', function () {
             let id = $('#' + feature.properties['ApplicationNumber'].replace(/\//g, ""))
             $(id).scrollintoview({ duration: 100, complete: id.css("background-color", "lightgrey") });

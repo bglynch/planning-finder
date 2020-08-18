@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ['127.0.0.1', 'bglynch-planning-finder.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bglynch-planning-finder.herokuapp.com']
 
 # Application definition
 
