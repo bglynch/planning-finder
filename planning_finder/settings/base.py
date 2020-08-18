@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-ALLOWED_HOSTS = ['127.0.0.1','bglynch-planning-finder.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'bglynch-planning-finder.herokuapp.com']
 
 # Application definition
 
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # Local
     'home',
     'users',
+    'checkout',
     # 3rd Party
     'crispy_forms',
     'leaflet',
@@ -134,3 +135,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+STRIPE_PUBLISHABLE = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET = config('STRIPE_SECRET_KEY')
