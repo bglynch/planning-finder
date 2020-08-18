@@ -118,3 +118,11 @@ body{
 .checkout svg {
     fill: white;
 }
+
+.fly-to{
+    cursor: pointer;
+    transform: rotate(45deg);
+    width: 24px;
+    height: 24px;
+    fill: #007bfe;
+}
