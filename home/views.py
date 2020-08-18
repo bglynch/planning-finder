@@ -30,12 +30,22 @@ def get_home(request):
 
     home_point = f'{str(longitude)}, {str(latitude)}'
 
+    api_out_fields = '''
+    ApplicationNumber,
+    ApplicationStatus,
+    Decision,
+    DevelopmentDescription,
+    LinkAppDetails,
+    PlanningAuthority,
+    ReceivedDate
+    '''
+
     payload = {
         'f': 'geojson',
         'where': '1 = 1',
         'outSr': '4326',
         'geometryType': 'esriGeometryPoint',
-        'outFields': '*',
+        'outFields': api_out_fields,
         'inSr': '4326',
         'geometry': home_point,
         'distance': 1000,
