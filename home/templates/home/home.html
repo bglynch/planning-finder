@@ -15,9 +15,7 @@
                 <button id="refused" type="button" class="btn btn-outline-secondary mt-3 mr-2">Refused</button>
                 <button id="invalid" type="button" class="btn btn-outline-secondary mt-3 mr-2">Invalid</button>
                 <button id="withdrawn" type="button" class="btn btn-outline-secondary mt-3 mr-2">Withdrawn</button>
-                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional
-                    Information
-                </button>
+                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional Information</button>
             </div>
         </div>
         <div class="position-fixed w-100 ml-n3 collapse bring-to-front" id="dateSliderMain">
@@ -28,12 +26,12 @@
     </div>
     <div id="map" class="col-8"></div>
 </div>
-<a class="btn btn-primary checkout" href="{% url 'checkout' %}" role="button" data-toggle="tooltip" data-placement="right" title="Want to buy me a Coffee?">
+<button class="btn btn-primary checkout" id="submitBtn" role="button" data-toggle="tooltip" data-placement="right" title="Want to buy me a Coffee?">
     <svg  height="24" viewBox="0 0 24 24" width="24">
         <path d="M0 0h24v24H0V0z" fill="none"></path>
         <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.9 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"></path>
     </svg>
-</a>
+</button>
 
 {% endblock content %}
 
@@ -57,12 +55,8 @@ $(function () {
     const councilData = JSON.parse('{{ council| escapejs }}')
 </script>
 <script src="{% static 'js/map.js' %}"></script>
+
 {{ block.super }}
-<script src="https://js.stripe.com/v2/" type="text/javascript"></script>
-<script type="text/javascript">
-  //<![CDATA[
-  Stripe.publishableKey = '{{ publishable }}';
-  //]]>
-  </script>
-  <script type="text/javascript" src="{% static 'checkout/stripe.js' %}"></script>
+ <script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'js/payments.js' %}"></script>
 {% endblock javascript %}
