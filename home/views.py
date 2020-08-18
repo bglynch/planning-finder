@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.conf import settings as conf_settings
 import requests
 import json
+import os
 
 
 # Create your views here.
@@ -30,15 +31,18 @@ def get_home(request):
 
     home_point = f'{str(longitude)}, {str(latitude)}'
 
+    api_url = 'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/' \
+              'IrishPlanningApplications/FeatureServer/0/query'
+
     api_out_fields = '''
-    ApplicationNumber,
-    ApplicationStatus,
-    Decision,
-    DevelopmentDescription,
-    LinkAppDetails,
-    PlanningAuthority,
-    ReceivedDate
-    '''
+        ApplicationNumber,
+        ApplicationStatus,
+        Decision,
+        DevelopmentDescription,
+        LinkAppDetails,
+        PlanningAuthority,
+        ReceivedDate
+        '''
 
     payload = {
         'f': 'geojson',
@@ -51,13 +55,12 @@ def get_home(request):
         'distance': 1000,
         'orderByFields': 'ReceivedDate DESC',
     }
-    response = requests.get(
-        'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/IrishPlanningApplications/FeatureServer/0/query',
-        params=payload)
+    response = requests.get(api_url, params=payload)
 
-    response2 = requests.get(
-        # 'https://services.arcgis.com/NzlPQPKn5QF9v2US/ArcGIS/rest/services/Local_Authority_Boundaries/FeatureServer/0/query?where=1%3D1&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&resultType=none&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&returnExceededLimitFeatures=true&f=geojson')
-        'https://services6.arcgis.com/uWTLlTypaM5QTKd2/ArcGIS/rest/services/Administrative_Areas_OSi_National_Statutory_Boundaries_Generalised_20M/FeatureServer/0/query?where=1=1&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&outFields=ENGLISH&returnGeometry=true&featureEncoding=esriDefault&returnExceededLimitFeatures=true&f=geojson')
+    council_geojson_path = os.path.join(conf_settings.STATIC_URL, 'data/Admin_Areas.geojson')
+
+    with open(council_geojson_path) as f:
+        council_data = json.load(f)
 
     return render(request, 'home/home.html',
-                  {'data': json.dumps(response.json()), 'council': json.dumps(response2.json()), 'is_home': True})
+                  {'data': json.dumps(response.json()), 'council': json.dumps(council_data), 'is_home': True})
