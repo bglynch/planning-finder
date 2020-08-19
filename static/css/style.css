@@ -164,6 +164,10 @@ nav{
         font-size: 1.3rem;
         margin-bottom: 1rem;
     }
+    .mobile-form ul{
+        list-style: none;
+        padding-left: 1px;
+    }
 
 
 }

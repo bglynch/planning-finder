@@ -41,23 +41,18 @@
 {% endblock style %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-5 form-container m-5 p-5">
+<div class="mobile-form row justify-content-center">
+    <div class="col-11 col-sm-5 form-container m-3 p-4 m-sm-5 p-sm-5">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="mb-4">Join Today</legend>
+                <legend>Join Today</legend>
                 {{ user_form|crispy }}
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-primary w-100" type="submit">Sign Up</button>
             </div>
         </form>
-        <p class="m-3 p-3 text-center text-secondary">Or Login With</p>
-        <a href="{% provider_login_url 'google' %}" class="btn-google mb-5">
-            <img src="https://colorlib.com/etc/lf/Login_v11/images/icons/icon-google.png" alt="GOOGLE">
-            Google
-        </a>
 
     </div>
 </div>
