@@ -7,12 +7,8 @@ nav{
     width: 100vw;
 }
 
-@media(max-width: 575.98px){
-    #application-type-options,#price-slider-options{
-        margin-top: 186px;
-        width: 100vw;
-        min-height: 20vh;
-    }
+#list-view{
+    max-height: 100%;
 }
 
 .main-container {
@@ -137,4 +133,34 @@ nav{
     width: 24px;
     height: 24px;
     fill: #007bfe;
+}
+
+@media(max-width: 575.98px){
+    #application-type-options,#price-slider-options{
+        margin-top: 186px;
+        width: 100vw;
+        min-height: 20vh;
+    }
+    .app-list{
+        flex-direction: row;
+        height: 25%;
+    }
+    .list-group-item{
+        width: 100%;
+        flex: none;
+        height: 100%
+    }
+    #map{
+        height: 75%;
+    }
+
+
+}
+.planning-status{
+    position: inherit;
+    float: right;
+    top: auto;
+    right: auto;
+    width: 100%;
+    padding-left: 15px;
 }

@@ -239,6 +239,7 @@ function selectCouncil(geoJSONPoint) {
     } else if (geoJSONPoint.properties['PlanningAuthority'] == "South Dublin County Council") {
         applicationUrl = "http://www.sdublincoco.ie/Planning/Details?regref=" + geoJSONPoint.properties['ApplicationNumber']
     } else if (geoJSONPoint.properties['PlanningAuthority'] == "Dun Laoghaire Rathdown County Council") {
+        geoJSONPoint.properties['PlanningAuthority'] = "DLR County Council"
         applicationUrl = "http://planning.dlrcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
     } else {
         applicationUrl = null
@@ -276,16 +277,16 @@ function createListItem(geoJSONPoint) {
                 <path d="M22,16v-2l-8.5-5V3.5C13.5,2.67,12.83,2,12,2s-1.5,0.67-1.5,1.5V9L2,14v2l8.5-2.5V19L8,20.5L8,22l4-1l4,1l0-1.5L13.5,19 v-5.5L22,16z"/>
                 </svg>
             </div>
-
-            <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 7px;">Application Date:</span> ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")}</div>
-            <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 63px;">Status:</span>${geoJSONPoint.properties['ApplicationStatus']}</div>
-            <div class="float-right main-font-normal position-absolute" style="top: 20px;font-weight: 500;right: 26px;">${setDecision(geoJSONPoint.properties['Decision'])}
+            <div class="planning-status main-font-normal">${setDecision(geoJSONPoint.properties['Decision'])}
                 <svg height="20" width="20">
                     <circle cx="10" cy="10" r="4" stroke="${geoJSONPoint.properties['colour']}" stroke-width="1" fill="${geoJSONPoint.properties['colour']}" fill-opacity="0.8" />
                 </svg>
             </div>
 
-            <div class="col-12 mt-3">
+            <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 7px;">Application Date:</span> ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")}</div>
+            <div class="col-12 main-font-normal"><span class="main-font-small" style="padding-right: 63px;">Status:</span>${geoJSONPoint.properties['ApplicationStatus']}</div>
+
+            <div class="col-12 mt-2 mt-sm-3">
                 <img src="${setCouncilLogo(geoJSONPoint.properties['PlanningAuthority'])}" alt="" class="float-left mr-2 mt-2" height="20" width="20">
                 <div class="float-left main-font-small mt-2">${geoJSONPoint.properties['PlanningAuthority']}</div>
                 <a target="_blank" class="btn btn-primary float-right main-font-normal mr-n3" href="${geoJSONPoint.properties['ApplicationUrl']}" style="color: #fbf8f3;font-size: 12px;font-weight: 500;letter-spacing: 1px;">View Application</a>
@@ -298,7 +299,7 @@ function createListItem(geoJSONPoint) {
 function setCouncilLogo(council) {
     let mapping = {
         "dublin city council": "https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
-        "dun laoghaire rathdown county council": "https://www.dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
+        "dlr county council": "https://www.dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
         "fingal county council": "https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png",
         "south dublin county council": "https://www.sdcc.ie/favicon/favicon.ico"
     };

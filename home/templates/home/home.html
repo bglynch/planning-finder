@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="row h-100">
-    <div id="list-view" class="col-sm-4 h-100 overflow-auto list-group list-group-flush">
+    <div id="list-view2" class="col-sm-4 position-absolute">
         <div class="position-fixed w-100 ml-n3 collapse bring-to-front" id="collapseExample">
             <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm col-sm-4">
                 <button id="pending" type="button" class="btn btn-outline-secondary mt-3 mr-2">Pending</button>
@@ -24,7 +24,9 @@
             </div>
         </div>
     </div>
-    <div id="map" class="col-8"></div>
+    <div id="list-view" class="app-list col-12 col-sm-4 overflow-auto list-group list-group-flush">
+    </div>
+    <div id="map" class="col-12 col-sm-8"></div>
 </div>
 <button class="btn btn-primary checkout" id="submitBtn" role="button" data-toggle="tooltip" data-placement="right" title="Want to buy me a Coffee?">
     <svg  height="24" viewBox="0 0 24 24" width="24">

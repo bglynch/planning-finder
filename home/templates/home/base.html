@@ -21,7 +21,6 @@
     <title>Hello, world!</title>
 </head>
 <body>
-<!--    <h1>Hello, world!</h1>-->
 <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
     <a class="navbar-brand" href="{% url 'home' %}">WIMBY</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -92,7 +91,7 @@
 {% endblock javascript %}
 <script>
 function removeMessages(){
-    $('#user-messages').animate({left: "100%"}, 1000, 'linear');
+    $('#user-messages').animate({opacity: "0"}, 1000, 'linear');
 }
 
 window.setTimeout(function () {
