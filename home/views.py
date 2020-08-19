@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings as conf_settings
+from decouple import config
 import requests
 import json
 import os
@@ -29,11 +30,10 @@ def get_home(request):
         latitude = 53.31
         longitude = -6.25
 
+    # Load Data from Public API
     home_point = f'{str(longitude)}, {str(latitude)}'
-
     api_url = 'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/' \
               'IrishPlanningApplications/FeatureServer/0/query'
-
     api_out_fields = '''
         ApplicationNumber,
         ApplicationStatus,
@@ -43,7 +43,6 @@ def get_home(request):
         PlanningAuthority,
         ReceivedDate
         '''
-
     payload = {
         'f': 'geojson',
         'where': '1 = 1',
@@ -55,12 +54,18 @@ def get_home(request):
         'distance': 1000,
         'orderByFields': 'ReceivedDate DESC',
     }
-    response = requests.get(api_url, params=payload)
+    planning_app_data = requests.get(api_url, params=payload)
 
-    council_geojson_path = os.path.join(conf_settings.STATIC_URL, 'data/Admin_Areas.geojson')
-
-    with open(council_geojson_path) as f:
-        council_data = json.load(f)
+    # Load County Council Boundary Data
+    current_settings = config('DJANGO_SETTINGS_MODULE')
+    if current_settings == "planning_finder.settings.prod":
+        file = f"{conf_settings.STATIC_URL}data/Admin_Areas.geojson"
+        r = requests.get(file, allow_redirects=True)
+        council_data = r.json()
+    else:
+        council_geojson_path = os.path.join(conf_settings.STATIC_URL, 'data/Admin_Areas.geojson')
+        with open(council_geojson_path) as f:
+            council_data = json.load(f)
 
     return render(request, 'home/home.html',
-                  {'data': json.dumps(response.json()), 'council': json.dumps(council_data), 'is_home': True})
+                  {'data': json.dumps(planning_app_data.json()), 'council': json.dumps(council_data), 'is_home': True})
