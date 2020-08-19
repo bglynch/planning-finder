@@ -30,34 +30,40 @@ def get_home(request):
         latitude = 53.31
         longitude = -6.25
 
+    current_settings = config('DJANGO_SETTINGS_MODULE')
+
     # Load Data from Public API
-    home_point = f'{str(longitude)}, {str(latitude)}'
-    api_url = 'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/' \
-              'IrishPlanningApplications/FeatureServer/0/query'
-    api_out_fields = '''
-        ApplicationNumber,
-        ApplicationStatus,
-        Decision,
-        DevelopmentDescription,
-        LinkAppDetails,
-        PlanningAuthority,
-        ReceivedDate
-        '''
-    payload = {
-        'f': 'geojson',
-        'where': '1 = 1',
-        'outSr': '4326',
-        'geometryType': 'esriGeometryPoint',
-        'outFields': api_out_fields,
-        'inSr': '4326',
-        'geometry': home_point,
-        'distance': 1000,
-        'orderByFields': 'ReceivedDate DESC',
-    }
-    planning_app_data = requests.get(api_url, params=payload)
+    if current_settings == "planning_finder.settings.prod":
+        home_point = f'{str(longitude)}, {str(latitude)}'
+        api_url = 'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/' \
+                  'IrishPlanningApplications/FeatureServer/0/query'
+        api_out_fields = '''
+            ApplicationNumber,
+            ApplicationStatus,
+            Decision,
+            DevelopmentDescription,
+            LinkAppDetails,
+            PlanningAuthority,
+            ReceivedDate
+            '''
+        payload = {
+            'f': 'geojson',
+            'where': '1 = 1',
+            'outSr': '4326',
+            'geometryType': 'esriGeometryPoint',
+            'outFields': api_out_fields,
+            'inSr': '4326',
+            'geometry': home_point,
+            'distance': 1000,
+            'orderByFields': 'ReceivedDate DESC',
+        }
+        planning_app_data = requests.get(api_url, params=payload).json()
+    else:
+        planning_app_data_path = config('PLANNING_APP_DATA')
+        with open(planning_app_data_path) as f:
+            planning_app_data = json.load(f)
 
     # Load County Council Boundary Data
-    current_settings = config('DJANGO_SETTINGS_MODULE')
     if current_settings == "planning_finder.settings.prod":
         file = f"{conf_settings.STATIC_URL}data/Admin_Areas.geojson"
         r = requests.get(file, allow_redirects=True)
@@ -68,4 +74,4 @@ def get_home(request):
             council_data = json.load(f)
 
     return render(request, 'home/home.html',
-                  {'data': json.dumps(planning_app_data.json()), 'council': json.dumps(council_data), 'is_home': True})
+                  {'data': json.dumps(planning_app_data), 'council': json.dumps(council_data), 'is_home': True})
