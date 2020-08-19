@@ -37,12 +37,12 @@
 {% endblock style %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-4 form-container m-5 p-5">
+<div class="mobile-form row justify-content-center">
+    <div class="col-11 col-sm-4 form-container m-3 m-sm-5 p-4 p-sm-5">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="mb-4">Log in</legend>
+                <legend class="mb-sm-4">Log in</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
@@ -53,8 +53,8 @@
             <a href="{% url 'password_reset' %}">Forgot Password?</a>
         </small>
 
-        <p class="m-3 p-3 text-center text-secondary">Or Login With</p>
-        <a href="{% provider_login_url 'google' %}" class="btn-google mb-5">
+        <p class="m-0 m-sm-3 p-3 text-center text-secondary">Or Login With</p>
+        <a href="{% provider_login_url 'google' %}" class="btn-google mb-3 mb-sm-5">
             <img src="https://colorlib.com/etc/lf/Login_v11/images/icons/icon-google.png" alt="GOOGLE">
             Google
         </a>

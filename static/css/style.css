@@ -13,6 +13,7 @@ nav{
 
 .main-container {
     height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px);
     margin-top: 56px;
 }
 
@@ -152,6 +153,16 @@ nav{
     }
     #map{
         height: 75%;
+    }
+    .mobile-form{
+        font-size: 80%;
+    }
+    .mobile-form input{
+        font-size: 80%;
+    }
+    .mobile-form legend{
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
     }
 
 
