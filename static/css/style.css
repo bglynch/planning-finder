@@ -3,6 +3,18 @@ body{
     -webkit-font-smoothing: antialiased;
 }
 
+nav{
+    width: 100vw;
+}
+
+@media(max-width: 575.98px){
+    #application-type-options,#price-slider-options{
+        margin-top: 186px;
+        width: 100vw;
+        min-height: 20vh;
+    }
+}
+
 .main-container {
     height: calc(100vh - 56px);
     margin-top: 56px;
