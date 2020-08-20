@@ -1,15 +1,6 @@
 {% extends "home/base.html" %}
 {% load crispy_forms_tags %}
 
-{% block style %}
-<style>
-    #map-location {
-        height:50px;
-        width:50px;
-    }
-</style>
-{% endblock style %}
-
 {% block content %}
 <div class="profile-page content-section">
     <h3  class="pt-0 pt-sm-1 pt-md-4">Email</h3>
@@ -47,7 +38,7 @@ let scale = L.control.scale().addTo(map);
 
 // set makers for User
 L.marker([marker_lat, marker_lng]).addTo(map)
-    .bindPopup('I am in Dublin.<br> Looking for plannings.')
+    .bindPopup('To choose a new location, click "Edit Location"')
     .openPopup();
 </script>
 
