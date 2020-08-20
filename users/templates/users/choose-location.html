@@ -4,32 +4,11 @@
 
 {% block style %}
 {% leaflet_css plugins="forms" %}
-<style>
-    #div_id_password {
-        display: none;
-    }
-
-    .leaflet-draw-section:nth-child(2) {
-        display: none;
-    }
-
-    .leaflet-control-zoom:nth-child(2) {
-        display: none;
-    }
-
-    li{
-        margin-left: 7px;
-        font-size: 90%;
-    }
-    label {
-        display: none;
-    }
-</style>
 {% endblock style %}
 
 
 {% block content %}
-<div class="mobile-form content-section">
+<div class="mobile-form location-form content-section ">
     <form class="px-sm-5 register-profile" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">

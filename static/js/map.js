@@ -51,7 +51,8 @@ planningGeoJSON = L.geoJSON(planningData, {
         if (feature.properties['Decision'] == null) {
             feature.properties['PlanningStatus'] = 'pending';
             feature.properties['colour'] = 'orange';
-        } else {
+        } 
+        else {
             if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) {
                 feature.properties['PlanningStatus'] = 'refused';
                 feature.properties['colour'] = 'red';
@@ -205,8 +206,6 @@ document.addEventListener('click', function (event) {
     }
 });
 
-
-
 function filterPlanningGeoJSON(layer) {
     let appId = $('#' + layer.feature.properties['ApplicationNumber'].replace(/\//g, ""));
     let appDate = layer.feature.properties['ReceivedDate']
@@ -246,26 +245,6 @@ function selectCouncil(geoJSONPoint) {
     }
 
     return applicationUrl;
-}
-
-function createListItem1(geoJSONPoint) {
-    divhtml = `
-        <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "")}" class="list-group-item" >
-            <div class="col-12">
-                <img src="https://www.gstatic.com/flights/airline_logos/70px/FR.png" alt="" class="float-left mr-2" height="50" width="50">
-                <div class="h5" >${geoJSONPoint.properties['ApplicationNumber']}</div>
-                <div class="font-weight-lighter h6 text-secondary" >${geoJSONPoint.properties['PlanningAuthority']}</div>
-            </div>
-            <div class="col-12">ReceivedDate: ${new Date(geoJSONPoint.properties['ReceivedDate']).toLocaleDateString("en-GB")} </div>
-            <div class="col-12">Status: ${geoJSONPoint.properties['ApplicationStatus']} </div>
-            <div class="col-12">Decision: ${geoJSONPoint.properties['Decision']} </div>
-            <div class="col-12">
-                <img src="https://www.gstatic.com/flights/airline_logos/70px/FR.png" alt="" class="float-left mr-2" height="20" width="20">
-                <div class="font-weight-lighter h6 text-secondary" >${geoJSONPoint.properties['PlanningAuthority']}</div>
-                <a target="_blank" class="float-right btn btn-primary" href="${geoJSONPoint.properties['ApplicationUrl']}">View Application</a>
-            </div>
-        </div>`
-    return divhtml
 }
 
 function createListItem(geoJSONPoint) {
@@ -319,7 +298,7 @@ function setDecision(decision) {
 }
 
 function addSlightVarianceToLatLng(latlng) {
-    // this is added to prevent map dots being placed on top of eachother
+    // this is added to prevent map icons being placed on top of eachother
     const lngVariance = 0.00009;
     const latVariance = 0.00006;
 

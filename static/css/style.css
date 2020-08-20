@@ -1,11 +1,12 @@
+/* ========================================================================= */
+/*                                  GENERAL                                  */
+/* ========================================================================= */
 body{
     font-family: "Roboto",Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
-nav{
-    width: 100vw;
-}
+nav{width: 100vw;}
 
 #list-view{
     max-height: 100%;
@@ -19,10 +20,6 @@ nav{
 
 .leaflet-container-default {
     height: 60vh
-}
-
-.register-profile button{
-    float: right
 }
 
 .application-link{
@@ -73,10 +70,63 @@ nav{
     z-index:1111;
 }
 
-.form-backgound{
+/* .form-backgound{
         background: -webkit-linear-gradient(bottom,#0250c5,#e8f0ff);
+} */
+
+/* Buy Me Button */
+.checkout {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+.checkout svg {
+    fill: white;
 }
 
+
+/* ========================================================================= */
+/*                                  APP LIST                                 */
+/* ========================================================================= */
+.fly-to{
+    cursor: pointer;
+    transform: rotate(45deg);
+    width: 24px;
+    height: 24px;
+    fill: #007bfe;
+}
+.planning-status{
+    position: inherit;
+    float: right;
+    top: auto;
+    right: auto;
+    width: 100%;
+    padding-left: 15px;
+}
+
+/* ========================================================================= */
+/*                               FILTER OPTIONS                              */
+/* ========================================================================= */
+/* Application Type Styling */
+#pending.active{
+    background-color: #feb644;
+}
+#granted.active{
+    background-color: #3b9a3c;
+}
+#refused.active{
+    background-color: #ff3a43;
+}
+#invalid.active{
+    background-color: #b85556;
+}
+#withdrawn.active{
+    background-color: #3947ff;
+}
+#information.active{
+    background-color: #9a3a99;
+}
 /* slider overrides */
 .noUi-horizontal .noUi-handle {
     width: 30px;
@@ -97,45 +147,32 @@ nav{
     font-size: 13px;
 }
 
-/* Application Type Styling */
-#pending.active{
-    background-color: #feb644;
-}
-#granted.active{
-    background-color: #3b9a3c;
-}
-#refused.active{
-    background-color: #ff3a43;
-}
-#invalid.active{
-    background-color: #b85556;
-}
-#withdrawn.active{
-    background-color: #3947ff;
-}
-#information.active{
-    background-color: #9a3a99;
-}
 
-/* Buy Me Button */
-.checkout {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
+/* ========================================================================= */
+/*                                   FORMS                                   */
+/* ========================================================================= */
+.btn-google{
+    font-size: 16px;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc((100% - 10px)/2);
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    transition: all .4s;
+    margin: auto;
+    color: black;
+    font-weight: 500;
+    letter-spacing: 1px;
 }
-.checkout svg {
-    fill: white;
+.btn-google img {
+    width: 19px;
+    margin-right: 10px;
+    padding-bottom: 1px;
 }
-
-.fly-to{
-    cursor: pointer;
-    transform: rotate(45deg);
-    width: 24px;
-    height: 24px;
-    fill: #007bfe;
-}
-
 .mobile-form{
     height: 100%;
     background: -webkit-linear-gradient(bottom,#0250c5,#e8f0ff);
@@ -145,8 +182,28 @@ nav{
     border-radius: 3px;
     height: fit-content;
 }
-
-
+.mobile-form.location-form{
+    background: white;
+}
+.location-form #div_id_password {
+    display: none;
+}
+.location-form .leaflet-draw-section:nth-child(2) {
+    display: none;
+}
+.location-form .leaflet-control-zoom:nth-child(2) {
+    display: none;
+}
+.location-form li{
+    margin-left: 7px;
+    font-size: 90%;
+}
+.location-form label {
+    display: none;
+}
+.register-profile button{
+    float: right
+}
 
 
 /* Medium devices (tablets, 768px and up) */
@@ -240,34 +297,4 @@ nav{
     .profile-page #map{
         max-height: 60vh;
     }
-}
-.planning-status{
-    position: inherit;
-    float: right;
-    top: auto;
-    right: auto;
-    width: 100%;
-    padding-left: 15px;
-}
-.btn-google{
-    font-size: 16px;
-    line-height: 1.2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: calc((100% - 10px)/2);
-    height: 40px;
-    border-radius: 3px;
-    border: 1px solid #e6e6e6;
-    background-color: #fff;
-    transition: all .4s;
-    margin: auto;
-    color: black;
-    font-weight: 500;
-    letter-spacing: 1px;
-}
-.btn-google img {
-    width: 19px;
-    margin-right: 10px;
-    padding-bottom: 1px;
 }
