@@ -1,7 +1,16 @@
 const latlng = L.latLng(marker_lat, marker_lng);
 
 // create the map object
-let map = L.map('map').setView([marker_lat, marker_lng], 15);
+let map = L.map('map', {
+    maxZoom: 20,
+    minZoom: 10,
+    maxBounds: [
+        //south west
+        [53.1, -6.7],
+        //north east
+        [53.7, -5.8]
+        ], 
+}).setView([marker_lat, marker_lng], 15);
 
 // variables
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
@@ -19,8 +28,7 @@ let filters = {
 
 // get the data
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
-    maxZoom: 20,
-    minZoom: 7,
+
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
