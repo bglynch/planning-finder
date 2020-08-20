@@ -170,6 +170,11 @@ nav{
     #id_location-map{
         max-height: 30vh;
     }
+    .leaflet-popup-content {
+        max-width: 70vw;
+        max-height: 45vh;
+        overflow: scroll;
+        }
 
 
 }
