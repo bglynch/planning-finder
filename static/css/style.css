@@ -136,6 +136,7 @@ nav{
     fill: #007bfe;
 }
 
+
 @media(max-width: 575.98px){
     #application-type-options,#price-slider-options{
         margin-top: 186px;
@@ -175,8 +176,31 @@ nav{
         max-height: 45vh;
         overflow: scroll;
         }
+}
 
-
+@media(max-width: 349.98px){
+    .app-list{
+        flex-direction: row;
+        height: 30%;
+    }
+    .list-group-item div {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    a.btn.btn-primary.float-right.main-font-normal.mr-n3 {
+        padding: 4px;
+        margin-right: 0;
+    }
+    #map{
+        height: 70%;
+    }
+    .leaflet-touch .leaflet-bar a {
+        width: 23px;
+        height: 23px;
+        line-height: 23px;
+        font-size: 18px;
+    }
 }
 .planning-status{
     position: inherit;
