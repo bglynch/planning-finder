@@ -238,7 +238,7 @@ function filterPlanningGeoJSON(layer) {
 function selectCouncil(geoJSONPoint) {
     let applicationUrl = null
     if (geoJSONPoint.properties['PlanningAuthority'] == "Dublin City Council") {
-        applicationUrl = "http://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
+        applicationUrl = "https://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
     } else if (geoJSONPoint.properties['PlanningAuthority'] == "Fingal County Council") {
         applicationUrl = "http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
     } else if (geoJSONPoint.properties['PlanningAuthority'] == "South Dublin County Council") {
@@ -274,7 +274,7 @@ function createListItem(geoJSONPoint) {
             <div class="col-12 mt-2 mt-sm-3">
                 <img src="${setCouncilLogo(geoJSONPoint.properties['PlanningAuthority'])}" alt="" class="float-left mr-2 mt-2" height="20" width="20">
                 <div class="float-left main-font-small mt-2">${geoJSONPoint.properties['PlanningAuthority']}</div>
-                <a target="_blank" class="btn btn-primary float-right main-font-normal mr-n3" href="${geoJSONPoint.properties['ApplicationUrl']}" style="color: #fbf8f3;font-size: 12px;font-weight: 500;letter-spacing: 1px;">View Application</a>
+                <a target="_blank" rel="noopener" class="btn btn-primary float-right main-font-normal mr-n3" href="${geoJSONPoint.properties['ApplicationUrl']}" style="color: #fbf8f3;font-size: 12px;font-weight: 500;letter-spacing: 1px;">View Application</a>
             </div>
         </div>
         `
