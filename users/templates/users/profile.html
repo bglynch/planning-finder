@@ -4,7 +4,7 @@
 {% block content %}
 <div class="profile-page content-section">
     <h3  class="pt-0 pt-sm-1 pt-md-4">Email</h3>
-    <p class="" >bglynch17@gmail.com</p>
+    <p class="" >{{ user.email }}</p>
     <h3 class="pt-0 pt-sm-1 pt-md-4">Location</h3>
     <div id="map"  class="col-12 col-sm-11" style="height: 500px;"></div>
     <a class="btn btn-outline-success mt-2 mt-sm-4  ml-3" href="{% url 'choose_location' %}">Edit Location</a>

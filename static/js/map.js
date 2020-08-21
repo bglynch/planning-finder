@@ -237,9 +237,7 @@ function filterPlanningGeoJSON(layer) {
 
 function selectCouncil(geoJSONPoint) {
     let applicationUrl = null
-    if (geoJSONPoint.properties['LinkAppDetails'] != null) {
-        applicationUrl = geoJSONPoint.properties['LinkAppDetails']
-    } else if (geoJSONPoint.properties['PlanningAuthority'] == "Dublin City Council") {
+    if (geoJSONPoint.properties['PlanningAuthority'] == "Dublin City Council") {
         applicationUrl = "http://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
     } else if (geoJSONPoint.properties['PlanningAuthority'] == "Fingal County Council") {
         applicationUrl = "http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
@@ -247,7 +245,7 @@ function selectCouncil(geoJSONPoint) {
         applicationUrl = "http://www.sdublincoco.ie/Planning/Details?regref=" + geoJSONPoint.properties['ApplicationNumber']
     } else if (geoJSONPoint.properties['PlanningAuthority'] == "Dun Laoghaire Rathdown County Council") {
         geoJSONPoint.properties['PlanningAuthority'] = "DLR County Council"
-        applicationUrl = "http://planning.dlrcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties['ApplicationNumber']
+        applicationUrl = "https://planning.agileapplications.ie/dunlaoghaire/search-applications/results?criteria=%7B%22query%22:%22"+geoJSONPoint.properties['ApplicationNumber']+"%22%7D&page=1"
     } else {
         applicationUrl = null
     }

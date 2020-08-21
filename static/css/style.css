@@ -70,9 +70,9 @@ nav{width: 100vw;}
     z-index:1111;
 }
 
-/* .form-backgound{
-        background: -webkit-linear-gradient(bottom,#0250c5,#e8f0ff);
-} */
+.leaflet-top, .leaflet-bottom {
+    z-index: 999;
+}
 
 /* Buy Me Button */
 .checkout {

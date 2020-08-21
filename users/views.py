@@ -2,13 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.utils.html import format_html
 
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 
-# Create your views here.
-
+# register new user
 def register(request):
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST)
@@ -26,6 +24,7 @@ def register(request):
     return render(request, 'users/register.html', {'user_form': user_form})
 
 
+# set location of new/existing user
 @login_required
 def choose_location(request):
     print("=================== choose_location called")
@@ -50,7 +49,7 @@ def choose_location(request):
         messages.success(request, f'Account created for {request.user.email} !')
     return render(request, 'users/choose-location.html', {'profile_form': profile_form})
 
-
+# get user profile
 @login_required
 def profile(request):
     if request.method == 'POST':
