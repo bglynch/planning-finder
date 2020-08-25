@@ -281,16 +281,6 @@ function createListItem(geoJSONPoint) {
     return divhtml
 }
 
-function setCouncilLogo(council) {
-    let mapping = {
-        "dublin city council": "https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
-        "dlr county council": "https://www.dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
-        "fingal county council": "https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png",
-        "south dublin county council": "https://www.sdcc.ie/favicon/favicon.ico"
-    };
-    return mapping[council.toLowerCase()];
-}
-
 function setDecision(decision) {
     if (decision == null) { return "Pending" }
     decision = decision
