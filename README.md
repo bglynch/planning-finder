@@ -1,39 +1,101 @@
-# WIMBY - What's In My Backyard
+<h1 align="center">WIMBY - What's In My Backyard</h1>  
 
-One or two paragraphs providing an overview of your project.
+[View the live project here.](https://bglynch-planning-finder.herokuapp.com/)  
 
-Essentially, this part is your sales pitch.
+WIMBY is a simple, easy to use app for viewing planning applications in your locality.
+It allows the user the ability to select a location of his choice(typically the user's home address), 
+and then view on a map, planning applications nearby. 
+
+<h2 align="center"><img src="https://github.com/bglynch/planning-finder/blob/feature/add-documentation/documentation/hero.png"></h2>
  
-## UX
- 
-Use this section to provide insight into your UX process, focusing on who this website is for, what it is that they want to achieve and how your project is the best way to help them achieve these things.
+## User Experience (UX)
 
-In particular, as part of this section we recommend that you provide a list of User Stories, with the following general structure:
-- As a user type, I want to perform an action, so that I can achieve a goal.
+-   ### User stories
 
-This section is also where you would share links to any wireframes, mockups, diagrams etc. that you created as part of the design process. These files should themselves either be included as a pdf file in the project itself (in an separate directory), or just hosted elsewhere online and can be in any format that is viewable inside the browser.
+    -   #### Home Buyer
+        - As a **Home Buyer**, I would like to view planning applications of the house im interested in buying so I can see floor plans of the house. 
+        - As a **Home Buyer**, I would like to view planning applications of the house im interested in buying so I can see if work has been done to the house in recent years. 
+        - As a **Home Buyer**, I would like to view planning applications of the houses near the house I'm interested in buying so I can see if it would be likely that I could build an extension.  
+    -   #### Home Owner
+        - As a **Home Owner**, I would like to see if there will be any construction near my house that will impact me.
+  
 
+-   ### Design
+    -   #### Research
+        - Research was done into other map based websites to get inspiration for the layout.
+    -   #### Colour Scheme
+        -   The main call to action colour in used is Blue.
+        -   Differing colours are given to a application depending on the outcome.
+            - Mustard: Applications where the outcome is not yet decided
+            - Green:   Applications which have been accepted
+            - Red:     Applications which have been refused
+            - Maroon:  Applications which were invalid
+            - Purple:  Applications where additional information was sought by the planning authority
+            - Navy:    Applications which have been withdrawn
+    -   #### Typography
+        -   The Roboto font is the main font used throughout the whole website with Sans Serif used as a fallback font
+    -   #### Imagery
+        -   Imagery is used subtley. Images are only used of to give the user a visual feedback of which County Council a planning application belongs to.
+    -   #### Map
+        -   ##### Icons
+            - An icon is located where a planning application has been submitted. As a property can have submitted more than one application, 
+            it is possible to have several icons on the same location. 
+            To overcome this, each application location is given a random offset in the X and Y direction to prevent this from happening.  
+            - Icons change size depending on map zoom level to prevent overcrowding
+        -   ##### Tiles 
+            - Map tiles have a simple colour palette, chosen to make the icons stand out.
+        -   ##### Boundaries 
+            - Boundaries for County councils are shown by a strong black line.
+            - County councils which are not yet added to the web app are shown with a transparent black fill.
+        -   ##### Zoom and Extents 
+            - The zoom and extents have been restricted to the greater Dublin Area to prevent the user from moving beyond.
+            
+            
+-   ### Wireframes
+    -   Home Page Wireframe - [View](https://github.com/)
+    -   Mobile Wireframe - [View](https://github.com/)
+    -   Contact Us Page Wireframe - [View](https://github.com/)            
+        
 ## Features
-
-In this section, you should go over the different parts of your project, and describe each in a sentence or so.
+-   ### Home Page
+    - #### Header
+    
+    
  
-### Existing Features
-- Feature 1 - allows users X to achieve Y, by having them fill out Z
-- ...
 
-For some/all of your features, you may choose to reference the specific project files that implement them, although this is entirely optional.
-
-In addition, you may also use this section to discuss plans for additional features to be implemented in the future:
 
 ### Features Left to Implement
-- Another feature idea
+- Add all County Councils (currently only the 4 Dublin councils)
+- Email notificaitons for users when new applicaiton submitted in their locality
+- Filter planning applications by text search
 
 ## Technologies Used
 
-In this section, you should mention all of the languages, frameworks, libraries, and any other tools that you have used to construct this project. For each, provide its name, a link to its official site and a short sentence of why it was used.
-
-- [JQuery](https://jquery.com)
-    - The project uses **JQuery** to simplify DOM manipulation.
+In this section, you should mention all of the languages, frameworks, libraries, and any other tools that you have used to construct this project. 
+For each, provide its name, a link to its official site and a short sentence of why it was used.
+### Languages
+- [Python](https://www.python.org/): The project uses **JQuery** to simplify DOM manipulation.
+- [Javascript](https://www.javascript.com/): The project uses **JQuery** to simplify DOM manipulation.
+### Frameworks
+- [Django 2](https://www.djangoproject.com/): The project uses **JQuery** to simplify DOM manipulation.
+- [Bootstrap](https://getbootstrap.com/): The project uses **JQuery** to simplify DOM manipulation.
+### Libraries
+- [Leaflet](https://leafletjs.com/): The project uses **JQuery** to simplify DOM manipulation.
+- [Stripe](https://stripe.com/ie): The project uses **JQuery** to simplify DOM manipulation.
+- [Jquery](https://jquery.com): The project uses **JQuery** to simplify DOM manipulation.
+- [jquery-scrollintoview](https://github.com/litera/jquery-scrollintoview): The project uses **JQuery** to simplify DOM manipulation.
+- [noUiSlider](https://refreshless.com/nouislider/): The project uses **JQuery** to simplify DOM manipulation.
+- [Google OAuth](Google Developers Console): The project uses **JQuery** to simplify DOM manipulation.
+### APIs
+- [Planning Applications API](https://data.gov.ie/dataset/national-planning-applications/resource/48809edb-0e41-4c97-b037-82c319c632e7): The project uses **JQuery** to simplify DOM manipulation.
+### Database
+- [PostGIS](https://postgis.net/): The project uses **JQuery** to simplify DOM manipulation.
+- [Spatialite](https://www.gaia-gis.it/fossil/libspatialite/index): The project uses **JQuery** to simplify DOM manipulation.
+### Tools
+- [DB Browser for SQLite](https://sqlitebrowser.org/): Used to examine the spatialite database.
+- [PyCharm](https://www.jetbrains.com/pycharm/): IDE used to .
+- [Postman](https://www.postman.com/): The project uses **JQuery** to simplify DOM manipulation.
+- [TravisCI](https://www.postman.com/): The project uses **JQuery** to simplify DOM manipulation.
 
 
 ## Testing
