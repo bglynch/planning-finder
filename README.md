@@ -23,6 +23,7 @@ and then view on a map, planning applications nearby.
 -   ### Design
     -   #### Research
         - Research was done into other map based websites to get inspiration for the layout.
+        <h2 align="center"><img src="https://github.com/bglynch/planning-finder/blob/feature/add-documentation/documentation/research/combined.png"></h2>
     -   #### Colour Scheme
         -   The main call to action colour in used is Blue.
         -   Differing colours are given to a application depending on the outcome.
