@@ -64,12 +64,14 @@ def get_home(request):
             planning_app_data = json.load(f)
 
     # Load County Council Boundary Data
+    # Production
     if current_settings == "planning_finder.settings.prod":
-        file = f"{conf_settings.STATIC_URL}data/Admin_Areas.geojson"
+        file = f"{conf_settings.STATIC_URL}data/councils-dublin.geojson"
         r = requests.get(file, allow_redirects=True)
         council_data = r.json()
+    # Local Settings
     else:
-        council_geojson_path = os.path.join(conf_settings.STATIC_URL, 'data/Admin_Areas.geojson')
+        council_geojson_path = os.path.join(conf_settings.STATIC_URL, 'data/councils-dublin.geojson')
         with open(council_geojson_path) as f:
             council_data = json.load(f)
 
