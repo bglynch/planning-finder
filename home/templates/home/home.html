@@ -54,7 +54,7 @@ $(function () {
     const marker_lat = 53.31
     {% endif %}
     const planningData = JSON.parse('{{ data| escapejs }}')
-    const councilData = JSON.parse('{{ council| escapejs }}')
+    const councilData = "{% static 'data/councils-dublin.geojson' %}"
 </script>
 <script src="{% static 'js/functions.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>

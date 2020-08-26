@@ -121,22 +121,29 @@ planningGeoJSON = L.geoJSON(planningData, {
 }
 ).addTo(map);
 
-councilGeoJSON = L.geoJSON(councilData, {
-    interactive: false,
-    style: function (feature) {
+let councilGeoJSON = fetch(councilData, { mode: 'cors' })
+  .then(function (response) {
+    return response.ok ? response.json() : Promise.reject(response.status);
+  })
+  .then(function (response) { 
+      console.log(response)
+      L.geoJSON(response, {
+        interactive: false,
+        style: function (feature) {
+    
+            let councils = /(DUBLIN CITY|FINGAL|SOUTH|DUN LAOGHAIRE)/;
+            let fill = (councils.test(feature.properties.ENGLISH)) ? 0 : .7
+    
+            return {
+                fillOpacity: fill,
+                weight: 1,
+                color: 'black'
+            };
+        }
+    }).addTo(map)
+    })
+  .catch(function (error) { console.log('Request failed', error) });
 
-        let councils = /(DUBLIN CITY|FINGAL|SOUTH|DUN LAOGHAIRE)/;
-        let fill = (councils.test(feature.properties.ENGLISH)) ? 0 : .5
-
-        return {
-            fillOpacity: fill,
-            weight: 1,
-            color: 'black'
-        };
-    }
-}).addTo(map)
-
-councilGeoJSON.bringToBack()
 
 
 // change marker size on zoom
