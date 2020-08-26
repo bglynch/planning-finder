@@ -30,7 +30,9 @@ def choose_location(request):
     print("=================== choose_location called")
     print(request.user)
     print(request.user.profile.has_set_location)
+    # setting location
     if request.method == 'POST':
+        print(f"choose_location:POST")
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if profile_form.is_valid():
             if not request.user.profile.has_set_location:
@@ -39,12 +41,15 @@ def choose_location(request):
                 request.user.save()
                 return redirect('home')
             else:
+                messages.success(request, f'New location has been set')
                 profile_form.save()
-                return redirect('profile')
-
+                return redirect('home')
+    # choosing location
     else:
+        print(f"choose_location:GET")
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
+    # new user who has not yet set location
     if not request.user.profile.has_set_location:
         messages.success(request, f'Account created for {request.user.email} !')
     return render(request, 'users/choose-location.html', {'profile_form': profile_form})
