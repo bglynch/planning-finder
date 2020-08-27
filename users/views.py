@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-
+import geopandas as gpd
+from shapely.geometry import Point, Polygon
+import os
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 
@@ -35,11 +37,18 @@ def choose_location(request):
         print(f"choose_location:POST")
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if profile_form.is_valid():
+            point = profile_form.cleaned_data.get('location')
+            if not point_in_allowed_council(point):
+                messages.warning(request, f'Location not available, please choose location inside available boundaries')
+                return redirect('choose_location')
+
+            # setting location for a new user
             if not request.user.profile.has_set_location:
                 profile_form.save()
                 request.user.profile.has_set_location = True
                 request.user.save()
                 return redirect('home')
+            # setting location for a new user
             else:
                 messages.success(request, f'New location has been set')
                 profile_form.save()
@@ -53,6 +62,7 @@ def choose_location(request):
     if not request.user.profile.has_set_location:
         messages.success(request, f'Account created for {request.user.email} !')
     return render(request, 'users/choose-location.html', {'profile_form': profile_form})
+
 
 # get user profile
 @login_required
@@ -70,3 +80,20 @@ def profile(request):
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+def point_in_allowed_council(point):
+    file = f"{os.getcwd()}/static/data/councils-dublin.geojson"
+    df = gpd.read_file(file)
+    df = df[df.ENGLISH != 'other']
+    result = False
+    p1 = Point(point.x, point.y)
+
+    for index, row in df.iterrows():
+        poly = row['geometry']
+        print(p1.within(poly))
+        if p1.within(poly):
+            result = True
+            break
+
+    return result
