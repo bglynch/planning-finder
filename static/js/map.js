@@ -17,6 +17,7 @@ const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 const TODAY = Math.floor(Date.now())
 const EIGHT_WEEKS_AGO = TODAY - (8 * ONE_WEEK)
 const applicationTypes = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
+const councilList = ['Dublin City Council','Dun Laoghaire Rathdown County Council','Fingal County Council','South Dublin County Council', 'DLR County Council']
 let minDate = Math.round((new Date()).getTime());
 let maxDate = Math.round((new Date()).getTime());;
 
@@ -28,7 +29,6 @@ let filters = {
 
 // get the data
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
-
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
         'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -82,9 +82,12 @@ planningGeoJSON = L.geoJSON(planningData, {
                 feature.properties['colour'] = 'purple';
             }
         }
-
+        
         divhtml = createListItem(feature)
-        $('#list-view').append(divhtml);
+        console.log(feature)
+        if (councilList.includes(feature.properties.PlanningAuthority)){
+            $('#list-view').append(divhtml);
+        }
 
         return {
             fillOpacity: .8,
@@ -106,7 +109,9 @@ planningGeoJSON = L.geoJSON(planningData, {
         }
         if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate']
 
-        return L.circle(addSlightVarianceToLatLng(latlng))
+        if (councilList.includes(geoJSONPoint.properties.PlanningAuthority)){
+            return L.circle(addSlightVarianceToLatLng(latlng))
+        }
     },
 
     onEachFeature: function (feature, layer) {
@@ -121,22 +126,25 @@ planningGeoJSON = L.geoJSON(planningData, {
 }
 ).addTo(map);
 
-councilGeoJSON = L.geoJSON(councilData, {
-    interactive: false,
-    style: function (feature) {
+let councilGeoJSON = fetch(councilData, { mode: 'cors' })
+  .then(function (response) {
+    return response.ok ? response.json() : Promise.reject(response.status);
+  })
+  .then(function (response) { 
+      console.log(response)
+      L.geoJSON(response, {
+        interactive: false,
+        style: function (feature) {    
+            return {
+                fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : .7,
+                weight: 1,
+                color: 'black'
+            };
+        }
+    }).addTo(map)
+    })
+  .catch(function (error) { console.log('Request failed', error) });
 
-        let councils = /(DUBLIN CITY|FINGAL|SOUTH|DUN LAOGHAIRE)/;
-        let fill = (councils.test(feature.properties.ENGLISH)) ? 0 : .5
-
-        return {
-            fillOpacity: fill,
-            weight: 1,
-            color: 'black'
-        };
-    }
-}).addTo(map)
-
-councilGeoJSON.bringToBack()
 
 
 // change marker size on zoom
