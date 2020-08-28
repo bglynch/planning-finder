@@ -29,9 +29,6 @@ def register(request):
 # set location of new/existing user
 @login_required
 def choose_location(request):
-    print("=================== choose_location called")
-    print(request.user)
-    print(request.user.profile.has_set_location)
     # setting location
     if request.method == 'POST':
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
