@@ -34,7 +34,6 @@ def choose_location(request):
     print(request.user.profile.has_set_location)
     # setting location
     if request.method == 'POST':
-        print(f"choose_location:POST")
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if profile_form.is_valid():
             point = profile_form.cleaned_data.get('location')
@@ -55,7 +54,6 @@ def choose_location(request):
                 return redirect('home')
     # choosing location
     else:
-        print(f"choose_location:GET")
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
     # new user who has not yet set location
@@ -91,7 +89,6 @@ def point_in_allowed_council(point):
 
     for index, row in df.iterrows():
         poly = row['geometry']
-        print(p1.within(poly))
         if p1.within(poly):
             result = True
             break
