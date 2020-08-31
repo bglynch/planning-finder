@@ -78,10 +78,9 @@
 <script>
 function removeMessages(){
     $('#user-messages').animate({opacity: "0"}, 1000, 'linear');
+    $('#user-messages').remove();
 }
-window.setTimeout(function () {
-    removeMessages();
-}, 3000);
+window.setTimeout(function () {removeMessages();}, 3000);
 
 </script>
 </body>
