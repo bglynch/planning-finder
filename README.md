@@ -100,10 +100,11 @@ For each, provide its name, a link to its official site and a short sentence of 
     - [Leaflet](https://leafletjs.com/): Used to create the map element.
     - [Stripe](https://stripe.com/ie): Used to take card payments.
     - [Jquery](https://jquery.com): The project uses **JQuery** to simplify DOM manipulation.
-    - [jquery-scrollintoview](https://github.com/litera/jquery-scrollintoview): The project uses **JQuery** to simplify DOM manipulation.
-    - [noUiSlider](https://refreshless.com/nouislider/): The project uses **JQuery** to simplify DOM manipulation.
-    - [Google OAuth](Google Developers Console): Used to allow google login.
+    - [jquery-scrollintoview](https://github.com/litera/jquery-scrollintoview): Used to auto scroll list.
+    - [noUiSlider](https://refreshless.com/nouislider/): Used to create date slider.
+    - [Google OAuth](https://console.developers.google.com/): Used to allow google login.
     - [Jupyter Notebooks](https://jupyter.org/): Used for data exploration
+    - [python-decouple](https://pypi.org/project/python-decouple/): library to separate the settings parameters from your source code.
 - ### API
     - [Planning Applications API](https://data.gov.ie/dataset/national-planning-applications/resource/48809edb-0e41-4c97-b037-82c319c632e7): Opensource planning application data.
 - ### Database
@@ -111,6 +112,7 @@ For each, provide its name, a link to its official site and a short sentence of 
     - [Spatialite](https://www.gaia-gis.it/fossil/libspatialite/index): Development GIS database.
 - ### Tools
     - [DB Browser for SQLite](https://sqlitebrowser.org/): Used to examine the spatialite database.
+    - [pgAdmin](https://www.pgadmin.org/): Used to examine the PostGis database.
     - [PyCharm](https://www.jetbrains.com/pycharm/): IDE used for python/django development.
     - [Postman](https://www.postman.com/): Used to test API.
     - [TravisCI](https://www.postman.com/): Used for CI/CD.
@@ -192,30 +194,179 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 ### Known Bugs
 
 ## Deployment
+These were steps taken to deploy the application
+### Set Up Email
+ - [Create and account with Google](https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Fmyaccount.google.com%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dcreate-account-button&flowName=GlifWebSignIn&flowEntry=SignUp)
 
 ### Heroku
+The project was deployed to Heroku using the following steps...  
+- #### Provision a Hobby Database  
+    - Log in to Heroku and go to the [dashboard page](https://dashboard.heroku.com/apps)
+    - In the top right of the page, click "New" -> "Create new app"  
+     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku01.png" height=100>
+       
+    - Give application a Name and Choose Server Location  
+     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku02.png" height=200>  
+       
+    - Deploy Tab -> Deploy Method -> Choose "Github" as deployment method and choose repository and click "Connect"  
+     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku03.png" height="">         
+    
+    - Add environment variables  
+      Settings Tab -> Config Vars -> Add Config Vars  
+        
+    
+- #### Provision PostGIS Database
+    - Add Geo buildpack for GIS libraries  
+      Settings Tab -> Buildpacks -> Add buildpack: https://github.com/heroku/heroku-geo-buildpack.git, click "Save Changes"
+     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku04.png" height="300">          
+    
+    - Add Postgres Database 
+      Resources Tab -> Add-ons -> search for Heroku Postgres, choose Hobby Dev
+     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku05.png" height="300">          
+     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku06.png" height="300">          
+    - Install heroku cli if not installed - https://devcenter.heroku.com/articles/heroku-cli
+    - Add GIS extension to postgres database  
+       Open a terminal  
+       Set DATABASE_URL on your terminal to url of the Hobby DB created.
+       ```bash
+       $ export DATABASE_URL=<value-from-config-vars>
+       ```
+       log into database
+       ``` bash
+       $ heroku pg:psql --app bglynch-test-deployment
+       ```
+       add extension to db
+       ``` bash
+       => create extension postgis;
+          CREATE EXTENSION
+       ```
+       Check if PostGIS is installed
+       ```bash
+       => SELECT postgis_version();
+          postgis_version
+          ---------------------------------------
+           2.1 USE_GEOS=1 USE_PROJ=1 USE_STATS=1
+          (1 row)
+       ```
+    - Heroku App Dashboard -> More -> Run Console -> Heroku run bassh -> Hit Run
+        ```bash
+        python manage.py migrate
+        python manage.py createsuperuser
+        ```
 
-The project was deployed to Heroku using the following steps...
-- #### Base Setup
-1. Log in to Heroku and go to the [dashboard page](https://dashboard.heroku.com/apps)
-2. In the top right of the page, click "New" -> "Create new app"
-3. Give application a Name and Choose Server Location
-4. Choose "Github" as deployment method and choose repository
+### Set Up OAuth API
+- #### Google Console
+    - Sign into Google Cloud Platform Console: https://cloud.google.com/
+    
+    - On the Dasboard click "CREATE PROJECT"    
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google01.png">  
+    
+    - Choose Project Name and click "CREATE"  
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google02.png" height="500">  
+    
+    - Click "OAuth consent screen" in APIs & Services  
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google03.png" height="200">  
+    
+    - Choose "EXTERNAL" and click "CREATE"  
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google04.png" height="250">  
+    
+    - Fill in Application Name and click "SAVE"  
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google05.png" height="">  
+    
+    - On the Credentials tab click "CREATE CREDENTIALS" -> "OAuth Client ID"  
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google06.png" height="">
+      
+    - Fill in the credentials as below and hit "SAVE"  
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google07.png" height="">  
+    
+    - A pop up will appear with <Client-ID-Key> and <Client-Secret-Key>, these are used later  
+    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google08-blur.png" height="300">      
 
-- #### Set Up GIS Database
-1. Dashboard -> Resources Tab -> Add-ons -> search for Heroku Postgres
-2. Select Hobby version
-- #### Add Enviornment Variables
-1. 
+- #### Django App
+    - Install django-allauth
+    ```bash 
+    pip install django-allauth
+    ```
+    - Update INSTALLED_APPS in ```base.py```
+    ```python
+    INSTALLED_APPS = [
+      ...  
+      'django.contrib.sites',
+      'allauth',
+      'allauth.account',
+      'allauth.socialaccount',
+      'allauth.socialaccount.providers.google',
+    ]
+    ```
+    - At the bottom of ```base.py``` specify the allauth backend, site id an social account providers
+    ```python
+    # Google OAuth
+    AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+        'allauth.account.auth_backends.AuthenticationBackend',
+    )
+    SITE_ID = config('SITE_ID')
+    SOCIALACCOUNT_PROVIDERS = {
+        'google': {
+            'SCOPE': [
+                'profile',
+                'email',
+            ],
+            'AUTH_PARAMS': {
+                'access_type': 'online',
+            }
+        }
+    }
+    ```
+    - add url
+    ```python
+    urlpatterns = [
+        path('auth/', include('allauth.urls')),
+    ]
+    ```
+    - Make migrations to update db
+    ```bash
+    $ python manage.py makemigrations
+    $ python manage.py migrate    
+    ```
+    - Log into Django admin console
+        - Sites -> + Add
+            - Domain name: https://bglynch-test-deployment.herokuapp.com
+            - Display name: https://bglynch-test-deployment.herokuapp.com
+        - Social applications -> +Add (will use keys from above)
+            - Provider: Google
+            - Name: Google API
+            - Client id: <Client-ID-Key> 
+            - Secret key: <Client-Secret-Key>
+    
+    - Get SITE_ID
+       Open a terminal  
+       Set DATABASE_URL on your terminal to url of the Hobby DB created.
+       ```bash
+       $ export DATABASE_URL=<value-from-config-vars>
+       ```
+       log into database
+       ``` bash
+       $ heroku pg:psql --app bglynch-test-deployment
+       ```    
+       Get the site id from the id column in the django_site table
+       ```
+       SELECT * from django_site;
+         id |                    domain                     |                     name                      
+        ----+-----------------------------------------------+-----------------------------------------------
+          3 | https://bglynch-test-deployment.herokuapp.com | https://bglynch-test-deployment.herokuapp.com
+          1 | example.com                                   | example.com
+
+       ```
+       We can see from the table that the id for the app is 3  
+       
+       Set ```SITE_ID = 3``` in Heroku Config Vars
+ 
+
+### AWS
 
 
 
-2. At the top of the Repository (not top of page), locate the "Settings" Button on the menu.
-    - Alternatively Click [Here](https://raw.githubusercontent.com/) for a GIF demonstrating the process starting from Step 2.
-3. Scroll down the Settings page until you locate the "GitHub Pages" Section.
-4. Under "Source", click the dropdown called "None" and select "Master Branch".
-5. The page will automatically refresh.
-6. Scroll back down through the page to locate the now published site [link](https://github.com) in the "GitHub Pages" section.
 
 ### Forking the GitHub Repository
 
@@ -256,6 +407,8 @@ Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-re
 ### Code
    - #### Backend
         -   Extending User Model Using a Custom Model Extending AbstractBaseUser: [Blogpost](https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html)
+        -   How to Use Python Decouple: [Blogpost](https://simpleisbetterthancomplex.com/2015/11/26/package-of-the-week-python-decouple.html)
+        -   How to connect PGAdmin (PostgreSQL) to Heroku: [Blogpost](https://www.jhipster.tech/tips/028_tip_pgadmin_heroku.html)
    - #### Frontend
         -   Leaflet, Resize marker on zoom: [Stackexchange](https://gis.stackexchange.com/questions/216558/leaflet-resize-markers-in-layer-when-zoom-in)
         -   Bootstrap, close dropdown when clicked elsewhere: [Stackoverflow](https://stackoverflow.com/questions/52166136/close-bootstrap-dropdown-only-when-mouse-is-clicked-outside-of-dropdown)
@@ -274,7 +427,6 @@ Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-re
 -   My Mentor for continuous helpful feedback.
 -   Tutor support at Code Institute for their support.
 
-ApplicationNumber = '1335490'
 
 
 
