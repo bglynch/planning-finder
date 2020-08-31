@@ -104,15 +104,13 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 
+
+# Google OAuth
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-
-# Spatialite
-SITE_ID = 2
-
-# OAuth for Google Login
+SITE_ID = config('SITE_ID')
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
