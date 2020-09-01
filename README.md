@@ -194,178 +194,24 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
 ### Known Bugs
 
 ## Deployment
-These were steps taken to deploy the application
-### Set Up Email
- - [Create and account with Google](https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Fmyaccount.google.com%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dcreate-account-button&flowName=GlifWebSignIn&flowEntry=SignUp)
+These were steps taken to deploy the application.
+- ### Set Up Email
+    [Create and account with Google](https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Fmyaccount.google.com%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dcreate-account-button&flowName=GlifWebSignIn&flowEntry=SignUp)
 
-### Heroku
-The project was deployed to Heroku using the following steps...  
-- #### Provision a Hobby Database  
-    - Log in to Heroku and go to the [dashboard page](https://dashboard.heroku.com/apps)
-    - In the top right of the page, click "New" -> "Create new app"  
-     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku01.png" height=100>
-       
-    - Give application a Name and Choose Server Location  
-     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku02.png" height=200>  
-       
-    - Deploy Tab -> Deploy Method -> Choose "Github" as deployment method and choose repository and click "Connect"  
-     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku03.png" height="">         
-    
-    - Add environment variables  
-      Settings Tab -> Config Vars -> Add Config Vars  
-        
-    
-- #### Provision PostGIS Database
-    - Add Geo buildpack for GIS libraries  
-      Settings Tab -> Buildpacks -> Add buildpack: https://github.com/heroku/heroku-geo-buildpack.git, click "Save Changes"
-     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku04.png" height="300">          
-    
-    - Add Postgres Database 
-      Resources Tab -> Add-ons -> search for Heroku Postgres, choose Hobby Dev
-     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku05.png" height="300">          
-     <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/heroku06.png" height="300">          
-    - Install heroku cli if not installed - https://devcenter.heroku.com/articles/heroku-cli
-    - Add GIS extension to postgres database  
-       Open a terminal  
-       Set DATABASE_URL on your terminal to url of the Hobby DB created.
-       ```bash
-       $ export DATABASE_URL=<value-from-config-vars>
-       ```
-       log into database
-       ``` bash
-       $ heroku pg:psql --app bglynch-test-deployment
-       ```
-       add extension to db
-       ``` bash
-       => create extension postgis;
-          CREATE EXTENSION
-       ```
-       Check if PostGIS is installed
-       ```bash
-       => SELECT postgis_version();
-          postgis_version
-          ---------------------------------------
-           2.1 USE_GEOS=1 USE_PROJ=1 USE_STATS=1
-          (1 row)
-       ```
-    - Heroku App Dashboard -> More -> Run Console -> Heroku run bassh -> Hit Run
-        ```bash
-        python manage.py migrate
-        python manage.py createsuperuser
-        ```
+- ### Heroku
+    The production verison of the project was deployed to Heroku using a PostGIS database.  
+    The deployment steps are described [Here](documentation/Heroku.md)
 
-### Set Up OAuth API
-- #### Google Console
-    - Sign into Google Cloud Platform Console: https://cloud.google.com/
-    
-    - On the Dasboard click "CREATE PROJECT"    
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google01.png">  
-    
-    - Choose Project Name and click "CREATE"  
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google02.png" height="500">  
-    
-    - Click "OAuth consent screen" in APIs & Services  
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google03.png" height="200">  
-    
-    - Choose "EXTERNAL" and click "CREATE"  
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google04.png" height="250">  
-    
-    - Fill in Application Name and click "SAVE"  
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google05.png" height="">  
-    
-    - On the Credentials tab click "CREATE CREDENTIALS" -> "OAuth Client ID"  
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google06.png" height="">
+- ### Set Up OAuth API
+    To allow users to login with their Google account, Google OAuth was added to the project.  
+    The setup steps are described [Here](documentation/GoogleOAuth.md)
+
+- ### AWS  
+    Static files for the application were stored in a AWS S3 bucket.  
+    Official docs showing the steps taken to provision the S3 bucket can be found [Here](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)
+
+- ### Travis CI
       
-    - Fill in the credentials as below and hit "SAVE"  
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google07.png" height="">  
-    
-    - A pop up will appear with <Client-ID-Key> and <Client-Secret-Key>, these are used later  
-    <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/google08-blur.png" height="300">      
-
-- #### Django App
-    - Install django-allauth
-    ```bash 
-    pip install django-allauth
-    ```
-    - Update INSTALLED_APPS in ```base.py```
-    ```python
-    INSTALLED_APPS = [
-      ...  
-      'django.contrib.sites',
-      'allauth',
-      'allauth.account',
-      'allauth.socialaccount',
-      'allauth.socialaccount.providers.google',
-    ]
-    ```
-    - At the bottom of ```base.py``` specify the allauth backend, site id an social account providers
-    ```python
-    # Google OAuth
-    AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-        'allauth.account.auth_backends.AuthenticationBackend',
-    )
-    SITE_ID = config('SITE_ID')
-    SOCIALACCOUNT_PROVIDERS = {
-        'google': {
-            'SCOPE': [
-                'profile',
-                'email',
-            ],
-            'AUTH_PARAMS': {
-                'access_type': 'online',
-            }
-        }
-    }
-    ```
-    - add url
-    ```python
-    urlpatterns = [
-        path('auth/', include('allauth.urls')),
-    ]
-    ```
-    - Make migrations to update db
-    ```bash
-    $ python manage.py makemigrations
-    $ python manage.py migrate    
-    ```
-    - Log into Django admin console
-        - Sites -> + Add
-            - Domain name: https://bglynch-test-deployment.herokuapp.com
-            - Display name: https://bglynch-test-deployment.herokuapp.com
-        - Social applications -> +Add (will use keys from above)
-            - Provider: Google
-            - Name: Google API
-            - Client id: <Client-ID-Key> 
-            - Secret key: <Client-Secret-Key>
-    
-    - Get SITE_ID
-       Open a terminal  
-       Set DATABASE_URL on your terminal to url of the Hobby DB created.
-       ```bash
-       $ export DATABASE_URL=<value-from-config-vars>
-       ```
-       log into database
-       ``` bash
-       $ heroku pg:psql --app bglynch-test-deployment
-       ```    
-       Get the site id from the id column in the django_site table
-       ```
-       SELECT * from django_site;
-         id |                    domain                     |                     name                      
-        ----+-----------------------------------------------+-----------------------------------------------
-          3 | https://bglynch-test-deployment.herokuapp.com | https://bglynch-test-deployment.herokuapp.com
-          1 | example.com                                   | example.com
-
-       ```
-       We can see from the table that the id for the app is 3  
-       
-       Set ```SITE_ID = 3``` in Heroku Config Vars
- 
-
-### AWS
-- Provision and Amazon S3 bucket
-
 
 
 ### Forking the GitHub Repository
@@ -377,33 +223,50 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 3. You should now have a copy of the original repository in your GitHub account.
 
 ### Making a Local Clone
-
-1. Log in to GitHub and locate the [GitHub Repository](https://github.com/)
-2. Under the repository name, click "Clone or download".
-3. To clone the repository using HTTPS, under "Clone with HTTPS", copy the link.
-4. Open Git Bash
-5. Change the current working directory to the location where you want the cloned directory to be made.
-6. Type `git clone`, and then paste the URL you copied in Step 3.
-
-```
-$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
-```
-
-7. Press Enter. Your local clone will be created.
-
-```
-$ git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
-> Cloning into `CI-Clone`...
-> remote: Counting objects: 10, done.
-> remote: Compressing objects: 100% (8/8), done.
-> remove: Total 10 (delta 1), reused 10 (delta 1)
-> Unpacking objects: 100% (10/10), done.
-```
-
-Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository#cloning-a-repository-to-github-desktop) to retrieve pictures for some of the buttons and more detailed explanations of the above process.
+ - Open your terminal and Create a local directory
+     ```bash
+     $ mkdir planning
+     $ cd planning/
+     ```
+ - Install GIS libraries
+    - OS X is via [Homebrew](https://brew.sh/)
+         ```bash
+        $ brew install spatialite-tools
+        $ brew install gdal
+        ```
+ - Clone the repository  
+     ```bash
+    $ git clone https://github.com/bglynch/planning-finder.git
+    ```
+ - Create a virtual environment and activate it  
+     ```bash
+    $ pip install virtualenv
+    $ virtualenv -p python3 venv
+    $ source venv/bin/activate
+    ``` 
+ - Install requirements
+     ```bash
+    $ pip install -r requirements.txt 
+    ```  
+ - Rename example .env file
+     ```bash
+    $ mv .env.example .env 
+    ```   
+ - Run Django project
+     ```bash
+    $ python manage.py runserver
+    ``` 
+ At this point the app will work but will not have the full feature set
+ - To add password reset add Gmail address and password in .env
+    ```.env
+    EMAIL_HOST_USER = '<your-google-email>'
+    EMAIL_HOST_PASSWORD = '<your-google-password>'
+    ```
+ - To Add Google OAuth follow the steps in [GoogleAuth.md](documentation/GoogleOAuth.md)
+ 
+ 
 
 ## Credits
-
 ### Code
    - #### Backend
         -   Extending User Model Using a Custom Model Extending AbstractBaseUser: [Blogpost](https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html)
@@ -414,28 +277,16 @@ Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-re
         -   Bootstrap, close dropdown when clicked elsewhere: [Stackoverflow](https://stackoverflow.com/questions/52166136/close-bootstrap-dropdown-only-when-mouse-is-clicked-outside-of-dropdown)
 
 ### Content
-
 -   All content was written by the developer.
 -   Psychological properties of colours text in the README.md was found [here](http://www.colour-affects.co.uk/psychological-properties-of-colours)
 
 ### Media
-
 -   All Images were created by the developer.
 
 ### Acknowledgements
-
 -   My Mentor for continuous helpful feedback.
 -   Tutor support at Code Institute for their support.
 
-
-------
-Authorised JavaScript origins
- - http://127.0.0.1
- - https://bglynch-test-deployment.herokuapp.com  
- 
-Authorised redirect URIs
- - http://127.0.0.1/auth/google/login/callback/
- - https://bglynch-test-deployment.herokuapp.com/auth/google/login/callback/
 
 
 
