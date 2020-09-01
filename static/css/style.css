@@ -104,6 +104,13 @@ nav{width: 100vw;}
     width: 100%;
     padding-left: 15px;
 }
+.bi-bookmark{
+    float: right;
+    margin-top: 3px;
+    cursor: pointer;
+    width: 1em;
+    height: 1em;
+}
 
 /* ========================================================================= */
 /*                               FILTER OPTIONS                              */
