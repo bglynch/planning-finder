@@ -364,7 +364,7 @@ The project was deployed to Heroku using the following steps...
  
 
 ### AWS
-
+- Provision and Amazon S3 bucket
 
 
 
@@ -428,6 +428,14 @@ Click [Here](https://help.github.com/en/github/creating-cloning-and-archiving-re
 -   Tutor support at Code Institute for their support.
 
 
+------
+Authorised JavaScript origins
+ - http://127.0.0.1
+ - https://bglynch-test-deployment.herokuapp.com  
+ 
+Authorised redirect URIs
+ - http://127.0.0.1/auth/google/login/callback/
+ - https://bglynch-test-deployment.herokuapp.com/auth/google/login/callback/
 
 
 
