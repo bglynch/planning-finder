@@ -77,8 +77,7 @@
 {% endblock javascript %}
 <script>
 function removeMessages(){
-    $('#user-messages').animate({opacity: "0"}, 1000, 'linear');
-    $('#user-messages').remove();
+    $('#user-messages').animate({opacity: "0"}, 1000, 'linear').remove();
 }
 window.setTimeout(function () {removeMessages();}, 3000);
 

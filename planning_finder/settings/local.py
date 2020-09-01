@@ -1,7 +1,6 @@
 from .base import *
 
 print("Using Local Settings")
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'my-secret-key'
 
@@ -9,7 +8,6 @@ SECRET_KEY = 'my-secret-key'
 DEBUG = True
 
 # Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.spatialite',
@@ -18,11 +16,7 @@ DATABASES = {
 }
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = f"{BASE_DIR}/static/"
-
-
-# SPATIALITE_LIBRARY_PATH = '/usr/local/lib/mod_spatialite.dylib'
