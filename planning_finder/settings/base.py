@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'home',
     'users',
     'checkout',
+    'bookmark',
     # 3rd Party
     'crispy_forms',
     'leaflet',
