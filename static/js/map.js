@@ -1,4 +1,47 @@
 const latlng = L.latLng(marker_lat, marker_lng);
+class ClassWatcher {
+    // https://stackoverflow.com/questions/10612024/event-trigger-on-a-class-change
+        constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
+            this.targetNode = targetNode
+            this.classToWatch = classToWatch
+            this.classAddedCallback = classAddedCallback
+            this.classRemovedCallback = classRemovedCallback
+            this.observer = null
+            this.lastClassState = targetNode.classList.contains(this.classToWatch)
+    
+            this.init()
+        }
+    
+        init() {
+            this.observer = new MutationObserver(this.mutationCallback)
+            this.observe()
+        }
+    
+        observe() {
+            this.observer.observe(this.targetNode, { attributes: true })
+        }
+    
+        disconnect() {
+            this.observer.disconnect()
+        }
+    
+        mutationCallback = mutationsList => {
+            for(let mutation of mutationsList) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    let currentClassState = mutation.target.classList.contains(this.classToWatch)
+                    if(this.lastClassState !== currentClassState) {
+                        this.lastClassState = currentClassState
+                        if(currentClassState) {
+                            this.classAddedCallback()
+                        }
+                        else {
+                            this.classRemovedCallback()
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 // create the map object
 let map = L.map('map', {
@@ -27,7 +70,7 @@ let filters = {
     dateRange: []
 }
 
-// get the data
+// set map tiles
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
         '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -37,11 +80,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/
     zoomOffset: -1,
     zoomSnap: 0.25,
 }).addTo(map);
-
 // add a scale to the map
-let scale = L.control.scale().addTo(map);
+L.control.scale().addTo(map);
 
-// set makers for User
+// set home marker for User
 L.marker([marker_lat, marker_lng]).addTo(map)
     .bindPopup('I am in Dublin.<br> Looking for plannings.')
     .openPopup();
@@ -84,7 +126,6 @@ planningGeoJSON = L.geoJSON(planningData, {
         }
         
         divhtml = createListItem(feature)
-        console.log(feature)
         if (councilList.includes(feature.properties.PlanningAuthority)){
             $('#list-view').append(divhtml);
         }
@@ -221,3 +262,87 @@ document.addEventListener('click', function (event) {
         dateContainer.classList.remove('show')
     }
 });
+
+
+// new ClassWatcher(document.querySelector(".bi-bookmark"), 'active', 
+// ()=> primarySchoolGeoJSON.eachLayer(layer => filterLocalInfo(layer)), 
+// ()=>primarySchoolGeoJSON.eachLayer(layer => map.removeLayer(layer))
+// )
+
+
+// Bookmarks
+let bookmark = {
+    'empty': 'M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z',
+    'filled':'M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z'
+}
+// Function to GET csrftoken from Cookie
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+let csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+// Function to set Request Header with `CSRFTOKEN`
+function setRequestHeader(){
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+}
+function postSomeData() {
+    setRequestHeader();
+
+    $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        url: "/bookmark/",
+        data: {"data":"value"},
+        // success: function () {
+        //     alert('success');
+        // },
+        // error: function () {
+        //     alert('error');
+        // }
+    });
+
+}
+
+document.addEventListener('click', function (event) {
+    // add or remove active class
+    if (event.target.classList.contains('click-active')) {
+        if (event.target.classList.contains('active')) {
+            event.target.classList.remove("active")
+            event.target.firstElementChild.setAttribute('d', bookmark.empty)
+            postSomeData() 
+        } else {
+            event.target.classList.add("active")
+            event.target.firstElementChild.setAttribute('d', bookmark.filled)
+        }
+    }
+    if (event.target.parentElement.classList.contains('click-active')) {
+        if (event.target.parentElement.classList.contains('active')) {
+            event.target.parentElement.classList.remove("active")
+            event.target.setAttribute('d', bookmark.empty)
+        } else {
+            event.target.parentElement.classList.add("active")
+            event.target.setAttribute('d', bookmark.filled)
+        }}
+})
