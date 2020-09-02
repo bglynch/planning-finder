@@ -124,8 +124,12 @@ planningGeoJSON = L.geoJSON(planningData, {
                 feature.properties['colour'] = 'purple';
             }
         }
+        if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())){
+            divhtml = createBookmarkedListItem(feature)}
+        else{
+            divhtml = createListItem(feature)
+        }
         
-        divhtml = createListItem(feature)
         if (councilList.includes(feature.properties.PlanningAuthority)){
             $('#list-view').append(divhtml);
         }
