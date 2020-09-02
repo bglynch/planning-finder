@@ -41,4 +41,5 @@ urlpatterns = [
     path('payments/cancelled/', checkout_views.payment_cancelled),
     path('payments/success/', checkout_views.payment_success),
     path('bookmark/', bookmark_views.bookmark_application, name='bookmark'),
+    path('bookmark/remove/', bookmark_views.remove_bookmark, name='remove_bookmark'),
 ]

@@ -5,8 +5,16 @@ from django.http import HttpResponse
 
 @login_required
 def bookmark_application(request):
-    current_user = request.user
     if request.method == 'POST':
-        print("post request: favourite_application called")
-        print(current_user.id)
-    return HttpResponse('Hello world')
+        current_user = request.user
+        data = request.POST.get('data')
+        print(f"Bookmarking application {data}, for {current_user.id}")
+        return HttpResponse(status=200)
+
+@login_required
+def remove_bookmark(request):
+    if request.method == 'POST':
+        current_user = request.user
+        data = request.POST.get('data')
+        print(f"Removing bookmark application {data}, for {current_user.id}")
+        return HttpResponse(status=200)

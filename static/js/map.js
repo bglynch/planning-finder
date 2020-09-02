@@ -307,14 +307,13 @@ function setRequestHeader(){
         }
     });
 }
-function postSomeData() {
+function bookmarkApplication(url, data) {
     setRequestHeader();
-
     $.ajax({
         dataType: 'json',
         type: 'POST',
-        url: "/bookmark/",
-        data: {"data":"value"},
+        url: url,
+        data: {'data':data},
         // success: function () {
         //     alert('success');
         // },
@@ -322,27 +321,35 @@ function postSomeData() {
         //     alert('error');
         // }
     });
-
 }
 
 document.addEventListener('click', function (event) {
     // add or remove active class
-    if (event.target.classList.contains('click-active')) {
-        if (event.target.classList.contains('active')) {
-            event.target.classList.remove("active")
-            event.target.firstElementChild.setAttribute('d', bookmark.empty)
-            postSomeData() 
+    element = event.target
+    child = event.target.firstElementChild
+    parent = event.target.parentElement
+
+    if (element.classList.contains('click-active')) {
+        let applicationId = element.dataset.appNumber
+        if (element.classList.contains('active')) {
+            element.classList.remove("active")
+            child.setAttribute('d', bookmark.empty)
+            bookmarkApplication('/bookmark/remove/',applicationId)
         } else {
-            event.target.classList.add("active")
-            event.target.firstElementChild.setAttribute('d', bookmark.filled)
+            element.classList.add("active")
+            child.setAttribute('d', bookmark.filled)
+            bookmarkApplication('/bookmark/',applicationId)
         }
     }
-    if (event.target.parentElement.classList.contains('click-active')) {
-        if (event.target.parentElement.classList.contains('active')) {
-            event.target.parentElement.classList.remove("active")
-            event.target.setAttribute('d', bookmark.empty)
+    if (parent.classList.contains('click-active')) {
+        let applicationId = parent.dataset.appNumber
+        if (parent.classList.contains('active')) {
+            parent.classList.remove("active")
+            element.setAttribute('d', bookmark.empty)
+            bookmarkApplication('/bookmark/remove/',applicationId)
         } else {
-            event.target.parentElement.classList.add("active")
-            event.target.setAttribute('d', bookmark.filled)
+            parent.classList.add("active")
+            element.setAttribute('d', bookmark.filled)
+            bookmarkApplication('/bookmark/',applicationId)
         }}
 })
