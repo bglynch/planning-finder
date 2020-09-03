@@ -1,47 +1,4 @@
 const latlng = L.latLng(marker_lat, marker_lng);
-class ClassWatcher {
-    // https://stackoverflow.com/questions/10612024/event-trigger-on-a-class-change
-        constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
-            this.targetNode = targetNode
-            this.classToWatch = classToWatch
-            this.classAddedCallback = classAddedCallback
-            this.classRemovedCallback = classRemovedCallback
-            this.observer = null
-            this.lastClassState = targetNode.classList.contains(this.classToWatch)
-    
-            this.init()
-        }
-    
-        init() {
-            this.observer = new MutationObserver(this.mutationCallback)
-            this.observe()
-        }
-    
-        observe() {
-            this.observer.observe(this.targetNode, { attributes: true })
-        }
-    
-        disconnect() {
-            this.observer.disconnect()
-        }
-    
-        mutationCallback = mutationsList => {
-            for(let mutation of mutationsList) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    let currentClassState = mutation.target.classList.contains(this.classToWatch)
-                    if(this.lastClassState !== currentClassState) {
-                        this.lastClassState = currentClassState
-                        if(currentClassState) {
-                            this.classAddedCallback()
-                        }
-                        else {
-                            this.classRemovedCallback()
-                        }
-                    }
-                }
-            }
-        }
-    }
 
 // create the map object
 let map = L.map('map', {
@@ -127,7 +84,7 @@ planningGeoJSON = L.geoJSON(planningData, {
         if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())){
             divhtml = createBookmarkedListItem(feature)}
         else{
-            divhtml = createListItem(feature)
+            divhtml = createListItem(feature, userLoggedIn)
         }
         
         if (councilList.includes(feature.properties.PlanningAuthority)){
@@ -176,7 +133,6 @@ let councilGeoJSON = fetch(councilData, { mode: 'cors' })
     return response.ok ? response.json() : Promise.reject(response.status);
   })
   .then(function (response) { 
-      console.log(response)
       L.geoJSON(response, {
         interactive: false,
         style: function (feature) {    
@@ -266,13 +222,6 @@ document.addEventListener('click', function (event) {
         dateContainer.classList.remove('show')
     }
 });
-
-
-// new ClassWatcher(document.querySelector(".bi-bookmark"), 'active', 
-// ()=> primarySchoolGeoJSON.eachLayer(layer => filterLocalInfo(layer)), 
-// ()=>primarySchoolGeoJSON.eachLayer(layer => map.removeLayer(layer))
-// )
-
 
 // Bookmarks
 let bookmark = {

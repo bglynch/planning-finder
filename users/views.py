@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 import geopandas as gpd
-from shapely.geometry import Point, Polygon
+from shapely.geometry import Point
 import requests
 import json
 import os
@@ -87,7 +87,7 @@ def profile(request):
     '''
 
     api_url = 'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/' \
-                'IrishPlanningApplications/FeatureServer/0/query'
+              'IrishPlanningApplications/FeatureServer/0/query'
 
     app_numbers = [x.planning_id for x in request.user.favourite_set.all()]
     query_string = ""
@@ -106,7 +106,8 @@ def profile(request):
     }
     planning_app_data = requests.get(api_url, params=payload).json()
 
-    return render(request, 'users/profile.html', {'data': json.dumps(planning_app_data),'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'users/profile.html',
+                  {'data': json.dumps(planning_app_data), 'user_form': user_form, 'profile_form': profile_form})
 
 
 def point_in_allowed_council(point):

@@ -24,7 +24,7 @@ def stripe_config(request):
 @csrf_exempt
 def create_checkout_session(request):
     if request.method == 'GET':
-        domain_url = config('DOMAIN_URL')
+        domain_url = request.headers['Referer']
         stripe.api_key = config('STRIPE_SECRET_KEY')
         try:
             # Create new Checkout Session for the order
