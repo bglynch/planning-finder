@@ -14,4 +14,5 @@ WORKDIR /src
 ADD requirements.txt /src/
 RUN pip install -r requirements.txt
 ADD . /src/
-
+RUN python manage.py makemigrations
+RUN python manage.py migrate
