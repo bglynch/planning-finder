@@ -53,6 +53,7 @@ $(function () {
     {% else %}
     const marker_lng = -6.25
     const marker_lat = 53.31
+    const bookmarks = []
     {% endif %}
     const planningData = JSON.parse('{{ data| escapejs }}')
     const councilData = "{% static 'data/councils-dublin.geojson' %}"
