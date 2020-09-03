@@ -1,40 +1,32 @@
 {% extends "home/base.html" %}
-{% load leaflet_tags %}
 {% load crispy_forms_tags %}
-
-{% block style %}
-{% leaflet_css plugins="forms" %}
-<style>
-    #div_id_password {
-        display: none;
-    }
-
-    .leaflet-draw-section:nth-child(2) {
-        display: none;
-    }
-
-    .leaflet-control-zoom:nth-child(2) {
-        display: none;
-    }
-</style>
-{% endblock style %}
+{% load static from staticfiles %}
 
 {% block content %}
-<div class="content-section">
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Profile Info</legend>
-            {{ user_form|crispy }}
-            {{ profile_form|crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Update</button>
-        </div>
-    </form>
+<div class="profile-page content-section">
+    <h3  class="pt-0 pt-sm-1 pt-md-4 hideable">Email</h3>
+    <p>{{ user.email }}</p>
+    <section class="position-relative">
+        <div id="map" class="col-12 col-sm-11 position-relative" style="height: 500px;"></div>
+        <a id="editLocation" class="btn btn-outline-success mt-2 mt-sm-4  ml-3" href="{% url 'choose_location' %}">Edit Location</a>
+        
+    </section>
+    <h3 class="pt-3 pt-sm-1 pt-md-4">Bookmarked Applications</h3>
+    <div id="list-view" class="app-list overflow-auto list-group list-group-flush">
+
 </div>
 {% endblock content %}
 
 {% block javascript %}
-{% leaflet_js plugins="forms" %}
+<script src="{% static 'libraries/jquery-scrollintoview/jquery.scrollintoview.min.js' %}"></script>
+
+<script>
+    const councilData = "{% static 'data/councils-dublin.geojson' %}"
+    const marker_lng = {{ user.profile.location.x }}
+    const marker_lat = {{ user.profile.location.y }}
+    const planningData = JSON.parse('{{ data | escapejs }}')  
+</script>
+<script src="{% static 'js/functions.js' %}"></script>
+<script src="{% static 'js/profile-map.js' %}"></script>
+
 {% endblock javascript %}

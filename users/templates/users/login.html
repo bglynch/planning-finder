@@ -2,63 +2,30 @@
 {% load crispy_forms_tags %}
 {% load socialaccount %}
 
-{% block style %}
-<style>
-    .btn-google{
-        font-size: 16px;
-        line-height: 1.2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: calc((100% - 10px)/2);
-        height: 40px;
-        border-radius: 3px;
-        border: 1px solid #e6e6e6;
-        background-color: #fff;
-        transition: all .4s;
-            margin: auto;
-    color: black;
-    font-weight: 500;
-    letter-spacing: 1px;
-    }
-    .btn-google img {
-        width: 19px;
-        margin-right: 10px;
-        padding-bottom: 1px;
-    }
-    .container-fluid{
-        background: -webkit-linear-gradient(bottom,#0250c5,#e8f0ff);
-    }
-    .form-container{
-    background-color: white;
-    border-radius: 3px;
-    }
-
-
-</style>
-{% endblock style %}
-
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-4 form-container m-5 p-5">
+<div class="mobile-form row justify-content-center">
+    <div class="col-11 col-md-8 col-xl-4 form-container m-3 p-4 m-sm-5 p-sm-5">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="mb-4">Log in</legend>
+                <legend class="mb-sm-4">Log in</legend>
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-primary w-100" type="submit">Login</button>
             </div>
         </form>
+        <small class="justify-content-center row">
+            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+        </small>
 
-        <p class="m-3 p-3 text-center text-secondary">Or Login With</p>
-        <a href="{% provider_login_url 'google' %}" class="btn-google mb-5">
+        <p class="m-0 m-sm-3 p-3 text-center text-secondary">Or Login With</p>
+        <a href="{% provider_login_url 'google' %}" class="btn-google mb-3 mb-sm-5">
             <img src="https://colorlib.com/etc/lf/Login_v11/images/icons/icon-google.png" alt="GOOGLE">
             Google
         </a>
         <div class="pt-3 text-center">
-                Need an Account? <a href="{% url 'register' %}" class="ml-2">Sign Up Now</a>
+            Need an Account? <a href="{% url 'register' %}" class="ml-2">Sign Up Now</a>
         </div>
     </div>
 </div>

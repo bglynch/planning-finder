@@ -1,0 +1,37 @@
+{% extends 'home/base.html' %}
+{% load static from staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block head_js %}
+    {{ block.super }}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+      //<![CDATA[
+      Stripe.publishableKey = '{{ publishable }}';
+      //]]>
+      </script>
+      <script type="text/javascript" src="{% static 'checkout/stripe.js' %}"></script>
+{% endblock head_js %}
+    
+    
+{% block content %}
+
+<h1>Checkout</h1>
+<form class="col-12" role="form" method="post" id="payment-form" action="{% url 'checkout' %}">
+    <legend>Payment Details</legend>
+    <div id="credit-card-errors" style="display:none">
+        <div class="alert-message block-message error" id="stripe-error-message"></div>
+    </div>
+    <div class="form-group col-md-6">
+        {{ order_form|crispy }}
+    </div>
+    <div class="form-group col-md-6">
+        {{ payment_form|crispy }}
+    </div>
+    {% csrf_token %}
+    <div class="form-group col-md-12">
+        <input class="btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment">
+    </div>
+</form>
+
+{% endblock %}

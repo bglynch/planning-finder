@@ -6,47 +6,45 @@ import json
 # Create your views here.
 def get_home(request):
     user = request.user
-    print("user:", user)
-    print("user_id:", user.id)
-    print("auth:", user.is_authenticated)
-    print("is_active():", user.is_active)
-
     if user.is_authenticated and user.profile.location:
         # if user is logged in and location is chosen
         if user.profile.has_set_location:
-            print("user is good")
             latitude = user.profile.location.y
             longitude = user.profile.location.x
+            bookmarks = [x.planning_id for x in user.favourite_set.all()]
         # if user is logged in but location not chosen
         else:
-            print("user need to add location")
-            return redirect('register_profile')
+            return redirect('choose_location')
     else:
-        print("user is anonymous")
         # if user is ananymous
+        bookmarks = []
         latitude = 53.31
         longitude = -6.25
 
     home_point = f'{str(longitude)}, {str(latitude)}'
-
+    api_url = 'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/' \
+              'IrishPlanningApplications/FeatureServer/0/query'
+    api_out_fields = '''
+        ApplicationNumber,
+        ApplicationStatus,
+        Decision,
+        DevelopmentDescription,
+        LinkAppDetails,
+        PlanningAuthority,
+        ReceivedDate
+        '''
     payload = {
         'f': 'geojson',
         'where': '1 = 1',
         'outSr': '4326',
         'geometryType': 'esriGeometryPoint',
-        'outFields': '*',
+        'outFields': api_out_fields,
         'inSr': '4326',
         'geometry': home_point,
-        'distance': 1000,
+        'distance': 2000,
         'orderByFields': 'ReceivedDate DESC',
     }
-    response = requests.get(
-        'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/IrishPlanningApplications/FeatureServer/0/query',
-        params=payload)
-
-    response2 = requests.get(
-        # 'https://services.arcgis.com/NzlPQPKn5QF9v2US/ArcGIS/rest/services/Local_Authority_Boundaries/FeatureServer/0/query?where=1%3D1&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&resultType=none&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&returnExceededLimitFeatures=true&f=geojson')
-        'https://services6.arcgis.com/uWTLlTypaM5QTKd2/ArcGIS/rest/services/Administrative_Areas_OSi_National_Statutory_Boundaries_Generalised_20M/FeatureServer/0/query?where=1=1&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects&outFields=ENGLISH&returnGeometry=true&featureEncoding=esriDefault&returnExceededLimitFeatures=true&f=geojson')
+    planning_app_data = requests.get(api_url, params=payload).json()
 
     return render(request, 'home/home.html',
-                  {'data': json.dumps(response.json()), 'council': json.dumps(response2.json()), 'is_home': True})
+                  {'data': json.dumps(planning_app_data), 'is_home': True, 'bookmarks': json.dumps(bookmarks)})

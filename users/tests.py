@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.apps import apps
+from shapely.geometry import Point, Polygon
 
 from users.apps import UsersConfig
 from users.models import CustomUser
+from users.views import point_in_allowed_council
 from .forms import UserRegisterForm
 
 
@@ -60,8 +62,6 @@ class TestAccountsViews(TestCase):
 
     # ------------------------------------------def register(request)
     def test_get_register_page(self):
-        # Create and login a user
-
         page = self.client.get("/register/")
 
         self.assertEqual(page.status_code, 200)
@@ -73,8 +73,8 @@ class TestAccountsViews(TestCase):
             'password1': 'h3!!oPass',
             'password2': 'h3!!oPass'
         })
-
-        self.assertRedirects(response, '/register-profile/', status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.assertRedirects(response, '/choose-location/', status_code=302, target_status_code=200,
+                             fetch_redirect_response=True)
 
     # ------------------------------------------def profile(request):
     def test_get_profile_page(self):
@@ -88,6 +88,15 @@ class TestAccountsViews(TestCase):
         self.assertEqual(page.status_code, 200)
         self.assertTemplateUsed(page, "users/profile.html")
         self.assertIn('benji', html)
+
+    # ------------------------------------------point_in_allowed_council(point):
+    def test_point_in_allowed_council(self):
+        point = Point(-6.3, 53.3)
+        self.assertTrue(point_in_allowed_council(point))
+
+    def test_point_in_allowed_council(self):
+        point = Point(-7.3, 53.3)
+        self.assertFalse(point_in_allowed_council(point))
 
 
 class TestAccountsApps(TestCase):

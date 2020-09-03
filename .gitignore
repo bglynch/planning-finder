@@ -14,3 +14,6 @@ local_settings.py
 # Testing
 .coverage
 htmlcov/
+notebooks/.ipynb_checkpoints/
+notebooks/IrishPlanningApplications.geojson
+notebooks/Untitled.ipynb

@@ -1,19 +1,25 @@
+/* ========================================================================= */
+/*                                  GENERAL                                  */
+/* ========================================================================= */
 body{
     font-family: "Roboto",Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
+nav{width: 100vw;}
+
+#list-view{
+    max-height: 100%;
+}
+
 .main-container {
     height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px);
     margin-top: 56px;
 }
 
 .leaflet-container-default {
     height: 60vh
-}
-
-.register-profile button{
-    float: right
 }
 
 .application-link{
@@ -59,3 +65,306 @@ body{
     cursor: pointer;
     letter-spacing: 1px;
    }
+
+#user-messages{
+    z-index:1111;
+}
+
+.leaflet-top, .leaflet-bottom {
+    z-index: 999;
+}
+
+/* Buy Me Button */
+.checkout {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+.checkout svg {
+    fill: white;
+}
+
+
+/* ========================================================================= */
+/*                                  APP LIST                                 */
+/* ========================================================================= */
+.fly-to{
+    cursor: pointer;
+    transform: rotate(45deg);
+    width: 24px;
+    height: 24px;
+    fill: #007bfe;
+}
+.planning-status{
+    position: inherit;
+    float: right;
+    top: auto;
+    right: auto;
+    width: 100%;
+    padding-left: 15px;
+}
+.bi-bookmark{
+    float: right;
+    margin-top: 3px;
+    cursor: pointer;
+    width: 1em;
+    height: 1em;
+}
+
+/* ========================================================================= */
+/*                               FILTER OPTIONS                              */
+/* ========================================================================= */
+/* Application Type Styling */
+#pending.active{
+    background-color: #feb644;
+}
+#granted.active{
+    background-color: #3b9a3c;
+}
+#refused.active{
+    background-color: #ff3a43;
+}
+#invalid.active{
+    background-color: #b85556;
+}
+#withdrawn.active{
+    background-color: #3947ff;
+}
+#information.active{
+    background-color: #9a3a99;
+}
+/* slider overrides */
+.noUi-horizontal .noUi-handle {
+    width: 30px;
+    height: 30px;
+    right: -15px;
+    top: -6px;
+    border-radius: 50%;
+}
+
+.noUi-handle-upper .noUi-tooltip {
+    left: 65%;
+}
+.noUi-handle-lower .noUi-tooltip {
+    left: 60%;
+    bottom: -38px;
+}
+.noUi-tooltip {
+    font-size: 13px;
+}
+
+
+/* ========================================================================= */
+/*                                   FORMS                                   */
+/* ========================================================================= */
+.btn-google{
+    font-size: 16px;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc((100% - 10px)/2);
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    transition: all .4s;
+    margin: auto;
+    color: black;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+.btn-google img {
+    width: 19px;
+    margin-right: 10px;
+    padding-bottom: 1px;
+}
+.mobile-form{
+    height: 100%;
+    background: -webkit-linear-gradient(bottom,#0250c5,#e8f0ff);
+}
+.mobile-form .form-container{
+    background-color: white;
+    border-radius: 3px;
+    height: fit-content;
+}
+.mobile-form.location-form{
+    background: white;
+}
+.location-form #div_id_password {
+    display: none;
+}
+.location-form .leaflet-draw-section:nth-child(2) {
+    display: none;
+}
+.location-form .leaflet-control-zoom:nth-child(2) {
+    display: none;
+}
+.location-form li{
+    margin-left: 7px;
+    font-size: 90%;
+}
+.location-form label {
+    display: none;
+}
+.register-profile button{
+    float: right
+}
+
+/* ========================================================================= */
+/*                                   PROFILE                                   */
+/* ========================================================================= */
+.map-fixed{
+    position: fixed;
+    top: 56px;
+    left: 0px;
+    -webkit-transition: all 1s linear;
+    -moz-transition: all 1s linear;
+    -o-transition: all 1s linear;
+    transition: all 1s linear;
+}
+.edit-locaiton-fixed{
+    position: fixed;
+    top: 313px;
+    right: 22px;
+    background-color: white;
+}
+
+
+
+/* Medium devices (tablets, 768px and up) */
+/* md */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    #application-type-options,#price-slider-options{
+        margin-top: 170px;
+        width: 100vw;
+        min-height: 12vh;
+    }
+}
+
+
+@media(max-width: 575.98px){
+    #application-type-options,#price-slider-options{
+        margin-top: 186px;
+        width: 100vw;
+        min-height: 20vh;
+    }
+    .app-list{
+        flex-direction: row;
+        height: 25%;
+    }
+    .list-group-item{
+        width: 100%;
+        flex: none;
+        height: 100%
+    }
+    #map{
+        height: 75%;
+    }
+    .mobile-form{
+        font-size: 80%;
+    }
+    .mobile-form input{
+        font-size: 80%;
+    }
+    .mobile-form legend{
+        font-size: 1.3rem;
+    }
+    .mobile-form ul{
+        list-style: none;
+        padding-left: 1px;
+    }
+    #id_location-map{
+        max-height: 30vh;
+    }
+    .leaflet-popup-content {
+        max-width: 70vw;
+        max-height: 45vh;
+        overflow: scroll;
+        }
+        .profile-page h3{
+            margin-bottom: 2px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+        .profile-page #map{
+            max-height: 60vh;
+        }
+        .profile-page #map{
+            max-height: 50vh;
+        }
+        .profile-page .leaflet-container .leaflet-control-attribution{
+            font-size: 8px;
+        }
+        .profile-page .btn-outline-success{
+            position: absolute;
+            z-index: 999;
+            background-color: white;
+            bottom: 30px;
+            right: 10px;
+        }
+        .profile-page .list-group{
+            padding-right: 0px;
+        }
+        .profile-page .list-group-item{
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-right: 40px;
+        }
+}
+
+/* small mobile */
+@media(max-width: 349.98px){
+    .app-list{
+        flex-direction: row;
+        height: 30%;
+    }
+    .list-group-item div {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    a.btn.btn-primary.float-right.main-font-normal.mr-n3 {
+        padding: 4px;
+        margin-right: 0;
+    }
+    #map{
+        height: 70%;
+    }
+    .leaflet-touch .leaflet-bar a {
+        width: 23px;
+        height: 23px;
+        line-height: 23px;
+        font-size: 18px;
+    }
+    .profile-page h3{
+        margin-bottom: 1px;
+        font-size: 12px;
+        font-weight: 300;
+    }
+    /* .profile-page #map{
+        max-height: 50vh;
+    }
+    .profile-page .leaflet-container .leaflet-control-attribution{
+        font-size: 8px;
+    }
+    .profile-page .btn-outline-success{
+        position: absolute;
+        z-index: 999;
+        background-color: white;
+        bottom: 30px;
+        right: 10px;
+    }
+    .profile-page .list-group{
+        padding-right: 0px;
+    }
+    .profile-page .list-group-item{
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-right: 40px;
+    } */
+
+
+
+}
