@@ -272,6 +272,7 @@ By forking the GitHub Repository we make a copy of the original repository on ou
         -   Extending User Model Using a Custom Model Extending AbstractBaseUser: [Blogpost](https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html)
         -   How to Use Python Decouple: [Blogpost](https://simpleisbetterthancomplex.com/2015/11/26/package-of-the-week-python-decouple.html)
         -   How to connect PGAdmin (PostgreSQL) to Heroku: [Blogpost](https://www.jhipster.tech/tips/028_tip_pgadmin_heroku.html)
+        -   Django CSRF Token without forms: [Stackoverflow](https://stackoverflow.com/questions/7827079/django-csrf-token-without-forms)
    - #### Frontend
         -   Leaflet, Resize marker on zoom: [Stackexchange](https://gis.stackexchange.com/questions/216558/leaflet-resize-markers-in-layer-when-zoom-in)
         -   Bootstrap, close dropdown when clicked elsewhere: [Stackoverflow](https://stackoverflow.com/questions/52166136/close-bootstrap-dropdown-only-when-mouse-is-clicked-outside-of-dropdown)

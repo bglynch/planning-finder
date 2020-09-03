@@ -50,10 +50,12 @@ $(function () {
     const marker_lng = {{ user.profile.location.x }}
     const marker_lat = {{ user.profile.location.y }}
     const bookmarks = {{bookmarks| safe }}
+    const userLoggedIn = true;
     {% else %}
     const marker_lng = -6.25
     const marker_lat = 53.31
     const bookmarks = []
+    const userLoggedIn = false;
     {% endif %}
     const planningData = JSON.parse('{{ data| escapejs }}')
     const councilData = "{% static 'data/councils-dublin.geojson' %}"

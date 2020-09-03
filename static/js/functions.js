@@ -70,17 +70,22 @@ function filterPlanningGeoJSON(layer) {
     }
 }
 
-function createListItem(geoJSONPoint) {
-    divhtml = `
+function createListItem(geoJSONPoint, userLoggedIn) {
+    
+    let start = `
         <div id="${geoJSONPoint.properties['ApplicationNumber'].replace(/\//g, "").trim()}" class="list-group-item">
             <div class="col-12 main-font-big">
                 ${geoJSONPoint.properties['ApplicationNumber']}
                 <svg class="fly-to ml-1" onclick="flyToPlace(${geoJSONPoint.geometry.coordinates[1]}, ${geoJSONPoint.geometry.coordinates[0]})">
                     <path d="M22,16v-2l-8.5-5V3.5C13.5,2.67,12.83,2,12,2s-1.5,0.67-1.5,1.5V9L2,14v2l8.5-2.5V19L8,20.5L8,22l4-1l4,1l0-1.5L13.5,19 v-5.5L22,16z"/>
                 </svg>
+                `
+    let middle =    `
                 <svg viewBox="0 0 16 16" class="bi bi-bookmark click-active" xmlns="http://www.w3.org/2000/svg" data-app-number="${geoJSONPoint.properties['ApplicationNumber'].trim()}">
                     <path  d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"></path>
                 </svg>
+                `
+    let end =    `
             </div>
             <div class="planning-status main-font-normal">${setDecision(geoJSONPoint.properties['Decision'])}
                 <svg height="20" width="20">
@@ -96,7 +101,11 @@ function createListItem(geoJSONPoint) {
             </div>
         </div>
         `
-    return divhtml
+    if (userLoggedIn){
+        return start.concat(middle).concat(end)
+    } else{
+        return start.concat(end)
+    }
 }
 
 function createBookmarkedListItem(geoJSONPoint) {

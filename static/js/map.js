@@ -84,7 +84,7 @@ planningGeoJSON = L.geoJSON(planningData, {
         if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())){
             divhtml = createBookmarkedListItem(feature)}
         else{
-            divhtml = createListItem(feature)
+            divhtml = createListItem(feature, userLoggedIn)
         }
         
         if (councilList.includes(feature.properties.PlanningAuthority)){
