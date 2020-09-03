@@ -12,7 +12,6 @@ fetch("/config/")
     fetch("payments/create-checkout-session/")
     .then((result) => { return result.json(); })
     .then((data) => {
-      console.log(data);
       // Redirect to Stripe Checkout
       return stripe.redirectToCheckout({sessionId: data.sessionId})
     })

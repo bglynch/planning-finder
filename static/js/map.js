@@ -176,7 +176,6 @@ let councilGeoJSON = fetch(councilData, { mode: 'cors' })
     return response.ok ? response.json() : Promise.reject(response.status);
   })
   .then(function (response) { 
-      console.log(response)
       L.geoJSON(response, {
         interactive: false,
         style: function (feature) {    
