@@ -18,6 +18,7 @@ def get_home(request):
             print("user is good")
             latitude = user.profile.location.y
             longitude = user.profile.location.x
+            bookmarks = [x.planning_id for x in user.favourite_set.all()]
         # if user is logged in but location not chosen
         else:
             print("user need to add location")
@@ -25,6 +26,7 @@ def get_home(request):
     else:
         print("user is anonymous")
         # if user is ananymous
+        bookmarks = []
         latitude = 53.31
         longitude = -6.25
 
@@ -86,4 +88,4 @@ def get_home(request):
     #         planning_app_data = json.load(f)
 
     return render(request, 'home/home.html',
-                  {'data': json.dumps(planning_app_data), 'is_home': True})
+                  {'data': json.dumps(planning_app_data), 'is_home': True, 'bookmarks': json.dumps(bookmarks)})

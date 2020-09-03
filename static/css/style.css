@@ -104,6 +104,13 @@ nav{width: 100vw;}
     width: 100%;
     padding-left: 15px;
 }
+.bi-bookmark{
+    float: right;
+    margin-top: 3px;
+    cursor: pointer;
+    width: 1em;
+    height: 1em;
+}
 
 /* ========================================================================= */
 /*                               FILTER OPTIONS                              */
@@ -205,6 +212,26 @@ nav{width: 100vw;}
     float: right
 }
 
+/* ========================================================================= */
+/*                                   PROFILE                                   */
+/* ========================================================================= */
+.map-fixed{
+    position: fixed;
+    top: 56px;
+    left: 0px;
+    -webkit-transition: all 1s linear;
+    -moz-transition: all 1s linear;
+    -o-transition: all 1s linear;
+    transition: all 1s linear;
+}
+.edit-locaiton-fixed{
+    position: fixed;
+    top: 313px;
+    right: 22px;
+    background-color: white;
+}
+
+
 
 /* Medium devices (tablets, 768px and up) */
 /* md */
@@ -264,8 +291,30 @@ nav{width: 100vw;}
         .profile-page #map{
             max-height: 60vh;
         }
+        .profile-page #map{
+            max-height: 50vh;
+        }
+        .profile-page .leaflet-container .leaflet-control-attribution{
+            font-size: 8px;
+        }
+        .profile-page .btn-outline-success{
+            position: absolute;
+            z-index: 999;
+            background-color: white;
+            bottom: 30px;
+            right: 10px;
+        }
+        .profile-page .list-group{
+            padding-right: 0px;
+        }
+        .profile-page .list-group-item{
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-right: 40px;
+        }
 }
 
+/* small mobile */
 @media(max-width: 349.98px){
     .app-list{
         flex-direction: row;
@@ -294,7 +343,28 @@ nav{width: 100vw;}
         font-size: 12px;
         font-weight: 300;
     }
-    .profile-page #map{
-        max-height: 60vh;
+    /* .profile-page #map{
+        max-height: 50vh;
     }
+    .profile-page .leaflet-container .leaflet-control-attribution{
+        font-size: 8px;
+    }
+    .profile-page .btn-outline-success{
+        position: absolute;
+        z-index: 999;
+        background-color: white;
+        bottom: 30px;
+        right: 10px;
+    }
+    .profile-page .list-group{
+        padding-right: 0px;
+    }
+    .profile-page .list-group-item{
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-right: 40px;
+    } */
+
+
+
 }

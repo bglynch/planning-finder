@@ -20,7 +20,6 @@ class CustomUser(AbstractUser):
         return self.email
 
 
-# Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     location = models.PointField()

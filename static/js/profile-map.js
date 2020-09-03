@@ -1,48 +1,4 @@
 const latlng = L.latLng(marker_lat, marker_lng);
-class ClassWatcher {
-    // https://stackoverflow.com/questions/10612024/event-trigger-on-a-class-change
-        constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
-            this.targetNode = targetNode
-            this.classToWatch = classToWatch
-            this.classAddedCallback = classAddedCallback
-            this.classRemovedCallback = classRemovedCallback
-            this.observer = null
-            this.lastClassState = targetNode.classList.contains(this.classToWatch)
-    
-            this.init()
-        }
-    
-        init() {
-            this.observer = new MutationObserver(this.mutationCallback)
-            this.observe()
-        }
-    
-        observe() {
-            this.observer.observe(this.targetNode, { attributes: true })
-        }
-    
-        disconnect() {
-            this.observer.disconnect()
-        }
-    
-        mutationCallback = mutationsList => {
-            for(let mutation of mutationsList) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    let currentClassState = mutation.target.classList.contains(this.classToWatch)
-                    if(this.lastClassState !== currentClassState) {
-                        this.lastClassState = currentClassState
-                        if(currentClassState) {
-                            this.classAddedCallback()
-                        }
-                        else {
-                            this.classRemovedCallback()
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 // create the map object
 let map = L.map('map', {
     maxZoom: 20,
@@ -52,23 +8,14 @@ let map = L.map('map', {
         [53.1, -6.7],
         //north east
         [53.7, -5.8]
-        ], 
+    ],
 }).setView([marker_lat, marker_lng], 15);
 
-// variables
-const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
-const TODAY = Math.floor(Date.now())
-const EIGHT_WEEKS_AGO = TODAY - (8 * ONE_WEEK)
-const applicationTypes = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
-const councilList = ['Dublin City Council','Dun Laoghaire Rathdown County Council','Fingal County Council','South Dublin County Council', 'DLR County Council']
-let minDate = Math.round((new Date()).getTime());
-let maxDate = Math.round((new Date()).getTime());;
 
-// filters
-let filters = {
-    applicationType: [],
-    dateRange: []
-}
+// variables
+const applicationTypes = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information']
+const councilList = ['Dublin City Council', 'Dun Laoghaire Rathdown County Council', 'Fingal County Council', 'South Dublin County Council', 'DLR County Council']
+let minDate = Math.round((new Date()).getTime());
 
 // set map tiles
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
@@ -80,12 +27,12 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/
     zoomOffset: -1,
     zoomSnap: 0.25,
 }).addTo(map);
-// add a scale to the map
-L.control.scale().addTo(map);
 
-// set home marker for User
+let markers_list = []
+
+// set makers for User
 L.marker([marker_lat, marker_lng]).addTo(map)
-    .bindPopup('I am in Dublin.<br> Looking for plannings.')
+    .bindPopup('To choose a new location, click "Edit Location"')
     .openPopup();
 
 
@@ -101,7 +48,7 @@ planningGeoJSON = L.geoJSON(planningData, {
         if (feature.properties['Decision'] == null) {
             feature.properties['PlanningStatus'] = 'pending';
             feature.properties['colour'] = 'orange';
-        } 
+        }
         else {
             if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) {
                 feature.properties['PlanningStatus'] = 'refused';
@@ -124,13 +71,10 @@ planningGeoJSON = L.geoJSON(planningData, {
                 feature.properties['colour'] = 'purple';
             }
         }
-        if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())){
-            divhtml = createBookmarkedListItem(feature)}
-        else{
-            divhtml = createListItem(feature)
-        }
-        
-        if (councilList.includes(feature.properties.PlanningAuthority)){
+        divhtml = createBookmarkedListItemProfilePage(feature)
+
+
+        if (councilList.includes(feature.properties.PlanningAuthority)) {
             $('#list-view').append(divhtml);
         }
 
@@ -154,8 +98,10 @@ planningGeoJSON = L.geoJSON(planningData, {
         }
         if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate']
 
-        if (councilList.includes(geoJSONPoint.properties.PlanningAuthority)){
-            return L.circle(addSlightVarianceToLatLng(latlng))
+        if (councilList.includes(geoJSONPoint.properties.PlanningAuthority)) {
+            let marker = L.circle(addSlightVarianceToLatLng(latlng))
+            markers_list.push(marker)
+            return marker
         }
     },
 
@@ -172,106 +118,30 @@ planningGeoJSON = L.geoJSON(planningData, {
 ).addTo(map);
 
 let councilGeoJSON = fetch(councilData, { mode: 'cors' })
-  .then(function (response) {
-    return response.ok ? response.json() : Promise.reject(response.status);
-  })
-  .then(function (response) { 
-      console.log(response)
-      L.geoJSON(response, {
-        interactive: false,
-        style: function (feature) {    
-            return {
-                fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : .7,
-                weight: 1,
-                color: 'black'
-            };
-        }
-    }).addTo(map)
+    .then(function (response) {
+        return response.ok ? response.json() : Promise.reject(response.status);
     })
-  .catch(function (error) { console.log('Request failed', error) });
-
-
+    .then(function (response) {
+        console.log(response)
+        L.geoJSON(response, {
+            interactive: false,
+            style: function (feature) {
+                return {
+                    fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : .7,
+                    weight: 1,
+                    color: 'black'
+                };
+            }
+        }).addTo(map)
+    })
+    .catch(function (error) { console.log('Request failed', error) });
 
 // change marker size on zoom
 map.on('zoomend', function () {
     let radius = Math.abs(map.getZoom() - 21);
     if (map.getZoom() < 21) { planningGeoJSON.eachLayer(function (layer) { layer.setRadius(radius) }) }
 });
-
 map.fitBounds(planningGeoJSON.getBounds(), { padding: [20, 20] });
-
-// filtering planning application
-$(document).ready(function () {
-    applicationTypes.forEach(function (appType) {
-        $('#' + appType).click(function () {
-            if (filters.applicationType.includes(appType)) {
-                filters.applicationType = filters.applicationType.filter(e => e != appType)
-            } else {
-                filters.applicationType.push(appType)
-            }
-            planningGeoJSON.eachLayer(function (layer) { filterPlanningGeoJSON(layer) });
-
-            $(this).toggleClass("active");
-        });
-    })
-});
-
-// date slider
-let slider = document.getElementById('dateSlider');
-let months = [
-    "January", "February", "March",
-    "April", "May", "June", "July",
-    "August", "September", "October",
-    "November", "December"
-];
-
-filters.dateRange = [minDate, maxDate]
-noUiSlider.create(slider, {
-    start: [minDate, maxDate],
-    step: ONE_WEEK,
-    tooltips: true,
-    connect: true,
-    format: {
-        to: function (value) {
-            var date = new Date(value);
-            var month = date.getMonth();
-            let year = date.getFullYear();
-            var formattedTime = months[date.getMonth()] + '/' + year;
-            return formattedTime;
-        },
-        from: Number
-    },
-    range: {
-        'min': minDate,
-        'max': maxDate
-    }
-}).on('slide', function (e) {
-    let minFilterDate = document.getElementsByClassName('noUi-handle-lower')[0].getAttribute('aria-valuenow')
-    let maxFilterDate = document.getElementsByClassName('noUi-handle-upper')[0].getAttribute('aria-valuenow')
-    filters.dateRange = [minFilterDate, maxFilterDate]
-
-    planningGeoJSON.eachLayer(function (layer) {
-        filterPlanningGeoJSON(layer)
-    })
-});
-
-
-let typeContainer = document.getElementById('collapseExample');
-let dateContainer = document.getElementById('dateSliderMain');
-document.addEventListener('click', function (event) {
-    if (typeContainer !== event.target && !typeContainer.contains(event.target)) {
-        typeContainer.classList.remove('show')
-    }
-    if (dateContainer !== event.target && !dateContainer.contains(event.target)) {
-        dateContainer.classList.remove('show')
-    }
-});
-
-
-// new ClassWatcher(document.querySelector(".bi-bookmark"), 'active', 
-// ()=> primarySchoolGeoJSON.eachLayer(layer => filterLocalInfo(layer)), 
-// ()=>primarySchoolGeoJSON.eachLayer(layer => map.removeLayer(layer))
-// )
 
 
 // Bookmarks
@@ -339,6 +209,8 @@ document.addEventListener('click', function (event) {
             element.classList.remove("active")
             child.setAttribute('d', bookmark.empty)
             bookmarkApplication('/bookmark/remove/',applicationId)
+            $(`#$${element.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
+            map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == element.dataset.appNumber))
         } else {
             element.classList.add("active")
             child.setAttribute('d', bookmark.filled)
@@ -351,6 +223,9 @@ document.addEventListener('click', function (event) {
             parent.classList.remove("active")
             element.setAttribute('d', bookmark.empty)
             bookmarkApplication('/bookmark/remove/',applicationId)
+            $(`#${parent.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
+            map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == parent.dataset.appNumber))
+
         } else {
             parent.classList.add("active")
             element.setAttribute('d', bookmark.filled)

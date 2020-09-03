@@ -49,6 +49,7 @@ $(function () {
     {% if user.is_authenticated and user.profile %}
     const marker_lng = {{ user.profile.location.x }}
     const marker_lat = {{ user.profile.location.y }}
+    const bookmarks = {{bookmarks| safe }}
     {% else %}
     const marker_lng = -6.25
     const marker_lat = 53.31

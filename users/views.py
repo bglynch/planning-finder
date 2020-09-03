@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 import geopandas as gpd
 from shapely.geometry import Point, Polygon
+import requests
+import json
 import os
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
@@ -74,7 +76,37 @@ def profile(request):
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
-    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    api_out_fields = '''
+    ApplicationNumber,
+    ApplicationStatus,
+    Decision,
+    DevelopmentDescription,
+    LinkAppDetails,
+    PlanningAuthority,
+    ReceivedDate
+    '''
+
+    api_url = 'https://services.arcgis.com/NzlPQPKn5QF9v2US/arcgis/rest/services/' \
+                'IrishPlanningApplications/FeatureServer/0/query'
+
+    app_numbers = [x.planning_id for x in request.user.favourite_set.all()]
+    query_string = ""
+    for app in app_numbers[:-1]:
+        query_string += f"ApplicationNumber = '{app}' OR "
+    query_string += f"ApplicationNumber = '{app_numbers[-1]}'"
+
+    payload = {
+        'f': 'geojson',
+        'where': query_string,
+        'outSr': '4326',
+        'geometryType': 'esriGeometryPoint',
+        'outFields': api_out_fields,
+        'inSr': '4326',
+        'orderByFields': 'ReceivedDate DESC',
+    }
+    planning_app_data = requests.get(api_url, params=payload).json()
+
+    return render(request, 'users/profile.html', {'data': json.dumps(planning_app_data),'user_form': user_form, 'profile_form': profile_form})
 
 
 def point_in_allowed_council(point):
