@@ -17,9 +17,11 @@ and then view on a map, planning applications nearby.
         - As a **Home Buyer**, I would like to view planning applications of the house im interested in buying so I can see if work has been done to the house in recent years. 
         - As a **Home Buyer**, I would like to view planning applications of the houses near the house I'm interested in buying so I can see if it would be likely that I could build an extension.  
     -   #### Home Owner
-        - As a **Home Owner**, I would like to see if there will be any construction near my house that will impact me.
-  
+        - As a **Home Owner**, I would like to see a list of recent planning in my locality so that I will aware of any construction near my house that will impact me.
+    -   #### Architect
+        - As a **Architect**, I would like to keep a list of planning applications of homes I find inspiring so that I can use them as a reference point when I am designing a new home.
 
+  
 -   ### Design
     -   #### Research
         - Research was done into other map based websites to get inspiration for the layout.
@@ -59,8 +61,7 @@ and then view on a map, planning applications nearby.
         
 ## Features
 - ### General
-    -   Responsive on all device sizes
-    - documentation/responsive.md
+    -   Responsive on all device sizes - [Samples](documentation/Responsive.md)
 - ### User
     -   Register an account using email and password
     -   Login after registering with email and password
@@ -69,7 +70,9 @@ and then view on a map, planning applications nearby.
     -   Update location when logged in
     -   Ability to filter these planning applications by type
     -   Ability to filter these planning applications by date
-    -   Ability to see these planning applicaitons on a map
+    -   Ability to see these planning applications on a map
+    -   Ability to bookmark and unbookmark applications.
+    -   View all bookmarked application on Profile page
     -   Reset password
 - ### Map
     -   Click map icon to see planning application description and auto scroll list to the application.
@@ -78,15 +81,14 @@ and then view on a map, planning applications nearby.
     -   Link to application to view documents on Council website
 
 
-- ### Features Left to Implement
+- ### Future Vision Features
     - Add all County Councils (currently only the 4 Dublin councils)
     - Email notifications for users when new application submitted in their locality
     - Filter planning applications by description text search
+    - Store API data on my database and provision a cron job to regularly update it.  
+        Currently the way I get data is limited to the constraints of the public API.
 
 ## Technologies Used
-
-In this section, you should mention all of the languages, frameworks, libraries, and any other tools that you have used to construct this project. 
-For each, provide its name, a link to its official site and a short sentence of why it was used.
 - ### Languages
     - [Python](https://www.python.org/)
     - [Javascript](https://www.javascript.com/)
@@ -105,6 +107,7 @@ For each, provide its name, a link to its official site and a short sentence of 
     - [Google OAuth](https://console.developers.google.com/): Used to allow google login.
     - [Jupyter Notebooks](https://jupyter.org/): Used for data exploration
     - [python-decouple](https://pypi.org/project/python-decouple/): library to separate the settings parameters from your source code.
+    - [Docker](https://docs.docker.com/get-docker/): used to deploy the app locally.
 - ### API
     - [Planning Applications API](https://data.gov.ie/dataset/national-planning-applications/resource/48809edb-0e41-4c97-b037-82c319c632e7): Opensource planning application data.
 - ### Database
@@ -120,7 +123,9 @@ For each, provide its name, a link to its official site and a short sentence of 
 
 ## Testing
 
-The W3C Markup Validator and W3C CSS Validator Services were used to validate every page of the project to ensure there were no syntax errors in the project.
+### Code Styles
+- #### CSS
+    The W3C Markup Validator and W3C CSS Validator Services were used to validate every page of the project to ensure there were no syntax errors in the project.
 -   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
 
     <a href="http://jigsaw.w3.org/css-validator/check/referer">
@@ -128,6 +133,10 @@ The W3C Markup Validator and W3C CSS Validator Services were used to validate ev
         src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
         alt="Valid CSS!" />
     </a>
+- #### Javascript
+    
+- #### Python
+    Used IDE plugin to keep my code aligned to PEP 8 format.
 
 ### Testing User Stories from User Experience (UX) Section
 
@@ -223,48 +232,36 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 3. You should now have a copy of the original repository in your GitHub account.
 
 ### Making a Local Clone
- - Open your terminal and Create a local directory
+ - If not already installed, get [Docker](https://docs.docker.com/get-docker/)
+ - Open your terminal, clone the repo and rename the .env file
      ```bash
-     $ mkdir planning
-     $ cd planning/
+     $ git clone https://github.com/bglynch/planning-finder.git
+     $ cd planning-finder/
+     $ mv .env.example .env
      ```
- - Install GIS libraries
-    - OS X is via [Homebrew](https://brew.sh/)
-         ```bash
-        $ brew install spatialite-tools
-        $ brew install gdal
-        ```
- - Clone the repository  
-     ```bash
-    $ git clone https://github.com/bglynch/planning-finder.git
-    ```
- - Create a virtual environment and activate it  
-     ```bash
-    $ pip install virtualenv
-    $ virtualenv -p python3 venv
-    $ source venv/bin/activate
-    ``` 
- - Install requirements
-     ```bash
-    $ pip install -r requirements.txt 
-    ```  
- - Rename example .env file
-     ```bash
-    $ mv .env.example .env 
-    ```   
- - Run Django project
-     ```bash
-    $ python manage.py runserver
-    ``` 
+ - Docker commands
+      ```bash
+     # start the server in the background
+     $ docker-compose up --build -d
+     
+     # create a superuser
+     docker exec -it planning-finder_web_1 bash
+     $ python manage.py createsuperuser
+     ```
+
+
  At this point the app will work but will not have the full feature set
- - To add password reset add Gmail address and password in .env
-    ```.env
-    EMAIL_HOST_USER = '<your-google-email>'
-    EMAIL_HOST_PASSWORD = '<your-google-password>'
-    ```
- - To Add Google OAuth follow the steps in [GoogleAuth.md](documentation/GoogleOAuth.md)
- 
- 
+ - ### Steps to add the remaning features
+    - #### Password Reset
+        - Set up gmail accout.
+        - Add google email address and password to .env
+             ```.env
+            EMAIL_HOST_USER = '<your-google-email>'
+            EMAIL_HOST_PASSWORD = '<your-google-password>'
+            ```
+    - #### Google Login
+        - Follow the steps [Here](documentation/LocalGoogleOAuth.md)
+    
 
 ## Credits
 ### Code
@@ -279,10 +276,9 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 
 ### Content
 -   All content was written by the developer.
--   Psychological properties of colours text in the README.md was found [here](http://www.colour-affects.co.uk/psychological-properties-of-colours)
 
 ### Media
--   All Images were created by the developer.
+-   Images are taken from the relevent county council websites.
 
 ### Acknowledgements
 -   My Mentor for continuous helpful feedback.
