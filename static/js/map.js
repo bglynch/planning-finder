@@ -1,4 +1,10 @@
-const latlng = L.latLng(marker_lat, marker_lng);
+/*jshint esversion: 6*/
+/* global 
+    $,jQuery, L,noUiSlider,
+	marker_lat,marker_lng,planningData,councilData, userLoggedIn,bookmarks,
+	selectCouncil, filterPlanningGeoJSON,createBookmarkedListItem,createListItem,
+    addSlightVarianceToLatLng 
+*/
 
 // create the map object
 let map = L.map('map', {
@@ -14,8 +20,6 @@ let map = L.map('map', {
 
 // variables
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
-const TODAY = Math.floor(Date.now());
-const EIGHT_WEEKS_AGO = TODAY - (8 * ONE_WEEK);
 const applicationTypes = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information'];
 const councilList = ['Dublin City Council','Dun Laoghaire Rathdown County Council','Fingal County Council','South Dublin County Council', 'DLR County Council'];
 let minDate = Math.round((new Date()).getTime());
@@ -46,7 +50,7 @@ L.marker([marker_lat, marker_lng]).addTo(map)
     .openPopup();
 
 
-planningGeoJSON = L.geoJSON(planningData, {
+let planningGeoJSON = L.geoJSON(planningData, {
     style: function (feature) {
         feature.properties['colour'] = 'white';
         let refuse_planning = /refuse/;
@@ -54,6 +58,7 @@ planningGeoJSON = L.geoJSON(planningData, {
         let withdrawn_planning = /withdraw/;
         let granted_planning = /(grant|split)/;
         let information = /additional/;
+      	let divhtml;
 
         if (feature.properties['Decision'] == null) {
             feature.properties['PlanningStatus'] = 'pending';
@@ -92,7 +97,7 @@ planningGeoJSON = L.geoJSON(planningData, {
         }
 
         return {
-            fillOpacity: .8,
+            fillOpacity: 0.8,
             fillColor: feature.properties['colour'],
             color: feature.properties['colour'],
             opacity: 1,
@@ -128,7 +133,7 @@ planningGeoJSON = L.geoJSON(planningData, {
 }
 ).addTo(map);
 
-let councilGeoJSON = fetch(councilData, { mode: 'cors' })
+fetch(councilData, { mode: 'cors' })
   .then(function (response) {
     return response.ok ? response.json() : Promise.reject(response.status);
   })
@@ -190,7 +195,6 @@ noUiSlider.create(slider, {
     format: {
         to: function (value) {
             var date = new Date(value);
-            var month = date.getMonth();
             let year = date.getFullYear();
             var formattedTime = months[date.getMonth()] + '/' + year;
             return formattedTime;
@@ -278,9 +282,9 @@ function bookmarkApplication(url, data) {
 
 document.addEventListener('click', function (event) {
     // add or remove active class
-    element = event.target;
-    child = event.target.firstElementChild;
-    parent = event.target.parentElement;
+    let element = event.target;
+    let child = event.target.firstElementChild;
+    let parent = event.target.parentElement;
 
     if (element.classList.contains('click-active')) {
         let applicationId = element.dataset.appNumber;

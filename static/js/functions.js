@@ -1,4 +1,7 @@
 /*jshint esversion: 6*/
+/* global 
+    $, filters, map
+*/
 function setCouncilLogo(council) {
     let mapping = {
         "dublin city council": "dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
@@ -111,7 +114,7 @@ function createListItem(geoJSONPoint, userLoggedIn) {
 }
 
 function createBookmarkedListItem(geoJSONPoint) {
-    divhtml = `
+    let divhtml = `
         <div id="${geoJSONPoint.properties["ApplicationNumber"].replace(/\//g, "").trim()}" class="list-group-item">
             <div class="col-12 main-font-big">
                 ${geoJSONPoint.properties["ApplicationNumber"]}
@@ -140,7 +143,7 @@ function createBookmarkedListItem(geoJSONPoint) {
 }
 
 function createBookmarkedListItemProfilePage(geoJSONPoint) {
-    divhtml = `
+    let divhtml = `
         <div id="${geoJSONPoint.properties["ApplicationNumber"].replace(/\//g, "").trim()}" class="list-group-item">
             <div class="col-12 main-font-big">
                 ${geoJSONPoint.properties["ApplicationNumber"]}
