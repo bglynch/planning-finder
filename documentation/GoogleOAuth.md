@@ -79,33 +79,36 @@ If you do not have one, set one up  - [Here](https://accounts.google.com/signup/
         ```
     - Log into Django admin console
         - Sites -> + Add
+          <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/admin03.png" height="">      
             - Domain name: https://bglynch-test-deployment.herokuapp.com
-            - Display name: https://bglynch-test-deployment.herokuapp.com
+            - Display name: https://bglynch-test-deployment.herokuapp.com  
+            
         - Social applications -> +Add (will use keys from above)
+            <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/admin03.png" height="">      
             - Provider: Google
             - Name: Google API
             - Client id: <Client-ID-Key> 
             - Secret key: <Client-Secret-Key>
     
     - Get SITE_ID
-       Open a terminal  
-       Set DATABASE_URL on your terminal to url of the Hobby DB created.
-       ```bash
-       $ export DATABASE_URL=<value-from-config-vars>
-       ```
-       log into database
-       ``` bash
-       $ heroku pg:psql --app bglynch-test-deployment
-       ```    
-       Get the site id from the id column in the django_site table
-       ```
-       SELECT * from django_site;
-         id |                    domain                     |                     name                      
-        ----+-----------------------------------------------+-----------------------------------------------
-          3 | https://bglynch-test-deployment.herokuapp.com | https://bglynch-test-deployment.herokuapp.com
-          1 | example.com                                   | example.com
-
-       ```
+       - Open a terminal  
+       - Set DATABASE_URL on your terminal to url of the Hobby DB created.
+           ```bash
+           $ export DATABASE_URL=<value-from-config-vars>
+           ```
+       - log into database
+           ``` bash
+           $ heroku pg:psql --app bglynch-test-deployment
+           ```    
+       - Get the site id from the id column in the django_site table
+           ```
+           SELECT * from django_site;
+             id |                    domain                     |                     name                      
+            ----+-----------------------------------------------+-----------------------------------------------
+              3 | https://bglynch-test-deployment.herokuapp.com | https://bglynch-test-deployment.herokuapp.com
+              1 | example.com                                   | example.com
+    
+           ```
        We can see from the table that the id for the app is 3  
        
        Set ```SITE_ID = 3``` in Heroku Config Vars

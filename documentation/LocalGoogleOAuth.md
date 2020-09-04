@@ -32,9 +32,12 @@ If you do not have one, set one up  - [Here](https://accounts.google.com/signup/
 - #### Django App
     - Log into Django admin console as superuser
         - Sites -> + Add
+        <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/admin02.png" height="">      
             - Domain name: http://0.0.0.0:8000
-            - Display name: http://0.0.0.0:8000
+            - Display name: http://0.0.0.0:8000  
+            
         - Social applications -> +Add (will use keys from above)
+        <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/admin03.png" height="">      
             - Provider: Google
             - Name: Google API
             - Client id: <Client-ID-Key> 

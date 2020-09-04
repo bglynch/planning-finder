@@ -36,7 +36,7 @@ and then view on a map, planning applications nearby.
             - Purple:  Applications where additional information was sought by the planning authority
             - Navy:    Applications which have been withdrawn
     -   #### Typography
-        -   The Roboto font is the main font used throughout the whole website with Sans Serif used as a fallback font
+        -   The Roboto font is the main font used throughout the whole website with Sans Serif used as a fallback font.
     -   #### Imagery
         -   Imagery is used subtley. Images are only used of to give the user a visual feedback of which County Council a planning application belongs to.
     -   #### Map
@@ -79,6 +79,8 @@ and then view on a map, planning applications nearby.
 - ### List
     -   Click Airplane icon to move map to planning application location
     -   Link to application to view documents on Council website
+- ### Payment
+    -   User has ability to donate the price of a coffee to the developer
 
 
 - ### Future Vision Features
