@@ -128,14 +128,15 @@ and then view on a map, planning applications nearby.
 ### Code Styles
 - #### CSS
     The W3C Markup Validator and W3C CSS Validator Services were used to validate every page of the project to ensure there were no syntax errors in the project.
--   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
-
-    <a href="http://jigsaw.w3.org/css-validator/check/referer">
-    <img style="border:0;width:88px;height:31px"
-        src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
-        alt="Valid CSS!" />
+    -   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
+    
+        <a href="http://jigsaw.w3.org/css-validator/check/referer">
+        <img style="border:0;width:88px;height:31px"
+            src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+            alt="Valid CSS!" />
     </a>
 - #### Javascript
+     [JSHint](https://jshint.com/) used for linting
     
 - #### Python
     Used IDE plugin to keep my code aligned to PEP 8 format.
@@ -206,6 +207,9 @@ and then view on a map, planning applications nearby.
 
 ## Deployment
 These were steps taken to deploy the application.
+- ### Github
+    Github is used for the code repository. It is also useful for its integration with Heroku and Travis CI
+
 - ### Set Up Email
     [Create and account with Google](https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Fmyaccount.google.com%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dcreate-account-button&flowName=GlifWebSignIn&flowEntry=SignUp)
 
@@ -222,6 +226,7 @@ These were steps taken to deploy the application.
     Official docs showing the steps taken to provision the S3 bucket can be found [Here](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)
 
 - ### Travis CI
+    Travis CI is used for CI/CD
       
 
 
