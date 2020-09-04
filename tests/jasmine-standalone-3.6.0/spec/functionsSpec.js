@@ -26,7 +26,7 @@ describe('selectCouncil(geoJSONPoint) function', function () {
         }
     }
 
-    it('given geojson feature, shold return link to planning application', function () {
+    it('given geojson feature, should return link to planning application', function () {
         expect(selectCouncil(geo) ).toEqual("https://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=WEB1419\/20");
     });
 })

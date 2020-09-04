@@ -6,7 +6,7 @@ WIMBY is a simple, easy to use app for viewing planning applications in your loc
 It allows the user the ability to select a location of his choice(typically the user's home address), 
 and then view on a map, planning applications nearby. 
 
-<h2 align="center"><img src="https://github.com/bglynch/planning-finder/blob/feature/add-documentation/documentation/hero.png"></h2>
+<h2 align="center"><img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/hero.png"></h2>
  
 ## User Experience (UX)
 
@@ -25,7 +25,7 @@ and then view on a map, planning applications nearby.
 -   ### Design
     -   #### Research
         - Research was done into other map based websites to get inspiration for the layout.
-        <h2 align="center"><img src="https://github.com/bglynch/planning-finder/blob/feature/add-documentation/documentation/research/combined.png"></h2>
+        <h2 align="center"><img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/design/combined.png"></h2>
     -   #### Colour Scheme
         -   The main call to action colour in used is Blue.
         -   Differing colours are given to a application depending on the outcome.
@@ -55,9 +55,8 @@ and then view on a map, planning applications nearby.
             
             
 -   ### Wireframes
-    -   Home Page Wireframe - [View](https://github.com/)
-    -   Mobile Wireframe - [View](https://github.com/)
-    -   Contact Us Page Wireframe - [View](https://github.com/)            
+    -   Home Page Wireframe - [View](https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/design/wireframes.jpg)
+         
         
 ## Features
 - ### General
@@ -285,11 +284,10 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 -   All content was written by the developer.
 
 ### Media
--   Images are taken from the relevent county council websites.
+-   Images are taken from the relevant county council websites.
 
 ### Acknowledgements
--   My Mentor for continuous helpful feedback.
--   Tutor support at Code Institute for their support.
+
 
 
 

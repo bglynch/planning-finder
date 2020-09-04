@@ -91,9 +91,10 @@ def profile(request):
 
     app_numbers = [x.planning_id for x in request.user.favourite_set.all()]
     query_string = ""
-    for app in app_numbers[:-1]:
-        query_string += f"ApplicationNumber = '{app}' OR "
-    query_string += f"ApplicationNumber = '{app_numbers[-1]}'"
+    if len(app_numbers) > 0:
+        for app in app_numbers[:-1]:
+            query_string += f"ApplicationNumber = '{app}' OR "
+        query_string += f"ApplicationNumber = '{app_numbers[-1]}'"
 
     payload = {
         'f': 'geojson',

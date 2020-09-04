@@ -21,25 +21,35 @@ from users import views as user_views
 from checkout import views as checkout_views
 from bookmark import views as bookmark_views
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', get_home, name='home'),
+    # user app
     path('register/', user_views.register, name="register"),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name="login"),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name="logout"),
     path('profile/', user_views.profile, name='profile'),
     path('choose-location/', user_views.choose_location, name='choose_location'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='users/password_reset.html'),
+         name='password_reset'),
+    path('password-reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),
+         name='password_reset_done'),
+    path('password-reset/confirm/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'),
+         name='password_reset_confirm'),
+    path('password-reset/complete/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
+         name='password_reset_complete'),
+    # auth
     path('auth/', include('allauth.urls')),
-    path('password-reset/', auth_views.PasswordResetView.as_view(template_name='users/password_reset.html'), name='password_reset'),
-    path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'), name='password_reset_done'),
-    path('password-reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'), name='password_reset_confirm'),
-    path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),
+    # checkout app
     path('payments/', checkout_views.HomePageView.as_view(), name="checkhome"),
     path('config/', checkout_views.stripe_config),
     path('payments/create-checkout-session/', checkout_views.create_checkout_session),
     path('payments/cancelled/', checkout_views.payment_cancelled),
     path('payments/success/', checkout_views.payment_success),
+    # bookmark app
     path('bookmark/', bookmark_views.bookmark_application, name='bookmark'),
     path('bookmark/remove/', bookmark_views.remove_bookmark, name='remove_bookmark'),
 ]
