@@ -10,7 +10,6 @@ class TestBookmarks(TestCase):
         user = CustomUser.objects.create_user(email="benji@ex.com", password="h3!!oPass")
         client.login(email="benji@ex.com", password='h3!!oPass')
         client.post("/bookmark/", {"data": "12A273"}, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
-        print([x.planning_id for x in user.favourite_set.all()])
         self.assertEqual(["12A273"], [x.planning_id for x in user.favourite_set.all()])
 
     def test_remove_bookmark(self):
