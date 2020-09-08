@@ -11,9 +11,9 @@ let map = L.map('map', {
     maxZoom: 20,
     minZoom: 10,
     maxBounds: [
-        //south west
+        //south west dublin
         [53.1, -6.7],
-        //north east
+        //north east dublin
         [53.7, -5.8]
         ], 
 }).setView([marker_lat, marker_lng], 15);
@@ -53,11 +53,13 @@ L.marker([marker_lat, marker_lng]).addTo(map)
 let planningGeoJSON = L.geoJSON(planningData, {
     style: function (feature) {
         feature.properties['colour'] = 'white';
+        // regex patterns
         let refuse_planning = /refuse/;
         let invalid_planning = /invalid/;
         let withdrawn_planning = /withdraw/;
         let granted_planning = /(grant|split)/;
         let information = /additional/;
+
       	let divhtml;
 
         if (feature.properties['Decision'] == null) {
