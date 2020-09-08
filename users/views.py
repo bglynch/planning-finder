@@ -1,12 +1,15 @@
+import os
+
+import geopandas as gpd
+import json
+import requests
+from shapely.geometry import Point
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-import geopandas as gpd
-from shapely.geometry import Point
-import requests
-import json
-import os
+
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 
@@ -31,7 +34,7 @@ def register(request):
 # set location of new/existing user
 @login_required
 def choose_location(request):
-    # setting location
+    # set/update location of a user
     if request.method == 'POST':
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if profile_form.is_valid():
@@ -40,24 +43,22 @@ def choose_location(request):
                 messages.warning(request, f'Location not available, please choose location inside available boundaries')
                 return redirect('choose_location')
 
-            # setting location for a new user
+            # set locaiton of a new user
             if not request.user.profile.has_set_location:
                 profile_form.save()
                 request.user.profile.has_set_location = True
                 request.user.save()
                 return redirect('home')
-            # setting location for a new user
+            # update the location of an existing user
             else:
                 messages.success(request, f'New location has been set')
                 profile_form.save()
                 return redirect('home')
-    # choosing location
     else:
         profile_form = ProfileUpdateForm(instance=request.user.profile)
-
-    # new user who has not yet set location
-    if not request.user.profile.has_set_location:
-        messages.success(request, f'Account created for {request.user.email} !')
+        # show account created success message for new users
+        if not request.user.profile.has_set_location:
+            messages.success(request, f'Account created for {request.user.email} !')
     return render(request, 'users/choose-location.html', {'profile_form': profile_form})
 
 

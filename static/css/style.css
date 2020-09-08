@@ -25,7 +25,8 @@ nav {
 }
 
 .main-container {
-    height: calc(100vh - 56px);
+    /* 56px = height of header */
+    height: calc(100vh - 56px); 
     min-height: calc(100vh - 56px);
     margin-top: 56px;
 }
@@ -279,6 +280,7 @@ nav {
     }
 }
 
+/* large mobile */
 @media(max-width: 575.98px) {
     #application-type-options,
     #price-slider-options {
