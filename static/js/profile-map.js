@@ -5,7 +5,6 @@
 	createBookmarkedListItemProfilePage, selectCouncil, 
     addSlightVarianceToLatLng 
 */
-
 const latlng = L.latLng(marker_lat, marker_lng);
 // create the map object
 let map = L.map('map', {
@@ -18,7 +17,6 @@ let map = L.map('map', {
         [53.7, -5.8]
     ],
 }).setView([marker_lat, marker_lng], 15);
-
 
 // variables
 const councilList = ['Dublin City Council', 'Dun Laoghaire Rathdown County Council', 'Fingal County Council', 'South Dublin County Council', 'DLR County Council'];

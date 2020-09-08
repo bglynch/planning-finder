@@ -1,5 +1,8 @@
 <h1 align="center">WIMBY - What's In My Backyard</h1>  
 
+<img src="https://travis-ci.org/bglynch/planning-finder.svg?branch=master&amp;status=passed" alt="build:passed">  
+---  
+
 [View the live project here.](https://bglynch-planning-finder.herokuapp.com/)  
 
 WIMBY is a simple, easy to use app for viewing planning applications in your locality.
