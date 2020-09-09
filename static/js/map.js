@@ -24,11 +24,11 @@ let filters = {
 
 // set map tiles
 L.tileLayer(mapConfig.mapTiles.url, {
-    attribution:    mapConfig.mapTiles.attribution,
-    id:             mapConfig.mapTiles.id,
-    tileSize:       mapConfig.mapTiles.tileSize,
-    zoomOffset:     mapConfig.mapTiles.zoomOffset,
-    zoomSnap:       mapConfig.mapTiles.zoomSnap,
+    attribution: mapConfig.mapTiles.attribution,
+    id: mapConfig.mapTiles.id,
+    tileSize: mapConfig.mapTiles.tileSize,
+    zoomOffset: mapConfig.mapTiles.zoomOffset,
+    zoomSnap: mapConfig.mapTiles.zoomSnap,
 }).addTo(map);
 // add a scale to the map
 L.control.scale().addTo(map);
@@ -59,14 +59,15 @@ let planningGeoJSON = L.geoJSON(planningData, {
 
         // Create list html for planning application
         let divhtml;
-        if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())){
-            divhtml = createBookmarkedListItem(feature);}
-        else{
+        if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())) {
+            divhtml = createBookmarkedListItem(feature);
+        }
+        else {
             divhtml = createListItem(feature, userLoggedIn);
         }
-        
+
         // if planning application in allowed council boundaries, add html to list view
-        if (councilList.includes(feature.properties.PlanningAuthority)){
+        if (councilList.includes(feature.properties.PlanningAuthority)) {
             $('#list-view').append(divhtml);
         }
 
@@ -91,7 +92,7 @@ let planningGeoJSON = L.geoJSON(planningData, {
         }
         if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate'];
 
-        if (councilList.includes(geoJSONPoint.properties.PlanningAuthority)){
+        if (councilList.includes(geoJSONPoint.properties.PlanningAuthority)) {
             return L.circle(addSlightVarianceToLatLng(latlng));
         }
     },
@@ -109,22 +110,22 @@ let planningGeoJSON = L.geoJSON(planningData, {
 ).addTo(map);
 
 fetch(councilData, { mode: 'cors' })
-  .then(function (response) {
-    return response.ok ? response.json() : Promise.reject(response.status);
-  })
-  .then(function (response) { 
-      L.geoJSON(response, {
-        interactive: false,
-        style: function (feature) {    
-            return {
-                fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : 0.7,
-                weight: 1,
-                color: 'black'
-            };
-        }
-    }).addTo(map);
+    .then(function (response) {
+        return response.ok ? response.json() : Promise.reject(response.status);
     })
-  .catch(function (error) { console.log('Request failed', error); });
+    .then(function (response) {
+        L.geoJSON(response, {
+            interactive: false,
+            style: function (feature) {
+                return {
+                    fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : 0.7,
+                    weight: 1,
+                    color: 'black'
+                };
+            }
+        }).addTo(map);
+    })
+    .catch(function (error) { console.log('Request failed', error); });
 
 
 // change marker size on zoom
@@ -196,11 +197,6 @@ document.addEventListener('click', function (event) {
 });
 
 // Bookmarks
-let bookmark = {
-    'empty': 'M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z',
-    'filled':'M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z'
-};
-
 let csrftoken = getCookie('csrftoken');
 
 document.addEventListener('click', function (event) {
@@ -213,23 +209,24 @@ document.addEventListener('click', function (event) {
         let applicationId = element.dataset.appNumber;
         if (element.classList.contains('active')) {
             element.classList.remove("active");
-            child.setAttribute('d', bookmark.empty);
-            bookmarkApplication('/bookmark/remove/',applicationId, csrftoken);
+            child.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
         } else {
             element.classList.add("active");
-            child.setAttribute('d', bookmark.filled);
-            bookmarkApplication('/bookmark/',applicationId, csrftoken);
+            child.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.add, applicationId, csrftoken);
         }
     }
     if (parent.classList.contains('click-active')) {
         let applicationId = parent.dataset.appNumber;
         if (parent.classList.contains('active')) {
             parent.classList.remove("active");
-            element.setAttribute('d', bookmark.empty);
-            bookmarkApplication('/bookmark/remove/',applicationId, csrftoken);
+            element.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
         } else {
             parent.classList.add("active");
-            element.setAttribute('d', bookmark.filled);
-            bookmarkApplication('/bookmark/',applicationId, csrftoken);
-        }}
+            element.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.add, applicationId, csrftoken);
+        }
+    }
 });

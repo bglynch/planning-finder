@@ -18,11 +18,11 @@ let minDate = Math.round((new Date()).getTime());
 
 // set map tiles
 L.tileLayer(mapConfig.mapTiles.url, {
-    attribution:    mapConfig.mapTiles.attribution,
-    id:             mapConfig.mapTiles.id,
-    tileSize:       mapConfig.mapTiles.tileSize,
-    zoomOffset:     mapConfig.mapTiles.zoomOffset,
-    zoomSnap:       mapConfig.mapTiles.zoomSnap,
+    attribution: mapConfig.mapTiles.attribution,
+    id: mapConfig.mapTiles.id,
+    tileSize: mapConfig.mapTiles.tileSize,
+    zoomOffset: mapConfig.mapTiles.zoomOffset,
+    zoomSnap: mapConfig.mapTiles.zoomSnap,
 }).addTo(map);
 
 let markers_list = [];
@@ -122,11 +122,6 @@ map.fitBounds(planningGeoJSON.getBounds(), { padding: [20, 20] });
 
 
 // Bookmarks
-let bookmark = {
-    'empty': 'M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z',
-    'filled':'M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5V2z'
-};
-
 let csrftoken = getCookie('csrftoken');
 
 document.addEventListener('click', function (event) {
@@ -139,28 +134,24 @@ document.addEventListener('click', function (event) {
         let applicationId = element.dataset.appNumber;
         if (element.classList.contains('active')) {
             element.classList.remove("active");
-            child.setAttribute('d', bookmark.empty);
-            bookmarkApplication('/bookmark/remove/',applicationId);
-            $(`#$${element.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
-            map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == element.dataset.appNumber));
+            child.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
         } else {
             element.classList.add("active");
-            child.setAttribute('d', bookmark.filled);
-            bookmarkApplication('/bookmark/',applicationId);
+            child.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.add, applicationId, csrftoken);
         }
     }
     if (parent.classList.contains('click-active')) {
         let applicationId = parent.dataset.appNumber;
         if (parent.classList.contains('active')) {
             parent.classList.remove("active");
-            element.setAttribute('d', bookmark.empty);
-            bookmarkApplication('/bookmark/remove/',applicationId);
-            $(`#${parent.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
-            map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == parent.dataset.appNumber));
-
+            element.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
         } else {
             parent.classList.add("active");
-            element.setAttribute('d', bookmark.filled);
-            bookmarkApplication('/bookmark/',applicationId);
-        }}
+            element.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.add, applicationId, csrftoken);
+        }
+    }
 });
