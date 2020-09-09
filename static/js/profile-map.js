@@ -19,7 +19,6 @@ let map = L.map('map', {
 }).setView([marker_lat, marker_lng], 15);
 
 // variables
-const councilList = ['Dublin City Council', 'Dun Laoghaire Rathdown County Council', 'Fingal County Council', 'South Dublin County Council', 'DLR County Council'];
 let minDate = Math.round((new Date()).getTime());
 
 // set map tiles

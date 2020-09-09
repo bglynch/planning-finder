@@ -5,7 +5,6 @@
 	selectCouncil, filterPlanningGeoJSON,createBookmarkedListItem,createListItem,
     addSlightVarianceToLatLng 
 */
-
 // create the map object
 let map = L.map('map', {
     maxZoom: 20,
@@ -19,9 +18,6 @@ let map = L.map('map', {
 }).setView([marker_lat, marker_lng], 15);
 
 // variables
-const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
-const applicationTypes = ['pending', 'granted', 'refused', 'invalid', 'withdrawn', 'information'];
-const councilList = ['Dublin City Council','Dun Laoghaire Rathdown County Council','Fingal County Council','South Dublin County Council', 'DLR County Council'];
 let minDate = Math.round((new Date()).getTime());
 let maxDate = Math.round((new Date()).getTime());
 
@@ -53,41 +49,25 @@ L.marker([marker_lat, marker_lng]).addTo(map)
 let planningGeoJSON = L.geoJSON(planningData, {
     style: function (feature) {
         feature.properties['colour'] = 'white';
-        // regex patterns
-        let refuse_planning = /refuse/;
-        let invalid_planning = /invalid/;
-        let withdrawn_planning = /withdraw/;
-        let granted_planning = /(grant|split)/;
-        let information = /additional/;
+        
 
-      	let divhtml;
-
+      	
+        // Set planning status and color for planning application
         if (feature.properties['Decision'] == null) {
-            feature.properties['PlanningStatus'] = 'pending';
-            feature.properties['colour'] = 'orange';
-        } 
-        else {
-            if (refuse_planning.test(feature.properties['Decision'].toLowerCase())) {
-                feature.properties['PlanningStatus'] = 'refused';
-                feature.properties['colour'] = 'red';
-            }
-            if (invalid_planning.test(feature.properties['Decision'].toLowerCase())) {
-                feature.properties['PlanningStatus'] = 'invalid';
-                feature.properties['colour'] = 'brown';
-            }
-            if (withdrawn_planning.test(feature.properties['Decision'].toLowerCase())) {
-                feature.properties['PlanningStatus'] = 'withdrawn';
-                feature.properties['colour'] = 'blue';
-            }
-            if (granted_planning.test(feature.properties['Decision'].toLowerCase())) {
-                feature.properties['PlanningStatus'] = 'granted';
-                feature.properties['colour'] = 'green';
-            }
-            if (information.test(feature.properties['Decision'].toLowerCase())) {
-                feature.properties['PlanningStatus'] = 'information';
-                feature.properties['colour'] = 'purple';
-            }
+            feature.properties['PlanningStatus'] = planningDecision.pending.name;
+            feature.properties['colour'] = planningDecision.pending.color;
         }
+        else {
+            Object.keys(planningDecision).filter(key => key !== planningDecision.pending.name).forEach(key => {
+                if (planningDecision[key].regex.test(feature.properties['Decision'].toLowerCase())) {
+                    feature.properties['PlanningStatus'] = planningDecision[key].name;
+                    feature.properties['colour'] = planningDecision[key].color;
+                }
+            })
+        }
+
+        // Create list html for planning application
+        let divhtml;
         if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())){
             divhtml = createBookmarkedListItem(feature);}
         else{
@@ -181,12 +161,6 @@ $(document).ready(function () {
 
 // date slider
 let slider = document.getElementById('dateSlider');
-let months = [
-    "January", "February", "March",
-    "April", "May", "June", "July",
-    "August", "September", "October",
-    "November", "December"
-];
 
 filters.dateRange = [minDate, maxDate];
 noUiSlider.create(slider, {
