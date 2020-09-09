@@ -26,6 +26,7 @@
     const marker_lat = {{ user.profile.location.y }}
     const planningData = JSON.parse('{{ data | escapejs }}')  
 </script>
+<script src="{% static 'js/config.js' %}"></script>
 <script src="{% static 'js/functions.js' %}"></script>
 <script src="{% static 'js/profile-map.js' %}"></script>
 
