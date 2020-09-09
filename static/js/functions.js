@@ -201,6 +201,7 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
 // Function to set Request Header with `CSRFTOKEN`
 function setRequestHeader(csrftoken){
     $.ajaxSetup({
@@ -211,6 +212,7 @@ function setRequestHeader(csrftoken){
         }
     });
 }
+
 function bookmarkApplication(url, data, csrftoken) {
     setRequestHeader(csrftoken);
     $.ajax({
