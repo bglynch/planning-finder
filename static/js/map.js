@@ -49,9 +49,7 @@ L.marker([marker_lat, marker_lng]).addTo(map)
 let planningGeoJSON = L.geoJSON(planningData, {
     style: function (feature) {
         feature.properties['colour'] = 'white';
-        
 
-      	
         // Set planning status and color for planning application
         if (feature.properties['Decision'] == null) {
             feature.properties['PlanningStatus'] = planningDecision.pending.name;
@@ -74,10 +72,12 @@ let planningGeoJSON = L.geoJSON(planningData, {
             divhtml = createListItem(feature, userLoggedIn);
         }
         
+        // if planning application in allowed council boundaries, add html to list view
         if (councilList.includes(feature.properties.PlanningAuthority)){
             $('#list-view').append(divhtml);
         }
 
+        // set properties for map marker
         return {
             fillOpacity: 0.8,
             fillColor: feature.properties['colour'],
@@ -145,7 +145,7 @@ map.fitBounds(planningGeoJSON.getBounds(), { padding: [20, 20] });
 
 // filtering planning application
 $(document).ready(function () {
-    applicationTypes.forEach(function (appType) {
+    Object.keys(planningDecision).forEach(function (appType) {
         $('#' + appType).click(function () {
             if (filters.applicationType.includes(appType)) {
                 filters.applicationType = filters.applicationType.filter(e => e != appType);

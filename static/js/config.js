@@ -1,12 +1,5 @@
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
-const applicationTypes = [
-    'pending',
-    'granted',
-    'refused',
-    'invalid',
-    'withdrawn',
-    'information'
-];
+
 const councilList = [
     'Dublin City Council',
     'Dun Laoghaire Rathdown County Council',
