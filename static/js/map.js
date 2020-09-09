@@ -1,7 +1,7 @@
 /*jshint esversion: 6*/
 /* global 
     $,jQuery, L,noUiSlider,
-	marker_lat,marker_lng,planningData,councilData, userLoggedIn,bookmarks,
+	marker_lat,marker_lng,planningData,councilData, userLoggedIn, bookmarks,
 	selectCouncil, filterPlanningGeoJSON,createBookmarkedListItem,createListItem,
     addSlightVarianceToLatLng 
 */
@@ -58,13 +58,7 @@ let planningGeoJSON = L.geoJSON(planningData, {
         }
 
         // Create list html for planning application
-        let divhtml;
-        if (bookmarks.includes(feature.properties['ApplicationNumber'].trim())) {
-            divhtml = createBookmarkedListItem(feature);
-        }
-        else {
-            divhtml = createListItem(feature, userLoggedIn);
-        }
+        let divhtml = createListItem(feature, userLoggedIn);;
 
         // if planning application in allowed council boundaries, add html to list view
         if (councilList.includes(feature.properties.PlanningAuthority)) {
@@ -136,7 +130,7 @@ map.on('zoomend', function () {
 
 map.fitBounds(planningGeoJSON.getBounds(), { padding: [20, 20] });
 
-// filtering planning application
+// filtering: planning application decision
 $(document).ready(function () {
     Object.keys(planningDecision).forEach(function (appType) {
         $('#' + appType).click(function () {
@@ -152,7 +146,7 @@ $(document).ready(function () {
     });
 });
 
-// date slider
+// filtering: date slider
 let slider = document.getElementById('dateSlider');
 
 filters.dateRange = [minDate, maxDate];
@@ -184,7 +178,7 @@ noUiSlider.create(slider, {
     });
 });
 
-
+// hide filter box if users clicks outside the element
 let typeContainer = document.getElementById('collapseExample');
 let dateContainer = document.getElementById('dateSliderMain');
 document.addEventListener('click', function (event) {
@@ -213,7 +207,7 @@ document.addEventListener('click', function (event) {
             bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
         } else {
             element.classList.add("active");
-            child.setAttribute('d', bookmarkConfig.svg.empty);
+            child.setAttribute('d', bookmarkConfig.svg.filled);
             bookmarkApplication(bookmarkConfig.url.add, applicationId, csrftoken);
         }
     }
@@ -221,7 +215,7 @@ document.addEventListener('click', function (event) {
         let applicationId = parent.dataset.appNumber;
         if (parent.classList.contains('active')) {
             parent.classList.remove("active");
-            element.setAttribute('d', bookmarkConfig.svg.empty);
+            element.setAttribute('d', bookmarkConfig.svg.filled);
             bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
         } else {
             parent.classList.add("active");

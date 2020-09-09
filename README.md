@@ -283,6 +283,7 @@ By forking the GitHub Repository we make a copy of the original repository on ou
         -   Leaflet, Resize marker on zoom: [Stackexchange](https://gis.stackexchange.com/questions/216558/leaflet-resize-markers-in-layer-when-zoom-in)
         -   Bootstrap, close dropdown when clicked elsewhere: [Stackoverflow](https://stackoverflow.com/questions/52166136/close-bootstrap-dropdown-only-when-mouse-is-clicked-outside-of-dropdown)
         -   Generate favicon from text: [favicon.io](https://favicon.io/favicon-generator/)
+        -   SVG Icons: [Bootstrap Icons](https://icons.getbootstrap.com/)
 
 ### Content
 -   All content was written by the developer.

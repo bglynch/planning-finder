@@ -50,7 +50,7 @@ let planningGeoJSON = L.geoJSON(planningData, {
             })
         }
 
-        let divhtml = createBookmarkedListItemProfilePage(feature);
+        let divhtml = createListItem(feature, true);
 
         if (councilList.includes(feature.properties.PlanningAuthority)) {
             $('#list-view').append(divhtml);
@@ -96,22 +96,22 @@ let planningGeoJSON = L.geoJSON(planningData, {
 ).addTo(map);
 
 fetch(councilData, { mode: 'cors' })
-    .then(function (response) {
-        return response.ok ? response.json() : Promise.reject(response.status);
-    })
-    .then(function (response) {
-        L.geoJSON(response, {
-            interactive: false,
-            style: function (feature) {
-                return {
-                    fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : 0.7,
-                    weight: 1,
-                    color: 'black'
-                };
-            }
-        }).addTo(map);
-    })
-    .catch(function (error) { console.log('Request failed', error); });
+.then(function (response) {
+    return response.ok ? response.json() : Promise.reject(response.status);
+})
+.then(function (response) {
+    L.geoJSON(response, {
+        interactive: false,
+        style: function (feature) {
+            return {
+                fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : 0.7,
+                weight: 1,
+                color: 'black'
+            };
+        }
+    }).addTo(map);
+})
+.catch(function (error) { console.log('Request failed', error); });
 
 // change marker size on zoom
 map.on('zoomend', function () {
@@ -129,29 +129,23 @@ document.addEventListener('click', function (event) {
     let element = event.target;
     let child = event.target.firstElementChild;
     let parent = event.target.parentElement;
-
+    
     if (element.classList.contains('click-active')) {
         let applicationId = element.dataset.appNumber;
         if (element.classList.contains('active')) {
             element.classList.remove("active");
+            $(`#${element.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
+            map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == element.dataset.appNumber));
             child.setAttribute('d', bookmarkConfig.svg.empty);
             bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
-        } else {
-            element.classList.add("active");
-            child.setAttribute('d', bookmarkConfig.svg.empty);
-            bookmarkApplication(bookmarkConfig.url.add, applicationId, csrftoken);
-        }
-    }
-    if (parent.classList.contains('click-active')) {
-        let applicationId = parent.dataset.appNumber;
-        if (parent.classList.contains('active')) {
-            parent.classList.remove("active");
-            element.setAttribute('d', bookmarkConfig.svg.empty);
-            bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
-        } else {
-            parent.classList.add("active");
-            element.setAttribute('d', bookmarkConfig.svg.empty);
-            bookmarkApplication(bookmarkConfig.url.add, applicationId, csrftoken);
-        }
-    }
-});
+        }}
+        if (parent.classList.contains('click-active')) {
+            let applicationId = parent.dataset.appNumber;
+            if (parent.classList.contains('active')) {
+                parent.classList.remove("active");
+                element.setAttribute('d', bookmarkConfig.svg.empty);
+                bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
+                $(`#${parent.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
+                map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == parent.dataset.appNumber));
+            }}
+        });

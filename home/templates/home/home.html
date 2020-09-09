@@ -45,11 +45,13 @@ $(function () {
 </script>
 <script src="{% static 'libraries/nouislider/nouislider.js' %}"></script>
 <script src="{% static 'libraries/jquery-scrollintoview/jquery.scrollintoview.min.js' %}"></script>
+<script src="{% static 'js/config.js' %}"></script>
 <script>
     {% if user.is_authenticated and user.profile %}
     const marker_lng = {{ user.profile.location.x }}
     const marker_lat = {{ user.profile.location.y }}
-    const bookmarks = {{bookmarks| safe }}
+    bookmarkConfig.bookmarks = {{bookmarks | safe }}
+    const bookmarks = {{bookmarks | safe }}
     const userLoggedIn = true;
     {% else %}
     const marker_lng = -6.25
@@ -60,7 +62,6 @@ $(function () {
     const planningData = JSON.parse('{{ data| escapejs }}')
     const councilData = "{% static 'data/councils-dublin.geojson' %}"
 </script>
-<script src="{% static 'js/config.js' %}"></script>
 <script src="{% static 'js/functions.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 
