@@ -2,13 +2,19 @@
 /*                                  GENERAL                                  */
 /* ========================================================================= */
 :root {
-    /* Application Status Styling */
+    /* Colour Styling */
     --pending: #feb644;
     --granted: #3b9a3c;
     --refused: #ff3a43;
     --invalid: #b85556;
     --withdrawn: #3947ff;
     --information: #9a3a99;
+    --primary-font: #202124;
+    --secondary-font: #5f6368;
+    --primary-cta: #007bfe;
+    --primary-cta-text: #fbf8f3;
+
+    --header-height: 56px;
 }
 
 body {
@@ -20,15 +26,11 @@ nav {
     width: 100vw;
 }
 
-#list-view {
-    max-height: 100%;
-}
-
 .main-container {
     /* 56px = height of header */
-    height: calc(100vh - 56px); 
-    min-height: calc(100vh - 56px);
-    margin-top: 56px;
+    height: calc(100vh - var(--header-height)); 
+    min-height: calc(100vh - var(--header-height));
+    margin-top: var(--header-height);
 }
 
 .leaflet-container-default {
@@ -45,7 +47,7 @@ nav {
     font-size: 20px;
     line-height: 24px;
     letter-spacing: normal;
-    color: #202124;
+    color: var(--primary-font);
     font-weight: 400;
 }
 
@@ -54,7 +56,7 @@ nav {
     line-height: 20px;
     letter-spacing: 0.2px;
     font-weight: 400;
-    color: #5f6368;
+    color: var(--primary-font);
 }
 
 .main-font-small {
@@ -62,7 +64,7 @@ nav {
     line-height: 16px;
     letter-spacing: 0.3px;
     font-weight: 400;
-    color: #5f6368;
+    color: var(--primary-font);
 }
 
 .bring-to-front {
@@ -70,7 +72,7 @@ nav {
 }
 
 .login-register {
-    color: rgb(158, 158, 158);
+    color: var(--primary-font);
     font-weight: 500;
     font-size: 14px;
     margin-right: 30px;
@@ -89,12 +91,14 @@ nav {
 
 
 /* Buy Me Button */
-
 .checkout {
     position: absolute;
     bottom: 20px;
     right: 20px;
     z-index: 9999;
+    background-color: var(--primary-cta);
+    border-color: var(--primary-cta);
+    color: var(--primary-cta-text);
 }
 
 .checkout svg {
@@ -105,16 +109,20 @@ nav {
 /* ========================================================================= */
 /*                                  APP LIST                                 */
 /* ========================================================================= */
+.app-list{
+  max-height: 100%;
+  overflow: auto;
+}
 
-.fly-to {
+.app-list .fly-to {
     cursor: pointer;
     transform: rotate(45deg);
     width: 24px;
     height: 24px;
-    fill: #007bfe;
+    fill: var(--primary-cta);
 }
 
-.planning-status {
+.app-list .planning-status {
     position: inherit;
     float: right;
     top: auto;
@@ -123,7 +131,7 @@ nav {
     padding-left: 15px;
 }
 
-.bi-bookmark {
+.app-list .bi-bookmark {
     float: right;
     margin-top: 3px;
     cursor: pointer;
@@ -131,27 +139,50 @@ nav {
     height: 1em;
 }
 
+.app-list img {
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.app-list .council-name{
+    float: left;
+    margin-top: 12px;
+}
+
+.app-list .primary-cta{
+    float: right;
+    background-color: var(--primary-cta);
+    border-color: var(--primary-cta);
+    color: var(--primary-cta-text);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
 /* ========================================================================= */
 /*                               FILTER OPTIONS                              */
 /* ========================================================================= */
 /* Application Type Styling */
 
-#pending.active{
+#pending.active {
     background-color: var(--pending);
 }
-#granted.active{
+#granted.active {
     background-color: var(--granted);
 }
-#refused.active{
+#refused.active {
     background-color: var(--refused);
 }
-#invalid.active{
+#invalid.active {
     background-color: var(--invalid);
 }
-#withdrawn.active{
+#withdrawn.active {
     background-color: var(--withdrawn);
 }
-#information.active{
+#information.active {
     background-color: var(--information);
 }
 

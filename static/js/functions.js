@@ -88,11 +88,11 @@ function createListItem(geoJSONPoint, userLoggedIn) {
         </div>`;
 
     let countyCouncil = `
-        <img src="${countyCouncils[council].logo}" alt="" class="float-left mr-2 mt-2" height="20" width="20">
-        <div class="float-left main-font-small mt-2">${countyCouncils[council].display}</div>`;
+        <img src="${countyCouncils[council].logo}" alt="logo for ${council}">
+        <div class="council-name main-font-small">${countyCouncils[council].display}</div>`;
 
     let viewApplicationButton = `
-        <a target="_blank" rel="noopener" class="btn btn-primary float-right main-font-normal" href="${geoJSONPoint.properties.ApplicationUrl}" style="color: #fbf8f3;font-size: 12px;font-weight: 500;letter-spacing: 1px;">
+        <a target="_blank" rel="noopener" class="btn primary-cta" href="${geoJSONPoint.properties.ApplicationUrl}">
             View Planning
         </a>`;
 
