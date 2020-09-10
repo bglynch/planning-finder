@@ -41,7 +41,7 @@ def get_home(request):
         'outFields': api_out_fields,
         'inSr': '4326',
         'geometry': home_point,
-        'distance': 2000,
+        'distance': 1000,
         'orderByFields': 'ReceivedDate DESC',
     }
     planning_app_data = requests.get(api_url, params=payload).json()

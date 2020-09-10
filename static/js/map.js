@@ -180,7 +180,7 @@ noUiSlider.create(slider, {
 });
 
 // hide filter box if users clicks outside the element
-let typeContainer = document.getElementById('collapseExample');
+let typeContainer = document.getElementById('filterDecisionType');
 let dateContainer = document.getElementById('dateSliderMain');
 document.addEventListener('click', function (event) {
     if (typeContainer !== event.target && !typeContainer.contains(event.target)) {
