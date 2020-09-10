@@ -78,12 +78,12 @@ If you do not have one, set one up  - [Here](https://accounts.google.com/signup/
         $ python manage.py migrate    
         ```
     - Log into Django admin console
-        - Sites -> + Add
-          <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/admin03.png" height="">      
+        - Sites -> + Add  
+          <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/admin02.png" height="">      
             - Domain name: https://bglynch-test-deployment.herokuapp.com
             - Display name: https://bglynch-test-deployment.herokuapp.com  
             
-        - Social applications -> +Add (will use keys from above)
+        - Social applications -> +Add (will use keys from above)  
             <img src="https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/documentation/admin03.png" height="">      
             - Provider: Google
             - Name: Google API
