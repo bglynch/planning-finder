@@ -1,17 +1,17 @@
 /*jshint esversion: 6*/
 /* global 
   $, L,
-	marker_lat,marker_lng,planningData,councilData, bookmarkConfig,
+	mapConfig, planningData,councilData, bookmarkConfig,
 	createListItem, selectCouncil, getCookie, bookmarkApplication,
   addSlightVarianceToLatLng, mapConfig, planningDecision, countyCouncils 
 */
-const latlng = L.latLng(marker_lat, marker_lng);
+const latlng = L.latLng(mapConfig.userLocation.lat, mapConfig.userLocation.lng);
 // create the map object
 let map = L.map(mapConfig.setup.htmlId, {
     maxZoom: mapConfig.setup.maxZoom,
     minZoom: mapConfig.setup.minZoom,
     maxBounds: [mapConfig.setup.southWestBound, mapConfig.setup.northEastBound]
-}).setView([marker_lat, marker_lng], 15);
+}).setView([mapConfig.userLocation.lat, mapConfig.userLocation.lng], 15);
 
 // variables
 let minDate = Math.round((new Date()).getTime());
@@ -28,7 +28,7 @@ L.tileLayer(mapConfig.mapTiles.url, {
 let markers_list = [];
 
 // set makers for User
-L.marker([marker_lat, marker_lng]).addTo(map)
+L.marker([mapConfig.userLocation.lat, mapConfig.userLocation.lng]).addTo(map)
     .bindPopup('To choose a new location, click "Edit Location"')
     .openPopup();
 
@@ -95,22 +95,22 @@ let planningGeoJSON = L.geoJSON(planningData, {
 ).addTo(map);
 
 fetch(councilData, { mode: 'cors' })
-.then(function (response) {
-    return response.ok ? response.json() : Promise.reject(response.status);
-})
-.then(function (response) {
-    L.geoJSON(response, {
-        interactive: false,
-        style: function (feature) {
-            return {
-                fillOpacity: (Object.keys(countyCouncils).includes(feature.properties.ENGLISH)) ? 0 : 0.7,
-                weight: 1,
-                color: 'black'
-            };
-        }
-    }).addTo(map);
-})
-.catch(function (error) { console.log('Request failed', error); });
+    .then(function (response) {
+        return response.ok ? response.json() : Promise.reject(response.status);
+    })
+    .then(function (response) {
+        L.geoJSON(response, {
+            interactive: false,
+            style: function (feature) {
+                return {
+                    fillOpacity: (Object.keys(countyCouncils).includes(feature.properties.ENGLISH)) ? 0 : 0.7,
+                    weight: 1,
+                    color: 'black'
+                };
+            }
+        }).addTo(map);
+    })
+    .catch(function (error) { console.log('Request failed', error); });
 
 // change marker size on zoom
 map.on('zoomend', function () {
@@ -128,7 +128,7 @@ document.addEventListener('click', function (event) {
     let element = event.target;
     let child = event.target.firstElementChild;
     let parent = event.target.parentElement;
-    
+
     if (element.classList.contains('click-active')) {
         let applicationId = element.dataset.appNumber;
         if (element.classList.contains('active')) {
@@ -137,14 +137,16 @@ document.addEventListener('click', function (event) {
             map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == element.dataset.appNumber));
             child.setAttribute('d', bookmarkConfig.svg.empty);
             bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
-        }}
-        if (parent.classList.contains('click-active')) {
-            let applicationId = parent.dataset.appNumber;
-            if (parent.classList.contains('active')) {
-                parent.classList.remove("active");
-                element.setAttribute('d', bookmarkConfig.svg.empty);
-                bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
-                $(`#${parent.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
-                map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == parent.dataset.appNumber));
-            }}
-        });
+        }
+    }
+    if (parent.classList.contains('click-active')) {
+        let applicationId = parent.dataset.appNumber;
+        if (parent.classList.contains('active')) {
+            parent.classList.remove("active");
+            element.setAttribute('d', bookmarkConfig.svg.empty);
+            bookmarkApplication(bookmarkConfig.url.remove, applicationId, csrftoken);
+            $(`#${parent.dataset.appNumber.replace(/\//g, "")}`).fadeOut();
+            map.removeLayer(markers_list.find(e => e.feature.properties.ApplicationNumber == parent.dataset.appNumber));
+        }
+    }
+});

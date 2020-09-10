@@ -48,15 +48,11 @@ $(function () {
 <script src="{% static 'js/config.js' %}"></script>
 <script>
     {% if user.is_authenticated and user.profile %}
-    const marker_lng = {{ user.profile.location.x }}
-    const marker_lat = {{ user.profile.location.y }}
-    bookmarkConfig.bookmarks = {{bookmarks | safe }}
-    const bookmarks = {{bookmarks | safe }}
+    mapConfig.userLocation.lng = {{ user.profile.location.x }}
+    mapConfig.userLocation.lat = {{ user.profile.location.y }}
+    bookmarkConfig.bookmarks = {{ bookmarks | safe }}
     const userLoggedIn = true;
     {% else %}
-    const marker_lng = -6.25
-    const marker_lat = 53.31
-    const bookmarks = []
     const userLoggedIn = false;
     {% endif %}
     const planningData = JSON.parse('{{ data| escapejs }}')

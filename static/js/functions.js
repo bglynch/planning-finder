@@ -28,7 +28,7 @@ function addSlightVarianceToLatLng(latlng) {
 
 function selectCouncil(geoJSONPoint) {
     let applicationUrl = null;
-    if(Object.keys(countyCouncils).includes(geoJSONPoint.properties.PlanningAuthority)){
+    if (Object.keys(countyCouncils).includes(geoJSONPoint.properties.PlanningAuthority)) {
         applicationUrl = countyCouncils[geoJSONPoint.properties.PlanningAuthority].url.replace("XXXXX", geoJSONPoint.properties.ApplicationNumber);
     } else {
         applicationUrl = null;
@@ -74,7 +74,7 @@ function createListItem(geoJSONPoint, userLoggedIn) {
                 <circle cx="10" cy="10" r="4" stroke="${geoJSONPoint.properties.colour}" stroke-width="1" fill="${geoJSONPoint.properties.colour}" fill-opacity="0.8" />
             </svg>
         </div>`;
-    
+
     let planningDate = `
         <div class="col-12 main-font-normal">
             <span class="main-font-small" style="padding-right: 7px;">
@@ -90,12 +90,12 @@ function createListItem(geoJSONPoint, userLoggedIn) {
     let countyCouncil = `
         <img src="${countyCouncils[council].logo}" alt="" class="float-left mr-2 mt-2" height="20" width="20">
         <div class="float-left main-font-small mt-2">${countyCouncils[council].display}</div>`;
-    
+
     let viewApplicationButton = `
         <a target="_blank" rel="noopener" class="btn btn-primary float-right main-font-normal" href="${geoJSONPoint.properties.ApplicationUrl}" style="color: #fbf8f3;font-size: 12px;font-weight: 500;letter-spacing: 1px;">
             View Planning
         </a>`;
-    
+
     // user not logged in => dont show bookmark icons
     if (!userLoggedIn) {
         html = `
@@ -112,11 +112,11 @@ function createListItem(geoJSONPoint, userLoggedIn) {
                     ${viewApplicationButton}
                 </div>
             </div>`;
-        
+
         return html;
-    } 
+    }
     // user logged in on profile page
-    else if(isProfilePage){
+    else if (isProfilePage) {
         let bookmarkIcon = `
             <svg viewBox="0 0 16 16" class="bi bi-bookmark click-active active" data-app-number="${geoJSONPoint.properties.ApplicationNumber.trim()}">
                 <path  d="${bookmarkConfig.svg.filled}"></path>
@@ -135,12 +135,12 @@ function createListItem(geoJSONPoint, userLoggedIn) {
                     ${viewApplicationButton}
                 </div>
             </div>`;
-        
+
         return html;
     }
     // user logged in on home page
     else {
-        let isBookmarked = bookmarkConfig.bookmarks.includes(geoJSONPoint.properties.ApplicationNumber.trim()) ? true: false;
+        let isBookmarked = bookmarkConfig.bookmarks.includes(geoJSONPoint.properties.ApplicationNumber.trim()) ? true : false;
         let classes = isBookmarked ? "bi bi-bookmark click-active active" : "bi bi-bookmark click-active";
         let bookmarkIcon = `
             <svg viewBox="0 0 16 16" class="${classes}" data-app-number="${geoJSONPoint.properties.ApplicationNumber.trim()}">
@@ -162,7 +162,7 @@ function createListItem(geoJSONPoint, userLoggedIn) {
                     ${viewApplicationButton}
                 </div>
             </div>`;
-        
+
         return html;
     }
 }
@@ -195,9 +195,9 @@ function csrfSafeMethod(method) {
 }
 
 // Function to set Request Header with `CSRFTOKEN`
-function setRequestHeader(csrftoken){
+function setRequestHeader(csrftoken) {
     $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
+        beforeSend: function (xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
@@ -211,6 +211,6 @@ function bookmarkApplication(url, data, csrftoken) {
         dataType: 'json',
         type: 'POST',
         url: url,
-        data: {'data':data},
+        data: { 'data': data },
     });
 }

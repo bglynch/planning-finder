@@ -1,7 +1,7 @@
 /*jshint esversion: 6*/
 /* global 
     $, L,noUiSlider,
-	marker_lat, marker_lng, planningDecision, planningData, mapConfig,
+	mapConfig, planningDecision, planningData, mapConfig,
     createListItem, userLoggedIn, countyCouncils, bookmarkConfig, DateTimeConfig,
     selectCouncil, addSlightVarianceToLatLng, filterPlanningGeoJSON, bookmarkApplication,
     councilData, getCookie
@@ -11,7 +11,7 @@ let map = L.map(mapConfig.setup.htmlId, {
     maxZoom: mapConfig.setup.maxZoom,
     minZoom: mapConfig.setup.minZoom,
     maxBounds: [mapConfig.setup.southWestBound, mapConfig.setup.northEastBound]
-}).setView([marker_lat, marker_lng], 15);
+}).setView([mapConfig.userLocation.lat, mapConfig.userLocation.lng], 15);
 
 // variables
 let minDate = Math.round((new Date()).getTime());
@@ -35,7 +35,7 @@ L.tileLayer(mapConfig.mapTiles.url, {
 L.control.scale().addTo(map);
 
 // set home marker for User
-L.marker([marker_lat, marker_lng]).addTo(map)
+L.marker([mapConfig.userLocation.lat, mapConfig.userLocation.lng]).addTo(map)
     .bindPopup('I am in Dublin.<br> Looking for plannings.')
     .openPopup();
 

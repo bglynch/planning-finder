@@ -20,13 +20,13 @@
 {% block javascript %}
 <script src="{% static 'libraries/jquery-scrollintoview/jquery.scrollintoview.min.js' %}"></script>
 
+<script src="{% static 'js/config.js' %}"></script>
 <script>
     const councilData = "{% static 'data/councils-dublin.geojson' %}"
-    const marker_lng = {{ user.profile.location.x }}
-    const marker_lat = {{ user.profile.location.y }}
+    mapConfig.userLocation.lng = {{ user.profile.location.x }}
+    mapConfig.userLocation.lat = {{ user.profile.location.y }}
     const planningData = JSON.parse('{{ data | escapejs }}')  
 </script>
-<script src="{% static 'js/config.js' %}"></script>
 <script src="{% static 'js/functions.js' %}"></script>
 <script src="{% static 'js/profile-map.js' %}"></script>
 
