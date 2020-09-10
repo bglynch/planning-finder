@@ -11,22 +11,22 @@ const DateTimeConfig = {
 const countyCouncils = {
     'Dublin City Council': {
         display: 'Dublin City Council',
-        logo: 'https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico',
+        logo: 'https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/dcc_20x20.png',
         url: 'https://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=XXXXX'
     },
     'South Dublin County Council': {
         display: 'South Dublin Council',
-        logo: 'https://www.sdcc.ie/favicon/favicon.ico',
+        logo: 'https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/sdcc_20x20.png',
         url: 'http://www.sdublincoco.ie/Planning/Details?regref=XXXXX'
     },
     'Fingal County Council': {
         display: 'Fingal County Council',
-        logo: 'https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png',
+        logo: 'https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/fingal_20x20.png',
         url: 'http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=XXXXX'
     },
     'Dun Laoghaire Rathdown County Council': {
         display: 'DLR County Council',
-        logo: 'http://dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png',
+        logo: 'https://bglynch-planningfinder.s3-eu-west-1.amazonaws.com/static/assets/dlr_20x20.png',
         url: 'https://planning.agileapplications.ie/dunlaoghaire/search-applications/results?criteria=%7B%22query%22:%22XXXXX%22%7D&page=1'
     },
 
