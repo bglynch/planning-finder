@@ -61,15 +61,15 @@ let planningGeoJSON = L.geoJSON(planningData, {
         let divhtml = createListItem(feature, userLoggedIn);;
 
         // if planning application in allowed council boundaries, add html to list view
-        if (councilList.includes(feature.properties.PlanningAuthority)) {
+        if (Object.keys(countyCouncils).includes(feature.properties.PlanningAuthority)) {
             $('#list-view').append(divhtml);
         }
 
         // set properties for map marker
         return {
             fillOpacity: 0.8,
-            fillColor: feature.properties['colour'],
-            color: feature.properties['colour'],
+            fillColor: feature.properties.colour,
+            color: feature.properties.colour,
             opacity: 1,
             radius: 10
         };
@@ -86,7 +86,7 @@ let planningGeoJSON = L.geoJSON(planningData, {
         }
         if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate'];
 
-        if (councilList.includes(geoJSONPoint.properties.PlanningAuthority)) {
+        if (Object.keys(countyCouncils).includes(geoJSONPoint.properties.PlanningAuthority)) {
             return L.circle(addSlightVarianceToLatLng(latlng));
         }
     },
@@ -112,7 +112,7 @@ fetch(councilData, { mode: 'cors' })
             interactive: false,
             style: function (feature) {
                 return {
-                    fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : 0.7,
+                    fillOpacity: (Object.keys(countyCouncils).includes(feature.properties.ENGLISH)) ? 0 : 0.7,
                     weight: 1,
                     color: 'black'
                 };

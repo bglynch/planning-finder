@@ -14,6 +14,30 @@ const months = [
     "November", "December"
 ];
 
+const countyCouncils = {
+    'Dublin City Council' : {
+        display: 'Dublin City Council',
+        logo: 'https://www.dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico',
+        url: 'https://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=XXXXX'
+    },
+    'South Dublin County Council' : {
+        display: 'South Dublin Council',
+        logo: 'https://www.sdcc.ie/favicon/favicon.ico',
+        url: 'http://www.sdublincoco.ie/Planning/Details?regref=XXXXX'
+    },
+    'Fingal County Council' : {
+        display: 'Fingal County Council',
+        logo: 'https://www.fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png',
+        url: 'http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=XXXXX'
+    },
+    'Dun Laoghaire Rathdown County Council' : {
+        display: 'DLR County Council',
+        logo: 'http://dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png',
+        url: 'https://planning.agileapplications.ie/dunlaoghaire/search-applications/results?criteria=%7B%22query%22:%22XXXXX%22%7D&page=1'
+    },
+
+}
+
 const planningDecision = {
     pending: {
         name: 'pending',

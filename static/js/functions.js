@@ -2,15 +2,6 @@
 /* global 
     $, filters, map
 */
-function setCouncilLogo(council) {
-    let mapping = {
-        "dublin city council": "dublincity.ie/sites/all/themes/dublin_city_theme/favicon.ico",
-        "dlr county council": "dlrcoco.ie/sites/all/themes/dlr/images/dlr-logo.png",
-        "fingal county council": "fingal.ie/themes/custom/weatherlab/components/images/favicons/apple-icon-57x57.png",
-        "south dublin county council": "sdcc.ie/favicon/favicon.ico"
-    };
-    return "https://www." + mapping[council.toLowerCase()];
-}
 
 function setDecision(decision) {
     if (decision == null) { return "Pending"; }
@@ -37,15 +28,8 @@ function addSlightVarianceToLatLng(latlng) {
 
 function selectCouncil(geoJSONPoint) {
     let applicationUrl = null;
-    if (geoJSONPoint.properties["PlanningAuthority"] == "Dublin City Council") {
-        applicationUrl = "https://www.dublincity.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties["ApplicationNumber"];
-    } else if (geoJSONPoint.properties["PlanningAuthority"] == "Fingal County Council") {
-        applicationUrl = "http://planning.fingalcoco.ie/swiftlg/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=" + geoJSONPoint.properties["ApplicationNumber"];
-    } else if (geoJSONPoint.properties["PlanningAuthority"] == "South Dublin County Council") {
-        applicationUrl = "http://www.sdublincoco.ie/Planning/Details?regref=" + geoJSONPoint.properties["ApplicationNumber"];
-    } else if (geoJSONPoint.properties["PlanningAuthority"] == "Dun Laoghaire Rathdown County Council") {
-        geoJSONPoint.properties["PlanningAuthority"] = "DLR County Council";
-        applicationUrl = "https://planning.agileapplications.ie/dunlaoghaire/search-applications/results?criteria=%7B%22query%22:%22" + geoJSONPoint.properties["ApplicationNumber"] + "%22%7D&page=1";
+    if(Object.keys(countyCouncils).includes(geoJSONPoint.properties.PlanningAuthority)){
+        applicationUrl = countyCouncils[geoJSONPoint.properties.PlanningAuthority].url.replace("XXXXX", geoJSONPoint.properties.ApplicationNumber);
     } else {
         applicationUrl = null;
     }
@@ -76,6 +60,7 @@ function filterPlanningGeoJSON(layer) {
 }
 
 function createListItem(geoJSONPoint, userLoggedIn) {
+    let council = geoJSONPoint.properties.PlanningAuthority;
     let isProfilePage = RegExp('profile').test(document.URL)
     let html;
     let flyToIcon = `
@@ -103,12 +88,12 @@ function createListItem(geoJSONPoint, userLoggedIn) {
         </div>`;
 
     let countyCouncil = `
-        <img src="${setCouncilLogo(geoJSONPoint.properties.PlanningAuthority)}" alt="" class="float-left mr-2 mt-2" height="20" width="20">
-        <div class="float-left main-font-small mt-2">${geoJSONPoint.properties.PlanningAuthority}</div>`;
+        <img src="${countyCouncils[council].logo}" alt="" class="float-left mr-2 mt-2" height="20" width="20">
+        <div class="float-left main-font-small mt-2">${countyCouncils[council].display}</div>`;
     
     let viewApplicationButton = `
-        <a target="_blank" rel="noopener" class="btn btn-primary float-right main-font-normal mr-n3" href="${geoJSONPoint.properties.ApplicationUrl}" style="color: #fbf8f3;font-size: 12px;font-weight: 500;letter-spacing: 1px;">
-            View Application
+        <a target="_blank" rel="noopener" class="btn btn-primary float-right main-font-normal" href="${geoJSONPoint.properties.ApplicationUrl}" style="color: #fbf8f3;font-size: 12px;font-weight: 500;letter-spacing: 1px;">
+            View Planning
         </a>`;
     
     // user not logged in => dont show bookmark icons

@@ -37,9 +37,9 @@ let planningGeoJSON = L.geoJSON(planningData, {
         feature.properties['colour'] = 'white';
 
         // Set planning status and color for planning application
-        if (feature.properties['Decision'] == null) {
-            feature.properties['PlanningStatus'] = planningDecision.pending.name;
-            feature.properties['colour'] = planningDecision.pending.color;
+        if (feature.properties.Decision == null) {
+            feature.properties.PlanningStatus = planningDecision.pending.name;
+            feature.properties.colour = planningDecision.pending.color;
         }
         else {
             Object.keys(planningDecision).filter(key => key !== planningDecision.pending.name).forEach(key => {
@@ -50,9 +50,8 @@ let planningGeoJSON = L.geoJSON(planningData, {
             })
         }
 
-        let divhtml = createListItem(feature, true);
-
-        if (councilList.includes(feature.properties.PlanningAuthority)) {
+        if (Object.keys(countyCouncils).includes(feature.properties.PlanningAuthority)) {
+            let divhtml = createListItem(feature, true);
             $('#list-view').append(divhtml);
         }
 
@@ -76,7 +75,7 @@ let planningGeoJSON = L.geoJSON(planningData, {
         }
         if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate'];
 
-        if (councilList.includes(geoJSONPoint.properties.PlanningAuthority)) {
+        if (Object.keys(countyCouncils).includes(geoJSONPoint.properties.PlanningAuthority)) {
             let marker = L.circle(addSlightVarianceToLatLng(latlng));
             markers_list.push(marker);
             return marker;
@@ -104,7 +103,7 @@ fetch(councilData, { mode: 'cors' })
         interactive: false,
         style: function (feature) {
             return {
-                fillOpacity: (councilList.includes(feature.properties.ENGLISH)) ? 0 : 0.7,
+                fillOpacity: (Object.keys(countyCouncils).includes(feature.properties.ENGLISH)) ? 0 : 0.7,
                 weight: 1,
                 color: 'black'
             };
