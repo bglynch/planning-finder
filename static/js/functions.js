@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 /* global 
-    $, filters, map
+    $,jQuery, filters, map, countyCouncils, listConfig, bookmarkConfig
 */
 
 function setDecision(decision) {
@@ -39,9 +39,9 @@ function selectCouncil(geoJSONPoint) {
 
 
 function filterPlanningGeoJSON(layer) {
-    let appId = $("#" + layer.feature.properties["ApplicationNumber"].replace(/\//g, ""));
-    let appDate = layer.feature.properties["ReceivedDate"];
-    let appStatus = layer.feature.properties["PlanningStatus"];
+    let appId = $("#" + layer.feature.properties.ApplicationNumber.replace(/\//g, ""));
+    let appDate = layer.feature.properties.ReceivedDate;
+    let appStatus = layer.feature.properties.PlanningStatus;
     let numberOfTrue = 0;
     if (appDate > filters.dateRange[0] && appDate < filters.dateRange[1]) {
         numberOfTrue += 1;
@@ -61,7 +61,7 @@ function filterPlanningGeoJSON(layer) {
 
 function createListItem(geoJSONPoint, userLoggedIn) {
     let council = geoJSONPoint.properties.PlanningAuthority;
-    let isProfilePage = RegExp('profile').test(document.URL)
+    let isProfilePage = RegExp('profile').test(document.URL);
     let html;
     let flyToIcon = `
         <svg class="fly-to ml-1" onclick="flyToPlace(${geoJSONPoint.geometry.coordinates[1]}, ${geoJSONPoint.geometry.coordinates[0]})">
@@ -140,8 +140,8 @@ function createListItem(geoJSONPoint, userLoggedIn) {
     }
     // user logged in on home page
     else {
-        let isBookmarked = bookmarkConfig.bookmarks.includes(geoJSONPoint.properties.ApplicationNumber.trim()) ? true: false
-        let classes = isBookmarked ? "bi bi-bookmark click-active active" : "bi bi-bookmark click-active"
+        let isBookmarked = bookmarkConfig.bookmarks.includes(geoJSONPoint.properties.ApplicationNumber.trim()) ? true: false;
+        let classes = isBookmarked ? "bi bi-bookmark click-active active" : "bi bi-bookmark click-active";
         let bookmarkIcon = `
             <svg viewBox="0 0 16 16" class="${classes}" data-app-number="${geoJSONPoint.properties.ApplicationNumber.trim()}">
                 <path  d="${isBookmarked ? bookmarkConfig.svg.filled : bookmarkConfig.svg.empty}"></path>

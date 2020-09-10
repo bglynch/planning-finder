@@ -1,9 +1,10 @@
 /*jshint esversion: 6*/
 /* global 
-    $,jQuery, L,noUiSlider,
-	marker_lat,marker_lng,planningData,councilData, userLoggedIn, bookmarks,
-	selectCouncil, filterPlanningGeoJSON,createBookmarkedListItem,createListItem,
-    addSlightVarianceToLatLng 
+    $, L,noUiSlider,
+	marker_lat, marker_lng, planningDecision, planningData, mapConfig,
+    createListItem, userLoggedIn, countyCouncils, bookmarkConfig, DateTimeConfig,
+    selectCouncil, addSlightVarianceToLatLng, filterPlanningGeoJSON, bookmarkApplication,
+    councilData, getCookie
 */
 // create the map object
 let map = L.map(mapConfig.setup.htmlId, {
@@ -41,24 +42,24 @@ L.marker([marker_lat, marker_lng]).addTo(map)
 
 let planningGeoJSON = L.geoJSON(planningData, {
     style: function (feature) {
-        feature.properties['colour'] = 'white';
+        feature.propertiescolour = 'white';
 
         // Set planning status and color for planning application
-        if (feature.properties['Decision'] == null) {
-            feature.properties['PlanningStatus'] = planningDecision.pending.name;
-            feature.properties['colour'] = planningDecision.pending.color;
+        if (feature.properties.Decision == null) {
+            feature.properties.PlanningStatus = planningDecision.pending.name;
+            feature.properties.colour = planningDecision.pending.color;
         }
         else {
             Object.keys(planningDecision).filter(key => key !== planningDecision.pending.name).forEach(key => {
-                if (planningDecision[key].regex.test(feature.properties['Decision'].toLowerCase())) {
-                    feature.properties['PlanningStatus'] = planningDecision[key].name;
-                    feature.properties['colour'] = planningDecision[key].color;
+                if (planningDecision[key].regex.test(feature.properties.Decision.toLowerCase())) {
+                    feature.properties.PlanningStatus = planningDecision[key].name;
+                    feature.properties.colour = planningDecision[key].color;
                 }
-            })
+            });
         }
 
         // Create list html for planning application
-        let divhtml = createListItem(feature, userLoggedIn);;
+        let divhtml = createListItem(feature, userLoggedIn);
 
         // if planning application in allowed council boundaries, add html to list view
         if (Object.keys(countyCouncils).includes(feature.properties.PlanningAuthority)) {
@@ -77,14 +78,14 @@ let planningGeoJSON = L.geoJSON(planningData, {
 
     // create list items
     pointToLayer: function (geoJSONPoint, latlng) {
-        geoJSONPoint.properties['ApplicationUrl'] = selectCouncil(geoJSONPoint);
+        geoJSONPoint.properties.ApplicationUrl = selectCouncil(geoJSONPoint);
 
         // bug in API that "ReceivedDate": null  e.g: SD20B/0127
-        if (geoJSONPoint.properties['ReceivedDate'] == null) {
-            geoJSONPoint.properties['ReceivedDate'] = geoJSONPoint.properties['ETL_DATE'];
+        if (geoJSONPoint.properties.ReceivedDate == null) {
+            geoJSONPoint.properties.ReceivedDate = geoJSONPoint.properties.ETL_DATE;
             //TO_DO add notification to user that date is not accurate
         }
-        if (geoJSONPoint.properties['ReceivedDate'] < minDate) minDate = geoJSONPoint.properties['ReceivedDate'];
+        if (geoJSONPoint.properties.ReceivedDate < minDate) minDate = geoJSONPoint.properties.ReceivedDate;
 
         if (Object.keys(countyCouncils).includes(geoJSONPoint.properties.PlanningAuthority)) {
             return L.circle(addSlightVarianceToLatLng(latlng));
@@ -93,10 +94,10 @@ let planningGeoJSON = L.geoJSON(planningData, {
 
     onEachFeature: function (feature, layer) {
         // create pop up when click on marker
-        layer.bindPopup("<b>Application Description</b><br>" + feature.properties["DevelopmentDescription"]);
+        layer.bindPopup("<b>Application Description</b><br>" + feature.properties.DevelopmentDescription);
         // auto scroll to planning application on the list view
         layer.on('click', function () {
-            let id = $('#' + feature.properties['ApplicationNumber'].replace(/\//g, ""));
+            let id = $('#' + feature.properties.ApplicationNumber.replace(/\//g, ""));
             $(id).scrollintoview({ duration: 100, complete: id.css("background-color", "lightgrey") });
         });
     }
@@ -152,14 +153,14 @@ let slider = document.getElementById('dateSlider');
 filters.dateRange = [minDate, maxDate];
 noUiSlider.create(slider, {
     start: [minDate, maxDate],
-    step: ONE_WEEK,
+    step: DateTimeConfig.oneWeek,
     tooltips: true,
     connect: true,
     format: {
         to: function (value) {
             var date = new Date(value);
             let year = date.getFullYear();
-            var formattedTime = months[date.getMonth()] + '/' + year;
+            var formattedTime = DateTimeConfig.months[date.getMonth()] + '/' + year;
             return formattedTime;
         },
         from: Number

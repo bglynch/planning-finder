@@ -1,17 +1,10 @@
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
 
-const councilList = [
-    'Dublin City Council',
-    'Dun Laoghaire Rathdown County Council',
-    'Fingal County Council',
-    'South Dublin County Council',
-    'DLR County Council'
-];
 const months = [
-    "January", "February", "March",
-    "April", "May", "June", "July",
-    "August", "September", "October",
-    "November", "December"
+    'January', 'February', 'March',
+    'April', 'May', 'June', 'July',
+    'August', 'September', 'October',
+    'November', 'December'
 ];
 
 const countyCouncils = {
