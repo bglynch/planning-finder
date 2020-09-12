@@ -22,7 +22,7 @@ and then view on a map, planning applications nearby.
     -   #### Home Owner
         - As a **Home Owner**, I would like to see a list of recent planning in my locality so that I will aware of any construction near my house that will impact me.
     -   #### Architect
-        - As a **Architect**, I would like to keep a list of planning applications of homes I find inspiring so that I can use them as a reference point when I am designing a new home.
+        - As an **Architect**, I would like to keep a list of planning applications of homes I find inspiring so that I can use them as a reference point when I am designing a new home.
 
   
 -   ### Design
@@ -39,12 +39,12 @@ and then view on a map, planning applications nearby.
             - Purple:  Applications where additional information was sought by the planning authority
             - Navy:    Applications which have been withdrawn
     -   #### Typography
-        -   The Roboto font is the main font used throughout the whole website with Sans Serif used as a fallback font.
+        -   The Roboto font is the main font used throughout the whole website with Sans Serif used as a fallback font. I chose Roboto as it is a simple, clean and easy to read font.
     -   #### Imagery
-        -   Imagery is used subtley. Images are only used of to give the user a visual feedback of which County Council a planning application belongs to.
+        -   Imagery is used subtly. Images and iconography are only used of to give the user visual feedback of which County Council a planning application belongs to.
     -   #### Map
         -   ##### Icons
-            - An icon is located where a planning application has been submitted. As a property can have submitted more than one application, 
+            - An icon (or marker) is located where a planning application has been submitted. As a property can have more than one application associated, 
             it is possible to have several icons on the same location. 
             To overcome this, each application location is given a random offset in the X and Y direction to prevent this from happening.  
             - Icons change size depending on map zoom level to prevent overcrowding
@@ -54,7 +54,7 @@ and then view on a map, planning applications nearby.
             - Boundaries for County councils are shown by a strong black line.
             - County councils which are not yet added to the web app are shown with a transparent black fill.
         -   ##### Zoom and Extents 
-            - The zoom and extents have been restricted to the greater Dublin Area to prevent the user from moving beyond.
+            - The zoom and extents have been restricted to the greater Dublin Area to prevent the user from moving beyond this territory. For the purpose of this project, the app focuses on the Dublin area only.
             
             
 -   ### Wireframes
@@ -69,17 +69,17 @@ and then view on a map, planning applications nearby.
     -   Login after registering with email and password
     -   Login using Google account
     -   Choose location when registered and see all planning applications within a 1km radius
-    -   Update location when logged in
     -   Ability to filter these planning applications by type
     -   Ability to filter these planning applications by date
     -   Ability to see these planning applications on a map
-    -   Ability to bookmark and unbookmark applications.
-    -   View all bookmarked application on Profile page
+    -   Ability to bookmark and unbookmark applications
+    -   View all bookmarked applications on Profile page
+    -   Ability to set a new location for a logged in user
     -   Reset password
 - ### Map
     -   Click map icon to see planning application description and auto scroll list to the application.
 - ### List
-    -   Click Airplane icon to move map to planning application location
+    -   Click Airplane icon on list item to move map to planning application location
     -   Link to application to view documents on Council website
 - ### Payment
     -   User has ability to donate the price of a coffee to the developer
@@ -99,19 +99,19 @@ and then view on a map, planning applications nearby.
     - [HTML5](https://en.wikipedia.org/wiki/HTML5)
     - [CSS3](https://en.wikipedia.org/wiki/Cascading_Style_Sheets)
 - ### Frameworks, Libraries
-    - [Django 2](https://www.djangoproject.com/): The project uses **JQuery** to simplify DOM manipulation.
-    - [Bootstrap](https://getbootstrap.com/): Used for page design.
+    - [Django 2](https://www.djangoproject.com/): Backend python framework.
+    - [Bootstrap](https://getbootstrap.com/): Used for layout, styling and responsiveness.
     - [Git](https://git-scm.com/): Used for version control
     - [GitHub:](https://github.com/): Used to store the projects code
     - [Leaflet](https://leafletjs.com/): Used to create the map element.
-    - [Stripe](https://stripe.com/ie): Used to take card payments.
+    - [Stripe](https://stripe.com/ie): Used to process card payments.
     - [Jquery](https://jquery.com): The project uses **JQuery** to simplify DOM manipulation.
     - [jquery-scrollintoview](https://github.com/litera/jquery-scrollintoview): Used to auto scroll list.
     - [noUiSlider](https://refreshless.com/nouislider/): Used to create date slider.
     - [Google OAuth](https://console.developers.google.com/): Used to allow google login.
     - [Jupyter Notebooks](https://jupyter.org/): Used for data exploration
     - [python-decouple](https://pypi.org/project/python-decouple/): library to separate the settings parameters from your source code.
-    - [Docker](https://docs.docker.com/get-docker/): used to deploy the app locally.
+    - [Docker](https://docs.docker.com/get-docker/): used to containerise and deploy the app locally.
 - ### API
     - [Planning Applications API](https://data.gov.ie/dataset/national-planning-applications/resource/48809edb-0e41-4c97-b037-82c319c632e7): Opensource planning application data.
 - ### Database
@@ -122,7 +122,7 @@ and then view on a map, planning applications nearby.
     - [pgAdmin](https://www.pgadmin.org/): Used to examine the PostGis database.
     - [PyCharm](https://www.jetbrains.com/pycharm/): IDE used for python/django development.
     - [Postman](https://www.postman.com/): Used to test API.
-    - [TravisCI](https://www.postman.com/): Used for CI/CD.
+    - [TravisCI](https://travis-ci.org/): Used for CI/CD.
 
 
 ## Testing
@@ -145,59 +145,53 @@ and then view on a map, planning applications nearby.
 
 ### Testing User Stories from User Experience (UX) Section
 
--   #### First Time Visitor Goals
+-   #### Home Buyer
+    1. I would like to view planning applications of the house im interested in buying so I can easily access the floor plans from the council website.
+        1. Anne is looking to buy a property in Rathmines.
+        2. Anne goes to the landing page and clicks on 'Login/Register'.
+        3. Anne selects Login with Google, selects her google account and is signed in.
+        4. Anne is prompted to set her location, she navigates on the map to her location of interest, selects the marker icon, drops it on the map, and clicks 'Set Location'.
+        5. Anne is redirected to the landing page with the map zoomed in on her location.
+        6. Anne sees a green marker on the property she is looking to buy.
+        7. Anne clicks on the marker, this auto-scrolls the list and highlight the related application in grey.
+        8. Anne clicks on 'View Planning', this opens a new tab redirecting her the the Planning Application on the councils website.
+        9. From here she clicks on the 'Floor Plans' link to view floor plans of the property.
+    
+    2. I would like to view planning applications of the house im interested in buying so I can see if work has been done to the house in recent years.
+        1. Bob logs in and sets his location and see the property he is interested in (See steps 1-5 taken by Anne above).
+        2. Bob sees a 2 green markers on the property he is interested in.
+        3. For each marker, 
+            - Bob clicks on the marker, this auto-scrolls the list and highlight the related application in grey.
+            - Bob clicks on View Planning, this opens a new tab redirecting him the the Planning Application on the councils website.
+            - Bob can see application details. This helps him understand what has been done to the house in recent years.
+            
+    3. I would like to view planning applications of the houses near the house I'm interested in buying so I can see if it would be likely that I could build an extension.
+        1. Charlie logs in and sets his location and see the property he is interested in (See steps 1-5 taken by Anne above).
+        2. Charlie sees a red marker over the property he is interested in, indicating that it has been refused planning in the past.
+        3. Charlie clicks on the marker, this auto-scrolls the list and highlight the related application in grey.
+        4. Charlie clicks on 'View Planning', this opens a new tab redirecting him the the Planning Application on the councils website.
+        5. From here he can see that the application was refused permission for a rear extension to the back of the house due to a public main running through the rear garden.
+        6. This informs his decision to not purchase the property, as the current floor size of the house is not big enough for what he needs.
+        
 
-    1. As a First Time Visitor, I want to easily understand the main purpose of the site and learn more about the organisation.
+-   #### Home Owner
+    1. I would like to see a list of recent planning in my locality so that I will aware of any construction near my house that will impact me.
+        1. Dianna is a previous user.
+        2. See logs in and her location is already set to her home.
+        3. See can see on the map that there are 4 new mustard coloured markers (indicating pending applications) compared to the last time she viewed the map.
+        4. She can see from viewing the applications that one of the markers is a planning application for a large project.
+        5. After getting this info, she puts in an appeal to the council that building works required to implement the development to only be carried out at reasonable times of the day to avoid early morning and late evening noise pollution.
+        
 
-        1. Upon entering the site, users are automatically greeted with a clean and easily readable navigation bar to go to the page of their choice. Underneath there is a Hero Image with Text and a "Learn More" Call to action button.
-        2. The main points are made immediately with the hero image
-        3. The user has two options, click the call to action buttons or scroll down, both of which will lead to the same place, to learn more about the organisation.
-
-    2. As a First Time Visitor, I want to be able to easily be able to navigate throughout the site to find content.
-
-        1. The site has been designed to be fluid and never to entrap the user. At the top of each page there is a clean navigation bar, each link describes what the page they will end up at clearly.
-        2. At the bottom of the first 3 pages there is a redirection call to action to ensure the user always has somewhere to go and doesn't feel trapped as they get to the bottom of the page.
-        3. On the Contact Us Page, after a form response is submitted, the page refreshes and the user is brought to the top of the page where the navigation bar is.
-
-    3. As a First Time Visitor, I want to look for testimonials to understand what their users think of them and see if they are trusted. I also want to locate their social media links to see their following on social media to determine how trusted and known they are.
-        1. Once the new visitor has read the About Us and What We Do text, they will notice the Why We are Loved So Much section.
-        2. The user can also scroll to the bottom of any page on the site to locate social media links in the footer.
-        3. At the bottom of the Contact Us page, the user is told underneath the form, that alternatively they can contact the organisation on social media which highlights the links to them.
-
--   #### Returning Visitor Goals
-
-    1. As a Returning Visitor, I want to find the new programming challenges or hackathons.
-
-        1. These are clearly shown in the banner message.
-        2. They will be directed to a page with another hero image and call to action.
-
-    2. As a Returning Visitor, I want to find the best way to get in contact with the organisation with any questions I may have.
-
-        1. The navigation bar clearly highlights the "Contact Us" Page.
-        2. Here they can fill out the form on the page or are told that alternatively they can message the organisation on social media.
-        3. The footer contains links to the organisations Facebook, Twitter and Instagram page as well as the organization's email.
-        4. Whichever link they click, it will be open up in a new tab to ensure the user can easily get back to the website.
-        5. The email button is set up to automatically open up your email app and autofill there email address in the "To" section.
-
-    3. As a Returning Visitor, I want to find the Facebook Group link so that I can join and interact with others in the community.
-        1. The Facebook Page can be found at the footer of every page and will open a new tab for the user and more information can be found on the Facebook page.
-        2. Alternatively, the user can scroll to the bottom of the Home page to find the Facebook Group redirect card and can easily join by clicking the "Join Now!" button which like any external link, will open in a new tab to ensure they can get back to the website easily.
-        3. If the user is on the "Our Favourites" page they will also be greeted with a call to action button to invite the user to the Facebook group. The user is incentivized as they are told there is a weekly favourite product posted in the group.
-
--   #### Frequent User Goals
-
-    1. As a Frequent User, I want to check to see if there are any newly added challenges or hackathons.
-
-        1. The user would already be comfortable with the website layout and can easily click the banner message.
-
-    2. As a Frequent User, I want to check to see if there are any new blog posts.
-
-        1. The user would already be comfortable with the website layout and can easily click the blog link
-
-    3. As a Frequent User, I want to sign up to the Newsletter so that I am emailed any major updates and/or changes to the website or organisation.
-        1. At the bottom of every page their is a footer which content is consistent throughout all pages.
-        2. To the right hand side of the footer the user can see "Subscribe to our Newsletter" and are prompted to Enter their email address.
-        3. There is a "Submit" button to the right hand side of the input field which is located close to the field and can easily be distinguished.
+-   #### Architect
+    1. I would like to keep a list of planning applications of homes I find inspiring so that I can use them as a reference point when I am designing a new home.
+        1. Ellie already has an account.
+        2. While driving around Dublin she noticed an interesting extension to a property in Darty.
+        3. She logs into her WIMBY account on her phone, and updates her location to the location of interest.
+        4. She see a green marker over the property indicated the granted planning application associated with the extension.
+        5. She clicks on the marker, this auto-scrolls the list and highlight the related application in grey.
+        6. She clicks the bookmark item on the application to be able to easily view it at a later date.
+        
 
 ### Further Testing
 
@@ -206,11 +200,12 @@ and then view on a map, planning applications nearby.
 -   A large amount of testing was done to ensure that all pages were linking correctly.
 
 ### Known Bugs
+No known bugs.
 
 ## Deployment
 These were steps taken to deploy the application.
 - ### Github
-    Github is used for the code repository. It is also useful for its integration with Heroku and Travis CI
+    Github is used for the code repository. It is also useful for its integration with Heroku and Travis CI.
 
 - ### Set Up Email
     [Create and account with Google](https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Fmyaccount.google.com%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dcreate-account-button&flowName=GlifWebSignIn&flowEntry=SignUp)
@@ -228,7 +223,7 @@ These were steps taken to deploy the application.
     Official docs showing the steps taken to provision the S3 bucket can be found [Here](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html)
 
 - ### Travis CI
-    Travis CI is used for CI/CD
+    Travis CI is used for CI/CD. Documentation on Travis can be found [Here](https://docs.travis-ci.com/)
       
 
 
@@ -236,7 +231,7 @@ These were steps taken to deploy the application.
 
 By forking the GitHub Repository we make a copy of the original repository on our GitHub account to view and/or make changes without affecting the original repository by using the following steps...
 
-1. Log in to GitHub and locate the [GitHub Repository](https://github.com/)
+1. Log in to GitHub and locate the [GitHub Repository](https://github.com/bglynch/planning-finder)
 2. At the top of the Repository (not top of page) just above the "Settings" Button on the menu, locate the "Fork" Button.
 3. You should now have a copy of the original repository in your GitHub account.
 
@@ -249,14 +244,28 @@ By forking the GitHub Repository we make a copy of the original repository on ou
      $ mv .env.example .env
      ```
  - Docker commands
-      ```bash
-     # start the server in the background
-     $ docker-compose up --build -d
-     
-     # create a superuser
-     docker exec -it planning-finder_web_1 bash
-     $ python manage.py createsuperuser
+    ```bash
+    # start the server in the background
+    $ docker-compose up --build
+    ```
+    You will see the following 
+    ```bash
+    web_1  | System check identified no issues (0 silenced).
+    web_1  | September 12, 2020 - 12:27:28
+    web_1  | Django version 2.2.10, using settings 'planning_finder.settings.prod'
+    web_1  | Starting development server at http://0.0.0.0:8000/
+    web_1  | Quit the server with CONTROL-C.
+    ```
+    Click on  [http://0.0.0.0:8000/](http://0.0.0.0:8000/) to view the landing page
+    
+    To create a superuser.  
+    While the docker container is running, enter the following command into a new terminal
+    ```bash
+    docker exec -it planning-finder_web_1 bash
+    $ python manage.py createsuperuser
      ```
+    
+    If you encounter any issues with Docker, please consult official docker documentation [Here](https://docs.docker.com/)
 
 
  At this point the app will work but will not have the full feature set
@@ -270,7 +279,16 @@ By forking the GitHub Repository we make a copy of the original repository on ou
             ```
     - #### Google Login
         - Follow the steps [Here](documentation/LocalGoogleOAuth.md)
-    
+
+### Issues
+If you encounter any issues with the source code, please raise an Issue on this github repo and include any pertinent information to replicate the issue.
+
+### Contributions
+- #### Code
+    If you would like to make a code contribution, please create a Pull Request and assign me as reviewer.
+- #### Coffee
+    If you enjoyed the app and would like to make a donation, you can purchase a coffee for me by clicking on the coffee icon in the bottom right hand corner of the landing page.
+
 
 ## Credits
 ### Code
@@ -292,9 +310,5 @@ By forking the GitHub Repository we make a copy of the original repository on ou
 -   Images are taken from the relevant county council websites.
 
 ### Acknowledgements
-
-
-
-
-
+-   I would like to thank my Code Institute instructors Richard and Matt.
 
