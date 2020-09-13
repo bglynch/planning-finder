@@ -42,7 +42,7 @@ L.marker([mapConfig.userLocation.lat, mapConfig.userLocation.lng]).addTo(map)
 
 let planningGeoJSON = L.geoJSON(planningData, {
     style: function (feature) {
-        feature.propertiescolour = 'white';
+        feature.properties.colour = 'white';
 
         // Set planning status and color for planning application
         if (feature.properties.Decision == null) {

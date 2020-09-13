@@ -200,7 +200,18 @@ and then view on a map, planning applications nearby.
 -   A large amount of testing was done to ensure that all pages were linking correctly.
 
 ### Known Bugs
-No known bugs.
+- #### Map
+    - (Fixed) Planning applications with same location, meaning map icons on top of each other and one or more unclickable.
+        - Fix: added slight random variance to the lat/lng of each marker. **static/js/function.js/addSlightVarianceToLatLng(latlng)**
+    - (Fixed) Planning applications very close to other application, icons overlapping and difficult to click certain icons.
+        - Fix: resized icons to me smaller when zoomed in. **static/js/map.js**
+    - (Fixed) When user location near border of unavailable county council, map would render icons from unavailable councils.
+        Fix: before a point is added to the map, the council string of the point is checked against a list of allowed councils. **static/js/map.js**
+
+- #### Choosing location
+    - (Fixed) User able to choose location outside available county councils
+        - Fix: When users submits the choose location form, before updating the location is checked.**users/views.py/point_in_allowed_council(point)**
+
 
 ## Deployment
 These were steps taken to deploy the application.
