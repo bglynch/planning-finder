@@ -106,6 +106,49 @@ nav {
 }
 
 
+.help {
+    position: absolute;
+    top: calc(7px + var(--header-height));
+    right: 20px;
+    z-index: 9999;
+    background-color: white;
+    border-color: white;
+    font-size: 32px;
+    width:50px;
+    height: 40px;
+}
+
+.help svg {
+    fill: var(--primary-cta);
+    width: 1em;
+    height: 1em;
+}
+.modal-body svg {
+    height:20px;
+    width: 20px;
+}
+.modal-body svg circle {
+    cx: 10px;
+    cy: 10px;
+    r: 4px;
+    stroke-width: 1px;
+    fill-opacity: 0.8;
+}
+.modal-body svg line {
+    stroke-width: 2px;
+    stroke: black;
+}
+.modal-body svg polygon {
+    fill:black;
+    stroke-width: 2px;
+    stroke: black;
+    fill-opacity:0.6;
+}
+.modal {
+    z-index: 99999;
+}
+
+
 /* ========================================================================= */
 /*                                  APP LIST                                 */
 /* ========================================================================= */

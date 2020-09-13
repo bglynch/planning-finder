@@ -9,17 +9,21 @@
 <div class="row h-100">
     <div id="list-view2" class="col-sm-6 position-absolute">
         <div class="position-fixed w-100 ml-n3 collapse bring-to-front" id="filterDecisionType">
-            <div id="application-type-options" class="bg-light border-top card-body position-absolute shadow-sm col-sm-12 col-md-12 col-lg-6 col-xl-4">
+            <div id="application-type-options"
+                 class="bg-light border-top card-body position-absolute shadow-sm col-sm-12 col-md-12 col-lg-6 col-xl-4">
                 <button id="pending" type="button" class="btn btn-outline-secondary mt-3 mr-2">Pending</button>
                 <button id="granted" type="button" class="btn btn-outline-secondary mt-3 mr-2">Granted</button>
                 <button id="refused" type="button" class="btn btn-outline-secondary mt-3 mr-2">Refused</button>
                 <button id="invalid" type="button" class="btn btn-outline-secondary mt-3 mr-2">Invalid</button>
                 <button id="withdrawn" type="button" class="btn btn-outline-secondary mt-3 mr-2">Withdrawn</button>
-                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional Information</button>
+                <button id="information" type="button" class="btn btn-outline-secondary mt-3 mr-2">Additional
+                    Information
+                </button>
             </div>
         </div>
         <div class="position-fixed w-100 ml-n3 collapse bring-to-front" id="dateSliderMain">
-            <div id="price-slider-options" class="bg-light border-top card-body position-absolute shadow-sm  col-sm-12 col-md-12 col-lg-6 col-xl-4">
+            <div id="price-slider-options"
+                 class="bg-light border-top card-body position-absolute shadow-sm  col-sm-12 col-md-12 col-lg-6 col-xl-4">
                 <div id="dateSlider" class="m-5"></div>
             </div>
         </div>
@@ -28,12 +32,99 @@
     </div>
     <div id="map" class="col-12 col-sm-6 col-lg-6 col-xl-8"></div>
 </div>
-<button class="btn checkout" id="submitBtn" role="button" data-toggle="tooltip" data-placement="right" title="Want to buy me a Coffee?">
-    <svg  height="24" viewBox="0 0 24 24" width="24">
+<button class="btn checkout" id="submitBtn" role="button" data-toggle="tooltip" data-placement="right"
+        title="Want to buy me a Coffee?">
+    <svg height="24" viewBox="0 0 24 24" width="24">
         <path d="M0 0h24v24H0V0z" fill="none"></path>
         <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.9 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"></path>
     </svg>
 </button>
+{% if not user.is_authenticated %}
+<button class="help d-flex rounded" data-toggle="modal" data-target="#aboutWIMBY" data-toggle="tooltip"
+        data-placement="right" title="How does this work?">
+    <svg viewBox="0 0 16 16" class="bi bi-question-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"></path>
+    </svg>
+</button>
+<!-- Modal -->
+<div class="modal fade" id="aboutWIMBY" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">About WIMBY</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>WIMBY - Whats In My Backyard</p>
+                <p>
+                    WIMBY allows you to viewing planning applications in your locality.<br>
+                    It allows you to select a location of your choice, and then view nearby planning applications on a map.
+                </p>
+                <p>
+                    Note: If you do not have an account you will not be able to change location of the home marker
+                </p>
+                <p>Click <a href="{% url 'login' %}">Here</a> to Login/Register an account.</p>
+                <h6>Map Legend</h6>
+                <p class="planning-status main-font-normal">
+                    <svg>
+                        <circle stroke="var(--pending)" fill="var(--pending)"></circle>
+                    </svg>
+                    Pending: The council have not yet decided.
+                </p>
+                <p class="planning-status main-font-normal">
+                    <svg>
+                        <circle stroke="var(--granted)" fill="var(--granted)"></circle>
+                    </svg>
+                    Granted: The council have granted planning permission.
+                </p>
+                <p class="planning-status main-font-normal">
+                    <svg>
+                        <circle stroke="var(--refused)" fill="var(--refused)"></circle>
+                    </svg>
+                    Refused: The council have refused planning permission.
+                </p>
+                <p class="planning-status main-font-normal">
+                    <svg>
+                        <circle stroke="var(--invalid)" fill="var(--invalid)"></circle>
+                    </svg>
+                    Invalid: The council have declared the application invalid.
+                </p>
+                <p class="planning-status main-font-normal">
+                    <svg>
+                        <circle stroke="var(--withdrawn)" fill="var(--withdrawn)"></circle>
+                    </svg>
+                    Withdrawn: The applicant has withdrawn their application.
+                </p>
+                <p class="planning-status main-font-normal">
+                    <svg>
+                        <circle stroke="var(--information)" fill="var(--information)"></circle>
+                    </svg>
+                    Request for Additional Information: The council has sought more information from the applicant so they come to a decision.
+                </p>
+                <p class="planning-status main-font-normal">
+                    <svg>
+                      <line x1="0" y1="10" x2="20" y2="10"/>
+                    </svg>
+                    County Council Boundary
+                </p>
+                <p class="planning-status main-font-normal">
+                    <svg height="210" width="500">
+                      <polygon points="0,20 20,20 20,0 0,0"/>
+                    </svg>
+                    Region Unavailable
+                </p>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 {% endblock content %}
 
@@ -42,6 +133,7 @@
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
 </script>
 <script src="{% static 'libraries/nouislider/nouislider.js' %}"></script>
 <script src="{% static 'libraries/jquery-scrollintoview/jquery.scrollintoview.min.js' %}"></script>
@@ -57,11 +149,12 @@ $(function () {
     {% endif %}
     const planningData = JSON.parse('{{ data| escapejs }}')
     const councilData = "{% static 'data/councils-dublin.geojson' %}"
+
 </script>
 <script src="{% static 'js/functions.js' %}"></script>
 <script src="{% static 'js/map.js' %}"></script>
 
 {{ block.super }}
- <script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <script src="{% static 'js/payments.js' %}"></script>
 {% endblock javascript %}
