@@ -15,6 +15,8 @@ from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
 
 # register new user
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         user_form = UserRegisterForm(request.POST)
         if user_form.is_valid():
