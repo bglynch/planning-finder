@@ -1,3 +1,7 @@
+/*jshint esversion: 6 */
+/* global 
+    Stripe
+*/
 // Get Stripe publishable key
 fetch("/config/")
 .then((result) => { return result.json(); })
@@ -13,7 +17,7 @@ fetch("/config/")
     .then((result) => { return result.json(); })
     .then((data) => {
       // Redirect to Stripe Checkout
-      return stripe.redirectToCheckout({sessionId: data.sessionId})
+      return stripe.redirectToCheckout({sessionId: data.sessionId});
     })
     .then((res) => {
       console.log(res);

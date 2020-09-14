@@ -4,16 +4,18 @@
 
 {% block content %}
 <div class="profile-page content-section">
-    <h3  class="pt-0 pt-sm-1 pt-md-4 hideable">Email</h3>
+    <h3 class="pt-0 pt-sm-1 pt-md-4 hideable">Email</h3>
     <p>{{ user.email }}</p>
     <section class="position-relative">
         <div id="map" class="col-12 col-sm-11 position-relative" style="height: 500px;"></div>
-        <a id="editLocation" class="btn btn-outline-success mt-2 mt-sm-4  ml-3" href="{% url 'choose_location' %}">Edit Location</a>
-        
+        <a id="editLocation" class="btn btn-outline-success mt-2 mt-sm-4  ml-3" href="{% url 'choose_location' %}">Edit
+            Location</a>
+
     </section>
     <h3 class="pt-3 pt-sm-1 pt-md-4">Bookmarked Applications</h3>
     <div id="list-view" class="app-list overflow-auto list-group list-group-flush">
 
+    </div>
 </div>
 {% endblock content %}
 

@@ -105,7 +105,6 @@ nav {
     fill: white;
 }
 
-
 .help {
     position: absolute;
     top: calc(7px + var(--header-height));
@@ -123,10 +122,12 @@ nav {
     width: 1em;
     height: 1em;
 }
+
 .modal-body svg {
     height:20px;
     width: 20px;
 }
+
 .modal-body svg circle {
     cx: 10px;
     cy: 10px;
@@ -134,16 +135,19 @@ nav {
     stroke-width: 1px;
     fill-opacity: 0.8;
 }
+
 .modal-body svg line {
     stroke-width: 2px;
     stroke: black;
 }
+
 .modal-body svg polygon {
     fill:black;
     stroke-width: 2px;
     stroke: black;
     fill-opacity:0.6;
 }
+
 .modal {
     z-index: 99999;
 }
@@ -213,18 +217,23 @@ nav {
 #pending.active {
     background-color: var(--pending);
 }
+
 #granted.active {
     background-color: var(--granted);
 }
+
 #refused.active {
     background-color: var(--refused);
 }
+
 #invalid.active {
     background-color: var(--invalid);
 }
+
 #withdrawn.active {
     background-color: var(--withdrawn);
 }
+
 #information.active {
     background-color: var(--information);
 }
@@ -324,7 +333,6 @@ nav {
 /* ========================================================================= */
 /*                            PROFILE PAGE                                   */
 /* ========================================================================= */
-
 .map-fixed {
     position: fixed;
     top: 56px;

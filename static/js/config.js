@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 const DateTimeConfig = {
     oneWeek: 7 * 24 * 60 * 60 * 1000,
     months: [
@@ -6,7 +7,7 @@ const DateTimeConfig = {
         'August', 'September', 'October',
         'November', 'December'
     ]
-}
+};
 
 const countyCouncils = {
     'Dublin City Council': {
@@ -30,7 +31,7 @@ const countyCouncils = {
         url: 'https://planning.agileapplications.ie/dunlaoghaire/search-applications/results?criteria=%7B%22query%22:%22XXXXX%22%7D&page=1'
     },
 
-}
+};
 
 const planningDecision = {
     pending: {
@@ -63,7 +64,7 @@ const planningDecision = {
         color: 'purple',
         regex: /additional/,
     }
-}
+};
 
 const mapConfig = {
     setup: {
@@ -87,7 +88,7 @@ const mapConfig = {
         lat: 53.31,
         lng: -6.25
     }
-}
+};
 
 const bookmarkConfig = {
     svg: {
@@ -99,7 +100,7 @@ const bookmarkConfig = {
         remove: '/bookmark/remove/'
     },
     bookmarks: []
-}
+};
 
 const listConfig = {
     svg: {
@@ -107,4 +108,4 @@ const listConfig = {
         link01: 'M4.715 6.542L3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.001 1.001 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z',
         link02: 'M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 0 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 0 0-4.243-4.243L6.586 4.672z',
     }
-}
+};

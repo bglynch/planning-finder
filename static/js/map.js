@@ -1,7 +1,7 @@
 /*jshint esversion: 6*/
 /* global 
     $, L,noUiSlider,
-	mapConfig, planningDecision, planningData, mapConfig,
+    mapConfig, planningDecision, planningData, mapConfig,
     createListItem, userLoggedIn, countyCouncils, bookmarkConfig, DateTimeConfig,
     selectCouncil, addSlightVarianceToLatLng, filterPlanningGeoJSON, bookmarkApplication,
     councilData, getCookie

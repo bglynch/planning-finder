@@ -130,13 +130,17 @@ and then view on a map, planning applications nearby.
 ### Code Styles
 - #### CSS
     The W3C Markup Validator and W3C CSS Validator Services were used to validate every page of the project to ensure there were no syntax errors in the project.
+
+    ##### W3C limitations
+    W3C does not yet support CSS variables (or custom properties), and as a result the validator flags errors relating to CSS variables. 
+    There is an open GitHub issue requesting a fix to this bug [here](https://github.com/w3c/css-validator/issues/111).
+    To validate my syntax for CSS variables, I consulted the Using CSS custom properties section of [MND web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
+    
+    W3C does not support the use of cx and cy properties, relating to SVGs, and also flags an issue. 
+    To validate my syntax for SVG properties, I consulted the SVG attributes section of [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute).
+    
     -   [W3C CSS Validator](https://jigsaw.w3.org/css-validator/#validate_by_input)
     
-        <a href="http://jigsaw.w3.org/css-validator/check/referer">
-        <img style="border:0;width:88px;height:31px"
-            src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
-            alt="Valid CSS!" />
-    </a>
 - #### Javascript
      [JSHint](https://jshint.com/) used for linting
     
@@ -206,11 +210,11 @@ and then view on a map, planning applications nearby.
     - (Fixed) Planning applications very close to other application, icons overlapping and difficult to click certain icons.
         - Fix: resized icons to me smaller when zoomed in. **static/js/map.js**
     - (Fixed) When user location near border of unavailable county council, map would render icons from unavailable councils.
-        Fix: before a point is added to the map, the council string of the point is checked against a list of allowed councils. **static/js/map.js**
+        - Fix: before a point is added to the map, the council string of the point is checked against a list of allowed councils. **static/js/map.js**
 
 - #### Choosing location
     - (Fixed) User able to choose location outside available county councils
-        - Fix: When users submits the choose location form, before updating the location is checked.**users/views.py/point_in_allowed_council(point)**
+        - Fix: When users submits the choose location form, before the database is updated, the location is checked.**users/views.py/point_in_allowed_council(point)**
 
 
 ## Deployment
